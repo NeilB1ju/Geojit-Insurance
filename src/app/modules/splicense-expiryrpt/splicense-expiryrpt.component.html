@@ -1,0 +1,74 @@
+<div class="main-content">
+	<form nz-form nzLayout="vertical">
+		<h3 class="content-title">SP License Expiry Report</h3>
+		<div class="fltrcolor">
+			<div nz-row nzGutter="8">
+			    <div nz-col nzMd="12" nzLg="6">
+					<nz-form-item>
+					  <nz-form-label class="boldinglabel">Sp Code</nz-form-label>
+					  <nz-form-control>
+						<master-find-ctrl [options]="SpFindopt" [(ngModel)]="model.spcode" name="spcode" (ngModelChange)="reset_tabledata()">
+						</master-find-ctrl>
+					  </nz-form-control>
+					</nz-form-item>
+				  </div>
+				<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="5" nzXl="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel">SP Certificate Validity From</nz-form-label>
+						<nz-form-control>
+							<nz-date-picker [(ngModel)]="model.licenseFrom" name="LicenseFrom" nzFormat="dd-MM-yyyy" (ngModelChange)="reset_tabledata()">
+							</nz-date-picker>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+				<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="5" nzXl="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel">SP Certificate Validity To</nz-form-label>
+						<nz-form-control>
+							<nz-date-picker [(ngModel)]="model.licenseTo" name="LicenseTo" nzFormat="dd-MM-yyyy" (ngModelChange)="reset_tabledata()">
+							</nz-date-picker>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+			</div>
+		</div>
+
+	</form>
+	<div [hidden]="!gridDisplayData.length" id="splicenseExp">
+		<nz-table #basicTable [nzData]="gridDisplayData" [hidden]="!gridDisplayData.length" nzHideOnSinglePage="true"
+			class="splicenseTbl table-responsive table-themed" [nzPageSize]="18">
+			<thead (nzSortChange)="sort($event)" nzSingleSort>
+				<tr>
+					<!-- <th *ngFor="let head of gridColumns">{{head}}</th> -->
+					<th nzShowSort nzSortKey="SPCode" nzShowFilter [nzFilters]="listOfSPCode"
+						(nzFilterChange)="filter($event,searchValue)">SPCode</th>
+					<th nzShowSort nzSortKey="LicenseFrom">LicenseFrom</th>
+					<th nzShowSort nzSortKey="LicenseTo">LicenseTo</th>
+					<th nzShowSort nzSortKey="CorporateAgentName">CorporateAgentName</th>
+					<th nzShowSort nzSortKey="CertificateNo">CertificateNo</th>
+					<th nzShowSort nzSortKey="ValidityFrom">ValidityFrom</th>
+					<th nzShowSort nzSortKey="ValidityTo">ValidityTo</th>
+					<th nzShowSort nzSortKey="institute">institute</th>
+					<th nzShowSort nzSortKey="Active">Active</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let data of basicTable.data;let i = index">
+					<td>{{data["SPCode"]}}</td>
+					<td>{{data["LicenseFrom"]}}</td>
+					<td>{{data["LicenseTo"]}}</td>
+					<td>{{data["CorporateAgentName"]}}</td>
+					<td>{{data["CertificateNo"]}}</td>
+					<td>{{data["ValidityFrom"]}}</td>
+					<td>{{data["ValidityTo"]}}</td>
+					<td>{{data["institute"]}}</td>
+					<td>{{data["Active"]}}</td>
+				</tr>
+			</tbody>
+		</nz-table>
+	</div>
+</div>
+<form-handler (onPreview)="preview('V')" (onReset)="resetForm()" (onExportExcel)="preview('G')"
+	(onExportPdf)="preview('D')"></form-handler>
+	<app-loader *ngIf="isSpinning"></app-loader>

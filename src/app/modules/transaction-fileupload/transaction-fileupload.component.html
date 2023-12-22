@@ -1,0 +1,107 @@
+<!-- <button nz-button nzType="primary" (click)="openModal()"  #lookupsearch>search</button>
+
+<lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog> -->
+
+<div class="main-content">
+	<form nz-form nzLayout="vertical">
+		<h3 class="content-title">Transaction File Upload</h3>
+		<div nz-row nzGutter="8">
+			<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="5" nzXl="4">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel" >Date</nz-form-label>
+					<nz-form-control>
+
+						<nz-date-picker [(ngModel)]="model.tranDate" name="tranDate" nzFormat="dd-MM-yyyy"></nz-date-picker>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+			<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="5" nzXl="5">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel" >Insurance Company</nz-form-label>
+					<nz-form-control>
+						<nz-select [(ngModel)]="model.insCompany" nzPlaceHolder="Select Insurance Company" name="insurance company"
+							nzDropdownMatchSelectWidth="true">
+							<nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code">
+							</nz-option>
+						</nz-select>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="8" nzXl="8">
+				<nz-form-item>
+	              <nz-form-label>&nbsp;</nz-form-label>
+	              <nz-form-control>
+
+	                <button nz-button nzType="primary" (click)="viewList()" [disabled]="isProcessing" class="mr-1">
+	                	<i nz-icon type="eye" theme="outline"></i>
+						<span [hidden]="isProcessing">View</span>
+						<span [hidden]="!isProcessing"><i class="fa fa-spinner fa-spin"></i> Processing...</span>
+					</button>
+
+					<button nz-button nzType="primary" (click)="uploadFiles()" [disabled]="clientList.length == 0" class="mr-1"><i nz-icon type="upload" theme="outline"></i>Upload</button>
+
+					<button nz-button nzType="dashed" (click)="ngOnInit()"><i nz-icon type="rollback"
+						theme="outline"></i>Reset</button>
+
+	              </nz-form-control>
+	            </nz-form-item>
+	            
+			</div>
+					
+		</div>
+
+	</form>
+	<div [hidden]="!clientList.length">
+		<nz-table #basicTable [nzData]="clientList" [hidden]="!clientList.length" nzHideOnSinglePage="true"
+			class="tranTbl table-responsive">
+			<thead>
+				<tr>
+					<th nzWidth="3%"></th>
+					<!-- <th nzWidth="3%"></th> -->
+					<th nzWidth="20%">Description</th>
+					<th nzWidth="25%">File to upload</th>
+					<th>Status</th>
+					<th>Template</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let data of basicTable.data;let i = index" [ngClass]="{'tranRow' : data.checked}">
+					<td><label nz-checkbox [(ngModel)]="data.checked"></label></td>
+					<td>
+						<i nz-icon nzType={{data.Icon}} nzTheme="outline" style="font-size: 15px;" [ngStyle]="{'color':data.IconColor}"></i>&nbsp;&nbsp;{{data.FileDescription}}
+					</td>
+					<td>
+						<nz-upload [(nzFileList)]="data.file" [nzBeforeUpload]="fileChangeEvent(i)" nzLimit="1">
+							<button nz-button>
+								<i nz-icon type="upload" ></i><span>Select File</span>
+							</button>
+						</nz-upload>
+						<!-- <input type="file" [(ngModel)]="data.file" (change)="fileChangeEvent(fileInput,i)" name="FILEUPLOAD"
+							id="FILEUPLOAD" #fileInput> -->
+					</td>
+					<td>
+						<div>
+	            		<span>
+	            			<nz-tag [nzColor]="'#2db7f5'" *ngIf="data.status == 'Processing'">Loading</nz-tag>
+			            	<nz-tag [nzColor]="'#87d068'" *ngIf="data.status == 'Success'">Success</nz-tag>
+		 					<nz-tag [nzColor]="'#f50'" *ngIf="data.status == 'Failed'">Failed</nz-tag>
+	            		</span>
+        			
+	            		<span (click)="showError(data)"*ngIf="data.status == 'Failed'">
+	            			Show error	
+	            		</span>
+	            		<span *ngIf="data.showErr" class="errMsg">
+	            			{{data.errMsg}}
+	            		</span>
+	            	</div>
+					</td>
+					<td>
+						
+					<button nz-button nzType="dashed" (click)="download(data)" ><i nz-icon type="download"
+						theme="outline"></i>Download</button>
+					</td>
+				</tr>
+			</tbody>
+		</nz-table>
+	</div>
+</div>

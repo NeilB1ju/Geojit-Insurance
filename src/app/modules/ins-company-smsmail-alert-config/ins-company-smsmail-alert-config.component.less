@@ -1,0 +1,112 @@
+fieldset.fieldset-shadow-condensed {
+    border-radius: 8px;     
+   border: 1px groove #ddddddb0 !important;
+   padding: -1 1.4em 1.4em 1.4em !important;
+   margin: -11px 0 1.5em 0 !important;
+   -webkit-box-shadow:  0px 0px 0px 0px #000;
+   box-shadow:  0px 0px 2px 0px #0000001f;
+   margin-top: 50px;
+   padding-left:9px;
+   padding-right:9px;
+}
+::ng-deep.ant-form-item-label > label::after {
+    content: '';
+    position: relative;
+    top: -0.5px;
+    margin: 0 8px 0 2px;
+}
+
+::ng-deep.ant-form-item-label {
+    display: inline-block;
+    overflow: hidden;
+    line-height: 39.9999px;
+    white-space: nowrap;
+    text-align: right;
+    vertical-align: middle;
+    height: 27px;
+}
+
+// .demo-loadmore-list {
+//     min-height: 350px;
+//   }
+//   .loadmore {
+//     text-align: center;
+//     margin-top: 12px;
+//     height: 32px;
+//     line-height: 32px;
+//   }
+
+.reconTbl {
+    height: 400px;
+    overflow: auto;
+	tr {
+    &:hover > td {
+      /*background-color: #cac4c4 !important;*/
+    }   
+    th {
+      background-color: #3e5d8a;
+      color: white;
+      padding: 0px;
+      font-size: 13px;
+    }
+    td {
+      padding: 4px;
+      font-size: 12px;
+    }
+  }
+}
+.NewEntryBtn{
+  color: #fff;
+    background-color: #1890ff;
+    border-color: #1890ff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+    float: right;
+    right: 20px;
+    top: 15px;
+}
+.LoadTableDiv{
+  height: 455px;
+}
+
+.TemplateSaveBtn{
+  color: #fff;
+    background-color: #1890ff;
+    border-color: #1890ff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 0 rgba(161, 53, 53, 0.045);
+   
+    // float: right;
+    // right: 0px;
+    // width: 68px;
+}
+.TdColTemplate{
+  color: #1890ff;
+ 
+}
+
+// ::ng-deep.ant-modal-content {
+//   position: relative;
+//   background-color: #fff;
+//   background-clip: padding-box;
+//   border: 0;
+//   border-radius: 4px;
+//   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+//   width: 580px;
+//   top: 0;
+// }
+::ng-deep.ant-card-head-title {
+  display: inline-block;
+  -webkit-box-flex: 1;
+  flex: 1;
+  padding: 16px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #1890ff;
+  font-size: 12px;
+}
+::ng-deep.ant-card-body {
+  padding: 11px;
+  zoom: 1;
+}

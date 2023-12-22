@@ -1,0 +1,175 @@
+<div class="main-content">
+  <form nz-form nzLayout="vertical">
+    <h3 class="content-title"> Common File Upload</h3>
+    <div class="fltrcolor">
+      <div nz-row nzGutter="8">
+        <div nz-col nzMd="7">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">File Type </nz-form-label>
+            <nz-select [(ngModel)]="model.filetype" (ngModelChange)="onChangeFileType($event)" name="bankname" nzDropdownMatchSelectWidth="true">
+              <nz-option  *ngFor="let item of Filetypes" [nzLabel]="item.RptName" [nzValue]="item.RptId"> </nz-option>
+            </nz-select>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Date </nz-form-label>
+            <nz-form-control>
+              <nz-date-picker  nzFormat="dd-MM-yyyy"  [(ngModel)]="model.date" name="date">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Select File </nz-form-label>
+            <nz-form-control>
+              <nz-upload [(nzFileList)]="file" [nzBeforeUpload]="fileChangeEvent()"  nzLimit="1">
+                <button style="width: 133px;" nz-button> <i nz-icon type="file-add"></i> <span>&nbsp;Select File</span> </button>
+              </nz-upload>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="5" nzLg="5">
+          <nz-form-item  *ngIf="wsname.length>0 && file.length>0">
+            <nz-form-label class="boldinglabel" >Sheets </nz-form-label>
+            <nz-form-control>
+              <nz-select [(ngModel)]="model.sheet" name="sheet">
+                <nz-option *ngFor="let item of wsname " [nzLabel]="item" [nzValue]="item"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div> 
+        <div nz-col nzMd="1" nzLg="1"></div>
+        <div nz-col nzMd="2" nzLg="2">
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <button type="primary" nz-button nzType="primary" [disabled]="file.length!=1" (click)="uploadresponse()"><i nz-icon type="upload" theme="outline"></i> Upload </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="2" nzLg="2">
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <button type="primary" nz-button nzType="primary" (click)="resetValue()" style="background-color: #FFA500"><i nz-icon
+                  type="rollback" theme="outline"></i> Reset </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+    <app-loader *ngIf="isSpinning"></app-loader>
+  </form>
+</div>
+
+
+
+
+<!-- <div class="main-content">
+  <div nz-row nzGutter="4" style="padding: 10px;">
+    <div nz-col nzMd="8" nzLg="10">
+      <h2 class="content-title"> Common File Upload</h2>
+    </div>
+    <div nz-col nzLg="8" nzMd="8">
+
+    </div> -->
+<!-- <div nzLg="8" nzMd="8">
+      <h4 class="content-title"> <span style="color: red;">{{LastUpdtedDate}}</span> </h4>
+    </div> -->
+<!-- </div>
+  <form nz-form nzLayout="vertical"> -->
+<!-- <div nz-col nzMd="20" nzLg="24">
+      <h3 class="content-title">File Upload</h3>
+    </div> -->
+<!-- <div nz-row nzGutter="8">
+     
+      <div nz-col nzMd="2" nzLg="2">
+        <nz-form-item>
+          <nz-form-label>{{DateLabel}}</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker [disabled]="disableDate" nzFormat="dd-MM-yyyy" [(ngModel)]="model.date" name="stdate">
+            </nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="3" nzLg="3" *ngIf="ShowSheet">
+        <nz-form-item>
+          <nz-form-label>Sheets:</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="model.sheet" name="sheet">
+              <nz-option *ngFor="let item of wsname " [nzLabel]="item" [nzValue]="item"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div> -->
+<!-- <div nz-col nzMd="5" nzLg="5">
+        <nz-form-item>
+          <nz-form-label>File Upload</nz-form-label>
+          <nz-form-control>
+            <nz-upload [(nzFileList)]="file" [nzBeforeUpload]="fileChangeEvent()" nzLimit="1">
+              <button nz-button>
+                <i nz-icon type="file-add"></i><span>Select </span>
+              </button>
+            </nz-upload>
+          </nz-form-control>
+        </nz-form-item>
+      </div> -->
+
+
+<!-- <div nz-col nzMd="2" nzLg="2" *ngIf="!UploadFlag">
+        <nz-form-item>
+          <nz-form-label>&nbsp;</nz-form-label>
+          <nz-form-control>
+            <button type="primary" nz-button nzType="primary" (click)="uploadresponse()">
+              <span><i nz-icon type="upload" theme="outline"></i>Upload </span>
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="2" nzLg="2" *ngIf="UploadFlag">
+        <nz-form-item>
+          <nz-form-label>&nbsp;</nz-form-label>
+          <nz-form-control>
+            <button type="primary" disabled nz-button nzType="primary" (click)="uploadresponse()">
+              <span><i nz-icon type="upload" theme="outline"></i>Upload </span>
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="2" nzLg="2">
+        <nz-form-item>
+          <nz-form-label>&nbsp;</nz-form-label>
+          <nz-form-control>
+            <button type="primary" (click)="resetValue()" nz-button nzType="primary" style="background-color: #FFA500">
+              <i nz-icon type="rollback" theme="outline"></i>
+              Reset
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nzLg="2" nzMd="2">
+        <nz-form-label>&nbsp;</nz-form-label> -->
+<!-- <h4 style="margin-left: 30px;" class="content-title"> <span style="color: red;">{{LastUpdtedDate}}</span> </h4> -->
+<!-- </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzMd="19" nzLg="19"></div>
+      <div nz-col nzMd="5" nzLg="5" *ngIf="LastUpdtedDate || fileShortName">
+        <span>&nbsp; &nbsp;</span>
+        <nz-list nzBordered nzSize="small" [nzHeader]="'DETAILS'" [nzFooter]=""> -->
+<!-- <ng-template>
+            <nz-list-item> ASDAD </nz-list-item>
+          </ng-template> -->
+<!-- 
+          <nz-list-item *ngIf="fileShortName"><span> <b>Upload File Name Should be:</b> <br> <span
+                style="color: red;">{{fileShortName}}</span> </span></nz-list-item>
+          <nz-list-item *ngIf="LastUpdtedDate"><span> <b>Last Updated On : </b> <br> <span
+                style="color: red;">{{LastUpdtedDate}}</span></span></nz-list-item>
+
+        </nz-list>
+      </div>
+    </div>
+  </form>
+</div> -->

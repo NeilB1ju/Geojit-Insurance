@@ -1,0 +1,102 @@
+<!-- <lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog> -->
+<lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog>
+<div class="main-content">
+  <form nz-form #CompanymasterForm="ngForm" nzLayout="vertical" >
+      <!-- <form  nzLayout="vertical" > -->
+      <fieldset [disabled]="!modifyform" >
+    <nz-tabset>
+      <nz-tab nzTitle="Policy Status Mapping">
+        <div nz-col [nzSpan]="24">
+          <fieldset class="fieldset-shadow-condensed">
+            <legend class="fieldset-shadow-condensed">
+              <!-- <span class="boldinglabel"></span> -->
+            </legend>
+            <div nz-row nzGutter="4">
+
+              <div nz-col nzMd="4" nzLg="3">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired >Policy Status Code</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="Policy Code"   [(ngModel)]="model.Code" type="text"
+                      name="Code">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="4" nzLg="6">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired >Description</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="Description"   [(ngModel)]="model.Description" type="text"
+                      name="Description">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="4" nzLg=4>
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Product Type</nz-form-label>
+                  <nz-form-control>
+                    <nz-select nzPlaceHolder="Select Product Type" [disabled]="!modifyform" [(ngModel)]="model.ProductType" name="ProductType"
+                      nzDropdownMatchSelectWidth="true" (ngModelChange)="getInsuranceCompany()">
+                      <nz-option *ngFor="let item of Producttytpe" [nzLabel]="item.Description" [nzValue]="item.Code">
+                      </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="4" nzLg=5>
+                  <nz-form-item>
+                    <nz-form-label class="boldinglabel" nzRequired>Company</nz-form-label>
+                    <nz-form-control>
+                      <nz-select nzPlaceHolder="Select Company" [disabled]="!modifyform"  [(ngModel)]="model.CompanyID" name="CompanyID"
+                        nzDropdownMatchSelectWidth="true">
+                        <nz-option *ngFor="let com of Companylist" [nzLabel]="com.Description" [nzValue]="com.Code">
+                        </nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+            
+                  <div nz-col nzMd="4" nzLg=3>
+                      <nz-form-item>
+                        <nz-form-label class="boldinglabel" nzRequired>Policy Status</nz-form-label>
+                        <nz-form-control>
+                          <nz-select nzPlaceHolder="Select Policy Status" [disabled]="!modifyform" [(ngModel)]="model.Policystatus" name="Policystatus"
+                            nzDropdownMatchSelectWidth="true">
+                            <nz-option *ngFor="let policy of Policystatuslist" [nzLabel]="policy.Description" [nzValue]="policy.Code">
+                            </nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                    <div nz-col nzMd="3" nzLg="3">
+
+                        <nz-form-item>
+                          <nz-form-label class="boldinglabel">Commision Eligible</nz-form-label>
+                          <nz-form-control >
+                        <nz-radio-group [(ngModel)]="yORn" [nzButtonStyle]="'solid'"   name="yORn" [nzDisabled]="!modifyform">
+                          <label style="font-size: 10px;" nz-radio-button nzValue="Y">YES</label>
+                          <label  style="font-size: 10px;" nz-radio-button nzValue="N">NO</label>
+                        </nz-radio-group>
+                      </nz-form-control>
+                    </nz-form-item> 
+            
+                      </div> 
+          
+
+            </div>
+         
+          </fieldset>
+        </div>
+      </nz-tab>
+
+    </nz-tabset>
+  </fieldset>
+  </form>
+  <form-handler (onSave)="Save()" (onModify)="modify()" (onReset)="resetForm()" (onFind)="Search()" (onExportExcel)="export()"></form-handler>
+
+
+
+
+
+</div>
+<app-loader *ngIf="isSpinning"></app-loader>

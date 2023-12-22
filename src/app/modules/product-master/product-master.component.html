@@ -1,0 +1,140 @@
+<lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog>
+<div class="main-content">
+  <h3 class="content-title"> Product Master</h3>
+  <form nz-form nzLayout="vertical" #prodMasterForm="ngForm">
+    <fieldset [disabled]="!modifyform">
+      <div nz-row nzGutter="10">
+
+        <div nz-col nzMd="8" nzLg="8">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Insurance Company</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Insurance Company" name="insurance company"
+                [(ngModel)]="model.InsCompanyId" [disabled]="!modifyform" nzDropdownMatchSelectWidth="true"
+                (ngModelChange)="getProductCategory()" required="">
+                <nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="4" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Product Code</nz-form-label>
+            <nz-form-control>
+              <input nz-input placeholder="Product Code" maxlength="100" type="text" [(ngModel)]="model.ProductCode"
+                name="ProductCode" required="">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="8" nzLg="8">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Product Name</nz-form-label>
+            <nz-form-control>
+              <input nz-input placeholder="Product Name" maxlength="100" type="text" [(ngModel)]="model.ProductName"
+                name="ProductName" required="">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="4" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Product Category</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Product Category" [disabled]="!modifyform" name="product Category"
+                [(ngModel)]="model.CategoryID" nzDropdownMatchSelectWidth="true" required="">
+                <nz-option *ngFor="let item of pdtCatList" [nzLabel]="item.Description" [nzValue]="item.Code">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="8" nzLg="8">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Product Description</nz-form-label>
+            <nz-form-control>
+              <input nz-input placeholder="Product Description" maxlength="100" type="text"
+                [(ngModel)]="model.ProductDescription" name="ProductDescription" required="">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="4" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">WS Product Code</nz-form-label>
+            <nz-form-control>
+              <input nz-input maxlength="6" placeholder="WS Product Code" type="text" [(ngModel)]="model.wsProductCode" name="WS Product Code"
+                     pattern="^[A-Za-z0-9]+$">
+            </nz-form-control>
+          </nz-form-item>
+
+        </div>
+
+        <div nz-col nzMd="4" nzLg="4">
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <label nz-checkbox [(ngModel)]="model.isActive" name="active">Active</label>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="8" nzLg="8" *ngIf="!model.isActive">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Reason</nz-form-label>
+            <nz-form-control>
+              <input nz-input placeholder="Reason" maxlength="100" type="text" [(ngModel)]="model.reason" name="Reason"
+                required="">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+      </div>
+      <div nz-row *ngIf="commStructHtml.length || slabMsg.length">
+        <div nz-col nzMd="24" nzLg="24">
+          <h4>Commission Slab</h4>
+          <div nz-row nzGutter="8">
+            <div nz-col nzMd="24" nzLg="24">
+
+              <p [innerHtml]="commStructHtml"></p>
+              <p *ngIf="slabMsg.length" style="font-size: 13px;"><i nz-icon type="warning" theme="outline"
+                  style="color: #902626;margin-right: 2px;"></i>{{slabMsg}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+  <br>
+  <form-handler (onSave)="Save(prodMasterForm)" (onModify)="modify()" (onFind)="Search()"
+    (onReset)="Reset()"></form-handler>
+</div>
+
+<div style="padding:30px" nz-col nzMd="6" nzLg="6" *ngIf="icici.length || bajaj.length">
+  <fieldset class="fieldset_made">
+    <legend class="fieldset-shadow-condensed">
+      <h2 style="    text-align: center;">Pending Products</h2>
+    </legend>
+
+    <div *ngIf="icici.length">
+      <h3>ICICI</h3>
+      <li style="    margin-left: 50px;font-size: small;font-weight: 600;" *ngFor="let data of icici">* {{data.Product}}
+      </li>
+    </div>
+    <div *ngIf="bajaj.length">
+      <h3>BAJAJ</h3>
+      <li style="    margin-left: 50px;font-size: small;font-weight: 600;" *ngFor="let data1 of bajaj">{{data1.Product}}
+      </li>
+    </div>
+
+  </fieldset>
+
+</div>
+
+
+<app-loader *ngIf="isSpinning"></app-loader>

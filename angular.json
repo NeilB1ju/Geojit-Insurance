@@ -1,0 +1,165 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "insurance": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/insurance",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./src/assets/",
+                "output": "/assets/"
+              }
+            ],
+            "styles": [
+              "src/styles.less",
+              "src/styles.css"
+            ],
+            "scripts": [],
+            "lazyModules": [
+              "src/app/modules/dashboard/dashboard.module",
+              "src/app/modules/sp-master/sp-master.module",
+              "src/app/modules/common-reports/commonreports.module",
+              "src/app/modules/transaction-fileupload/transaction-fileupload.module",
+              "src/app/modules/client-entry/client-entry.module",
+              "src/app/modules/CompanyMaster/CompanyMaster.module",
+              "src/app/modules/product-master/product-master.module",
+              "src/app/modules/inward-entry/inward-entry.module",
+              "src/app/modules/splicense-expiryrpt/splicense-expiryrpt.module",
+              "src/app/modules/master-export/master-export.module",
+              "src/app/modules/slab-master/slab-master.module",
+              "src/app/modules/commission-structure/commission-structure.module",
+              "src/app/modules/reconciliation/reconciliation.module",
+              "src/app/modules/insurance-companywise-rpt/insurance-companywise-rpt.module",
+              "src/app/modules/policyTOclientmapping/policyTOclientmapping.module",
+              "src/app/modules/clientlocationtransfer/clientlocationtransfer.module",
+              "src/app/modules/reconcilationreport/reconcilationreport.module",
+              "src/app/modules/reconcilationreportcommission/reconcilationreportcommission.module",
+              "src/app/modules/persistencyreport/persistencyreport.module",
+              "src/app/modules/audit-report/audit-report.module",
+              "src/app/modules/customerdashboard/customerdashboard.module",
+              "src/app/modules/policyreports/policyreports.module",
+              "src/app/modules/gst-invoice/gst-invoice.module",
+              "src/app/modules/commissionreport/commissionreport.module",
+              "src/app/modules/policywise/policywise.module",
+              "src/app/modules/franchieecommission/franchieecommission.module",
+              "src/app/modules/franchieeprocess/franchieeprocess.module",
+              "src/app/modules/commissionreconculiation/commissionreconculiation.module",
+              "src/app/modules/clientmerging/clientmerging.module",
+              "src/app/modules/policyTOclientmapping-reversal/policyTOclientmapping-reversal.module",
+              "src/app/modules/Reports/ftm-report/ftm-report.module",
+              "src/app/modules/Reports/client-transfer-log/client-transfer-log.module",
+              "src/app/modules/ins-company-smsmail-alert-config/ins-company-smsmail-alert-config.module",
+              "src/app/modules/Reports/income-report/income-report.module",
+              "src/app/modules/common-file-upload/common-file-upload.module",
+              "src/app/modules/Policystatusmapping/Policystatusmapping.module",
+              "src/app/modules/Reports/ExceptionReport/ExceptionReport.module",
+              "src/app/modules/Reports/commisiondetailsreconcillation/commisiondetailsreconcillation.module",
+              "src/app/modules/irda-register-module/irda-register-module.module",
+              "src/app/modules/irda-report/irda-report.module",
+              "src/app/modules/irda-sp-file-upload-in-spice-application/irda-sp-file-upload-in-spice-application.module",
+              "src/app/modules/client-location-transfer-report/client-location-transfer-report.module"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "insurance:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "insurance:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "trading:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json",
+              "tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": "a1756d63-c0fc-407c-b6ff-5b1186f5463e"
+  }
+}

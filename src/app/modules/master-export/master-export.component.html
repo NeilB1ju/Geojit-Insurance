@@ -1,0 +1,142 @@
+<lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog>
+<div class="main-content">
+	<form nz-form nzLayout="vertical">
+		<h3 class="content-title">Master Data Export</h3>
+		<div class="fltrcolor">
+			<div nz-row nzGutter="8">
+				<div nz-col nzMd="6" nzLg="6">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel" nzRequired>Category</nz-form-label>
+						<nz-form-control>
+							<nz-select [(ngModel)]="model.master" (ngModelChange)="OnchangeType($event)"
+								nzPlaceHolder="Select Master" name="Master" nzDropdownMatchSelectWidth="true">
+								<nz-option *ngFor="let item of masterList" [nzLabel]="item.CatgoryName"
+									[nzValue]="item">
+								</nz-option>
+							</nz-select>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+				<div nz-col nzMd="6" nzLg="6" *ngIf="masterSubList.length">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel" nzRequired>Sub Category</nz-form-label>
+						<nz-form-control>
+							<nz-select [(ngModel)]="model.SubList" (ngModelChange)="onchangeSubCategory($event)"
+								nzPlaceHolder="Select Sub" name="Sub" nzDropdownMatchSelectWidth="true">
+								<nz-option *ngFor="let data of masterSubList" [nzLabel]="data.SubCatgoryName"
+									[nzValue]="data">
+								</nz-option>
+							</nz-select>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+				<div nz-col nzMd="6" nzLg="6" >
+					<nz-form-item>
+						<nz-form-label class="boldinglabel">Insurance Company</nz-form-label>
+						<nz-form-control>
+							<nz-select [(ngModel)]="model.insCompany" nzPlaceHolder="Select Insurance Company"
+								name="insurance company" nzDropdownMatchSelectWidth="true" (ngModelChange)="reset_tabledata()">
+								<nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description"
+									[nzValue]="item.Code">
+								</nz-option>
+							</nz-select>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+			</div>
+		<div nz-row nzGutter="8">
+			<div nz-col nzMd="3"  *ngIf="ViewFromDate" >
+				<nz-form-item>
+				  <nz-form-label class="boldinglabel">From Date</nz-form-label>
+				  <nz-form-control>
+					<nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.fd" name="Date" (ngModelChange)="reset_tabledata()"></nz-date-picker>
+				  </nz-form-control>
+				</nz-form-item>
+			  </div>
+			  <div nz-col nzMd="3"  *ngIf="ViewToDate">
+				<nz-form-item>
+				  <nz-form-label class="boldinglabel">To Date</nz-form-label>
+				  <nz-form-control>
+					<nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.td" name="Date1" (ngModelChange)="reset_tabledata()"></nz-date-picker>
+				  </nz-form-control>
+				</nz-form-item>
+			  </div>
+			  <div nz-col nzMd="3"  *ngIf="ViewState">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel">State</nz-form-label>
+					<nz-form-control>
+						<master-find-ctrl [options]="stateFindopt" [(ngModel)]="model.state" name="state" (ngModelChange)="reset_tabledata()">
+						</master-find-ctrl>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+								
+			<div nz-col nzMd="3"  *ngIf="ViewRegion">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel">Region</nz-form-label>
+					<nz-form-control>
+						<master-find-ctrl [options]="regionFindopt" [(ngModel)]="model.region"(ngModelChange)="reset_tabledata()"
+							name="region">
+						</master-find-ctrl>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+
+			<div nz-col nzMd="3"  *ngIf="ViewLocation">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel">Branch</nz-form-label>
+					<nz-form-control>
+						<master-find-ctrl [options]="branchFindopt" [(ngModel)]="model.location"(ngModelChange)="reset_tabledata()"
+							name="location">
+						</master-find-ctrl>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+
+			<div nz-col nzMd="12" nzLg="4" *ngIf="ViewInputText">
+				<nz-form-item>
+				  <nz-form-label class="boldinglabel">No</nz-form-label>
+				  <nz-form-control>
+					<input nz-input placeholder="Policy No" 
+					  [(ngModel)]="model.No" type="text" name="Policy Name">
+				  </nz-form-control>
+				</nz-form-item>
+			  </div>
+
+            	<div nz-col nzMd="5" *ngIf="ViewIntroducer">
+							<nz-form-item>
+								<nz-form-label class="boldinglabel" nzRequired>Introducer</nz-form-label>
+								<nz-form-control>
+									<nz-select [(ngModel)]="model.introducer" name="introducer"
+										nzDropdownMatchSelectWidth="true" (ngModelChange)="reset_tabledata()">
+										<nz-option *ngFor="let item of introducerList" [nzLabel]="item.Description"
+											[nzValue]="item.Code">
+										</nz-option>
+									</nz-select>
+								</nz-form-control>
+							</nz-form-item>
+				</div>
+			</div>
+		</div>
+	</form>
+	<nz-table class="tranTbl table-responsive table-themed" #Summary [nzData]="data"
+  [nzShowPagination]="true" *ngIf="data.length">
+  <thead>
+    <tr>
+      <th *ngFor="let header of policyrpt;let i = index">
+        {{header}}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of Summary.data" >
+      <td *ngFor="let header of policyrpt" 
+        >{{data[header]}}
+      </td>
+    </tr>
+  </tbody>
+ 
+</nz-table >
+	<form-handler (onPreview)="preview()" (onExport)="exportData()" (onReset)="Reset()"></form-handler>
+	<app-loader *ngIf="isSpinning"></app-loader>
+</div>

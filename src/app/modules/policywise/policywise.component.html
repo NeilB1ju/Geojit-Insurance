@@ -1,0 +1,320 @@
+<div class="main-content">
+	<form nz-form nzLayout="vertical">
+		<h3 class="content-title">Report</h3>
+		<div class="fltrcolor">
+			<div nz-row nzGutter="8">
+			    <div nz-col nzMd="12" nzLg="6">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel">Insurance Company</nz-form-label>
+						<nz-form-control>
+						  <nz-select [(ngModel)]="model.insCompany" nzPlaceHolder="Select Insurance Company"
+							name="insurance company" nzDropdownMatchSelectWidth="true">
+							<nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code">
+							</nz-option>
+						  </nz-select>
+						</nz-form-control>
+					  </nz-form-item>
+				  </div>
+				<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="5" nzXl="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel">Policy No</nz-form-label>
+						<nz-form-control>
+						  <input nz-input placeholder="Policy No" 
+							[(ngModel)]="model.Policy" type="text" name="Policy Name" >
+						</nz-form-control>
+					  </nz-form-item>
+				</div>
+			
+
+			</div>
+		</div>
+
+	</form>
+
+	<!-- <nz-card >
+		Card content
+	  </nz-card> -->
+
+
+<!-- ********************************************************************************************************************* -->
+
+<nz-card *ngIf="data1">
+	<div nz-row nzGutter="10">
+	  <div nz-col nzMd="8" nzLg="8" class="borderCol">
+		<div nz-row>
+		  <div nz-col nzLg="5">
+			<b>ApplicationNo</b>
+		  </div>
+		  <div nz-col nzLg="19"  >
+			: {{data1.applicationNo}}
+		  </div>
+
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div>
+		<div nz-row>
+		  <div nz-col nzLg="5">
+			<b>Client Name</b>
+		  </div>
+		  <div nz-col nzLg="19"  >
+			: {{data1.Name}}
+		  </div>
+		  <div nz-col nzLg="13" >
+
+		  </div>
+		</div>
+
+		<div nz-row>
+		  <div nz-col nzLg="5">
+			<b>Product Code</b>
+		  </div>
+		  <div nz-col nzLg="19" style="width:200px"  >
+			: {{data1.productCode}}
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div>
+		<!-- <div nz-row>
+		  <div nz-col nzLg="5">
+			<b>First Issuance Date</b>
+		  </div>
+		  <div nz-col nzLg="19">sfsfsfsf
+			 : {{otherInfo.AdwCustDResState}} 
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div> -->
+		<div nz-row>
+		  <div nz-col nzLg="5">
+			<b>Email</b>
+		  </div>
+		  <div nz-col nzLg="19" >
+			: {{data1.email}}
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div>
+		<!-- <div nz-row>
+		  <div nz-col nzLg="10">
+			<b>Premium Due Date</b>
+		  </div>
+		  <div nz-col nzLg="1">
+			:
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div> -->
+		<!-- <div nz-row>
+		  <div nz-col nzLg="10">
+			<b>Premium Amount</b>
+		  </div>
+		  <div nz-col nzLg="1">
+			:
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div> -->
+	  </div>
+	  <div nz-col nzMd="8" nzLg="8" class="borderCol">
+
+		<div nz-row>
+		  <!-- <h3><i nz-icon="" ng-reflect-ng-class="false"
+			  class="anticon anticon-user ng-star-inserted addressIcon mr-2" ng-reflect-type="user"></i> Employee
+			Info
+		  </h3> -->
+		  <div nz-col nzLg="10">
+			<b>Premium Paying Term</b>
+		  </div>
+		  <div nz-col nzLg="14" style="width:200px" >
+			: {{data1.premiumpaying}}
+		  </div>
+		  <div nz-col nzLg="13" style="width:200px">
+
+		  </div>
+		</div>
+		<div nz-row>
+		  <div nz-col nzLg="10">
+			<b>	Policy Number</b>
+		  </div>
+		  <div nz-col nzLg="14" style="width:200px" >
+			: {{data1.PolicyNo}}
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div>
+		<div nz-row>
+		  <div nz-col nzLg="10">
+			<b>	Policy Status</b>
+		  </div>
+		  <div nz-col nzLg="14" style="width:200px"  >
+			: {{data1.polictStatus}}
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div>
+
+		<div nz-row>
+		  <div nz-col nzLg="10">
+			<b>	Product Name</b>
+		  </div>
+		  <div nz-col nzLg="14" style="width:200px"  >
+			: {{data1.productName}}
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div>
+		<div nz-row>
+		  <div nz-col nzLg="10">
+			<b>Policy Term</b>
+		  </div>
+		  <div nz-col nzLg="14" style="width:200px" >
+			: {{data1.policyterm}}
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div>
+
+		<!-- <div nz-row>
+		  <div nz-col nzLg="10">
+			<b>Employee Code</b>
+		  </div>
+		  <div nz-col nzLg="1">
+			:
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div> -->
+		<!-- <div nz-row>
+		  <div nz-col nzLg="10">
+			<b>Functional Designation</b>
+		  </div>
+		  <div nz-col nzLg="1">
+			:
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div> -->
+	  </div>
+	  <div nz-col nzMd="8" nzLg="8">
+
+		<div nz-row>
+		  <!-- <h3><i nz-icon nzType="bank" nzTheme="fill"></i> Location
+			Info
+		  </h3> -->
+		  <div nz-col nzLg="10">
+			<b>MobileNo</b>
+		  </div>
+		  <div nz-col nzLg="1" style="width:200px"  >
+			: {{data1.mobileNo}}
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div>
+		<div nz-row>
+		  <div nz-col nzLg="10">
+			<b>Premium Due Date</b>
+		  </div>
+		  <div nz-col nzLg="1" style="width:200px" >
+			: {{data1.premiumDueDate}}
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div>
+		<div nz-row>
+		  <div nz-col nzLg="10">
+			<b>	PAN</b>
+		  </div>
+		  <div nz-col nzLg="1" style="width:200px" >
+			: {{data1.PanNo}}
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div>
+
+		<div nz-row>
+		  <div nz-col nzLg="10">
+			<b>	Product Category</b>
+		  </div>
+		  <div nz-col nzLg="1" style="width:200px"  >
+			: {{data1.productCat}}
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div>
+
+
+		<!-- <div nz-row>
+		  <div nz-col nzLg="10">
+			<b>	Permium Paying Mode</b>
+		  </div>
+		  <div nz-col nzLg="1" style="width:200px">adadada
+			 : {{otherInfo.City}} 
+		  </div>
+		  <div nz-col nzLg="13">
+
+		  </div>
+		</div> -->
+
+
+	  </div>
+
+
+	  <nz-table #basicTable class="table-responsive table-themed" *ngIf="tabledata" nzPageSize="15"
+	  [nzData]="tabledata"   nzSize="small" nzBodered="false">
+	  <thead>
+		<tr>
+		  <th nzwidth=20% >Premium Due Date</th>
+		  <th nzwidth=20% class="text-right">Premium Amount</th>
+		  <th nzwidth=20%  class="text-right">Commission(%)</th>
+		  <th nzwidth=20% class="text-right">Commission Paid</th>
+		  <th nzwidth=20% class="text-right">Commission Payable</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<tr *ngFor="let item of basicTable.data" >
+		  <td nzwidth=20% >{{item.Duedate}}</td>
+		  <td nzwidth=20% class="text-right">
+			   <!-- {{item.amount}} -->
+			  <input nz-input placeholder="Policy No" [disabled]="item.amount ==0"  [(ngModel)]="item.amount" (ngModelChange)="change(item)" [textMask]="{mask: inputMasks.decimal}" style="width: 100px" type="text" name=" Name">
+			</td> 
+			<td nzwidth=20%  class="text-right"> {{item.Commissionperc}}</td>
+		  <td nzwidth=20% class="text-right"> {{item.CommissionPaid|number}}</td>
+		  <td nzwidth=20% class="text-right">{{item.CommissionPayable| number: '1.2-2'}}</td>
+		</tr>
+	  </tbody>
+	</nz-table>
+
+
+	</div>
+
+
+
+  </nz-card>
+
+<!-- *********************************************************************************************************************** -->
+
+	  
+
+
+
+
+
+</div>
+<form-handler (onSave)="save()" (onPreview)="view()" (onReset)="resetForm()"></form-handler>
+<app-loader *ngIf="isSpinning"></app-loader>

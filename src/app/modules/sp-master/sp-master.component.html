@@ -1,0 +1,628 @@
+<lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog>
+
+<div class="main-content">
+  <form nz-form nzLayout="vertical">
+    <fieldset [disabled]="!modifyform">
+
+      <div nz-row nzGutter="30">
+        <div nz-col nzMd="16" nzLg="16" class="borderColumn">
+          <h3 class="content-title"> SP Master</h3>
+          <!-- {{this.formHandlerRight|json}} -->
+          <div nz-row nzGutter="10" nzType="flex">
+
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" nzRequired>Introducer</nz-form-label>
+                <nz-form-control>
+                  <nz-radio-group [(ngModel)]="model.type" (ngModelChange)="onChangeType($event)" nzName="typegroup"
+                    name="Lead Generator">
+                    <label class="boldinglabel" nz-radio nzValue="E">Employee</label>
+                    <label class="boldinglabel" nz-radio nzValue="F">Franchisee</label>
+                  </nz-radio-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <!-- <div nz-col nzMd="12" nzLg="12" *ngIf="model.type == 'E'">
+            <nz-form-item>
+              <nz-form-label nzRequired>Employee</nz-form-label> -->
+
+            <!-- <nz-form-control> -->
+            <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12" nzXl="12" *ngIf="model.type == 'E'">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" nzRequired>Employee</nz-form-label>
+                <nz-form-control>
+                  <master-find-ctrl [options]="EmployeeFindopt" (ngModelChange)="onChangeEmployee($event)"
+                    [(ngModel)]="model.Employee" name="Employee"></master-find-ctrl>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12" nzXl="12" *ngIf="model.type == 'F'">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" nzRequired>Location</nz-form-label>
+                <nz-form-control>
+                  <master-find-ctrl [options]="FranchiseeFindopt" (ngModelChange)="onChangeFranchisee($event)"
+                    [(ngModel)]="model.Employee" name="Franchisee"></master-find-ctrl>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <!-- </nz-form-control>
+            </nz-form-item> -->
+            <!-- </div> -->
+            <!-- <div nz-col nzMd="12" nzLg="12" *ngIf="model.type == 'F'">
+            <nz-form-item>
+              <nz-form-label nzRequired>Location</nz-form-label>
+              <nz-form-control>
+                <master-find-ctrl [options]="FranchiseeFindopt" [(ngModel)]="model.Employee" name="Client">
+                </master-find-ctrl>
+
+              </nz-form-control>
+            </nz-form-item>
+          </div> -->
+
+
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" nzRequired>SP Code</nz-form-label>
+                <nz-form-control>
+                  <input nz-input placeholder="SP Code" type="text" maxlength="20" [(ngModel)]="model.SPCode"
+                    [disabled]="formHandler.config.isModifyState" name="SPCode">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+
+
+          </div>
+          <div nz-row nzGutter="10" nzType="flex">
+            <div nz-col nzMd="6" nzLg="6">
+
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" nzRequired>Institute</nz-form-label>
+                <nz-form-control>
+                  <nz-select nzPlaceHolder="Institute" [disabled]="!modifyform" [(ngModel)]="model.Institute"
+                    name="Institute" maxlength="20" nzDropdownMatchSelectWidth="true">
+                    <nz-option *ngFor="let item of InstituteData" [nzLabel]="item.Description" [nzValue]="item.Code">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+
+            </div>
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" nzRequired>Certificate No</nz-form-label>
+                <nz-form-control>
+                  <input nz-input placeholder="Certificate No" type="text" maxlength="20"
+                    [(ngModel)]="model.CertificateNo" name="CertificateNo">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzMd="12" nzLg="12">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" nzRequired>Corporate Agent Name</nz-form-label>
+                <nz-form-control>
+                  <nz-select name="Corporate Agent Name" [disabled]="!modifyform" [(ngModel)]="model.CorporateAgentId"
+                    nzDropdownMatchSelectWidth="true">
+                    <nz-option *ngFor="let item of corporateAgent" [nzLabel]="item.Description" [nzValue]="item.Code">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row nzGutter="10" nzType="flex">
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" nzRequired>Exam Validity From</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker [nzFormat]="dateFormat" [disabled]="!modifyform" [nzDisabledTime]="true"
+                    [(ngModel)]="model.LicenceFrom" name="Licence From"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" nzRequired>Exam Validity To</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker [nzFormat]="dateFormat" [disabled]="!modifyform" [nzDisabledTime]="true"
+                    [(ngModel)]="model.LicenceTo" name="Licence To"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="font-weight-bold" nzRequired>SP Certificate Validity From</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker [nzFormat]="dateFormat" [disabled]="!modifyform" [nzDisabledTime]="true"
+                    [(ngModel)]="model.ValidityFrom" name="Validity From"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="font-weight-bold" nzRequired>SP Certificate Validity To</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker [nzFormat]="dateFormat" [disabled]="!modifyform" [nzDisabledTime]="true"
+                    [(ngModel)]="model.ValidityTo" name="Validity "></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-row nzGutter="10" nzType="flex">
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-control>
+                <nz-form-label> &nbsp;</nz-form-label>
+                <label nz-checkbox [(ngModel)]="model.Active" (ngModelChange)="onChangeActive($event)"
+                  name="Active">Active
+                </label>
+              </nz-form-control>
+            </div>
+            <div nz-col nzMd="12" nzLg="12">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" [nzRequired]="!model.Active">Terminated Reason</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="text" maxlength="500" nz-input rows="1" [disabled]="model.Active"
+                    [(ngModel)]="model.TerminatedReason" name="Terminated Reason">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" [nzRequired]="!model.Active">Terminated Date</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker [nzFormat]="dateFormat" [disabled]="!modifyform" [disabled]="model.Active"
+                    [nzDisabledTime]="true" [(ngModel)]="model.TerminatedDate" name="Terminated Date"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-row nzGutter="10" class="borderTopBottom">
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel">IRDAI Discontinuation Remarks</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="text" maxlength="300"   [textMask]="{mask:nameMask}" [(ngModel)]="model.IRDAIDiscontinuationRemarks"
+                    name="irdaiscontinuationRemarks">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel">IRDAI Discontinuation Date</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [disabled]="!modifyform" [(ngModel)]="model.IRDAIDiscontinuationDate"
+                    name="IRDAIDiscontinuationDate"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel"> IRDAI Submission Date</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker [nzFormat]="dateFormat" [disabled]="!modifyform" [(ngModel)]="model.IRDAISubmissionDate"
+                    name="IRDAISubmissionDate"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <!-- <div nz-col  nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel" >Terminated Reason</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="text" maxlength="" [(ngModel)]="model.TerminatedReason" nz-input 
+                     name="Terminated Reason">
+                </nz-form-control>
+              </nz-form-item>
+            </div>   -->
+            <div nz-col nzMd="6" nzLg="6">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel">IRDAI Approval Date</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker [nzFormat]="dateFormat" [disabled]="!modifyform" [(ngModel)]="model.IRDAIApprovalDate"
+                    name="IRDAIApprovalDate"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzMd="6" nzLg="6" *ngIf="model.URNAllotted">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel">URN Allotted </nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="text"  [disabled]="true" [(ngModel)]="model.URNAllotted" name="URNAllotted" >
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzMd="6" nzLg="6" *ngIf="model.BlackListedSP">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel">Black Listed SP</nz-form-label>
+                <nz-form-control>
+                  <nz-select type="text" [disabled]="true" [(ngModel)]="model.BlackListedSP" name="BlackListedSP">
+                    <nz-option nzCustomContent nzValue="Y" nzLabel="Y">Y</nz-option>
+                    <nz-option nzCustomContent nzValue="N" nzLabel="N">N</nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+           
+
+            <div nz-col nzMd="6" nzLg="6" *ngIf="model.BlackListedSP === 'Y'">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel"> Insurance Category</nz-form-label>
+                <nz-form-control>
+                  <nz-select type="text" [(ngModel)]="model.InsuranceCategory" [disabled]="true" maxlength="50" name="Insurance Category">
+                    <nz-option *ngFor="let item of InsuranceCategory" [nzLabel]="item.Description"
+                    [nzValue]="item.Code"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+          </div>
+          <div *ngIf="model.type == 'E'">
+            <h3> Employee Details</h3>
+            <div nz-row nzGutter="10" nzType="flex">
+              <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Location</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" maxlength="10" [(ngModel)]="model.Branch" name="Branch">
+                  </nz-form-control>
+                </nz-form-item>
+
+              </div>
+              <div nz-col nzMd="8" nzLg="8">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Department</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" maxlength="32" [(ngModel)]="model.Department" name="Department">
+                  </nz-form-control>
+                </nz-form-item>
+
+              </div>
+              <div nz-col nzMd="8" nzLg="8">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Designation</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" maxlength="64" [(ngModel)]="model.Designation" name="Designation">
+                  </nz-form-control>
+                </nz-form-item>
+
+              </div>
+              <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>PAN</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" maxlength="16" [(ngModel)]="model.PAN" name="PAN">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row nzGutter="10" nzType="flex">
+
+              <div nz-col nzMd="12" nzLg="12">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Email</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="Email" [(ngModel)]="model.Email" [textMask]="{mask:inputMasks.email}"
+                      pattern="{{inputPatterns.emailId}}" type="text" name="Email">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">DOB</nz-form-label>
+                  <nz-form-control>
+                    <nz-date-picker [nzFormat]="dateFormat" [disabled]="!modifyform" [nzDisabledTime]="true"
+                      [(ngModel)]="model.DOB" name="DOB">
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Date Of Joining</nz-form-label>
+                  <nz-form-control>
+                    <nz-date-picker [nzFormat]="dateFormat" [disabled]="!modifyform" [nzDisabledTime]="true"
+                      [(ngModel)]="model.DOJ" name="DOJ">
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Date Of Leaving</nz-form-label>
+                  <nz-form-control>
+                    <nz-date-picker [nzFormat]="dateFormat" [disabled]="!disableLeavingDate" [nzDisabledTime]="true"
+                      [nzDisabled]="!formHandler.config.isModifyState" [(ngModel)]="model.DOL" name="DOL">
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row nzGutter="10" nzType="flex">
+              <div nz-col nzMd="12" nzLg="12">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Official Address</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" maxlength="128" [(ngModel)]="model.OfficialAddress"
+                      name="OfficialAddress">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Telephone</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" [textMask]="{mask: inputMasks.decimal}" maxlength="10"
+                      [(ngModel)]="model.Telephone" name="Telephone">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="8" nzLg="8">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Monthly Remuneration Paid</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" [textMask]="{mask: inputMasks.decimal}" maxlength="20"
+                      [(ngModel)]="model.MRP" name="MRP">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row nzGutter="10" nzType="flex" class="borderTop">
+              <div nz-col nzMd="12">
+
+                <div class="upload-wrap">
+                  <nz-form-label class="boldinglabel" nzRequired>Photo</nz-form-label>
+                  <nz-form-control>
+
+                    <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/" [nzFileList]="fileListPhoto"
+                      [nzBeforeUpload]="beforeUploadPhoto">
+                      <button nz-button>
+
+                        <i nz-icon type="upload"></i><span class="boldinglabel">Select File</span>
+                      </button>
+                    </nz-upload>
+
+                    <!-- <nz-upload [(nzFileList)]="fileListPhoto" nzListType="picture" [nzBeforeUpload]="beforeUploadPhoto">
+                    <button nz-button>
+                      <i nz-icon type="upload"></i><span>Select Photo</span>
+                    </button>
+                  </nz-upload> -->
+                  </nz-form-control>
+                  <button nz-button nzType="primary"
+                    (click)="previewFile(model.photo,model.PhotoName,model.PhotoFileType)" *ngIf="model.photo"
+                    class="btn-preview">Preview</button>
+
+                </div>
+                <!-- <img *ngIf="model.photo" [src]="photoPreview" class="img-preview"> -->
+
+              </div>
+              <div nz-col nzMd="12">
+                <div class="upload-wrap">
+                  <nz-form-label class="boldinglabel" nzRequired>Certificate</nz-form-label>
+                  <nz-form-control>
+
+                    <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/" [nzFileList]="fileListSignature"
+                      [nzBeforeUpload]="beforeUploadSign">
+                      <button nz-button>
+
+                        <i nz-icon type="upload"></i><span class="boldinglabel">Select File</span>
+                      </button>
+                    </nz-upload>
+                    <!-- <nz-upload [(nzFileList)]="fileListSignature" nzListType="picture"
+                    [nzBeforeUpload]="beforeUploadSign">
+                    <button nz-button>
+                      <i nz-icon type="upload"></i><span>Select Certificate</span>
+                    </button>
+                  </nz-upload> -->
+                  </nz-form-control>
+                  <button nz-button nzType="primary" *ngIf="model.CertificateName"
+                    (click)="previewFile(model.sign,model.CertificateName,model.CertificateFileType)"
+                    class="btn-preview">Preview</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="model.type != 'E'">
+            <h3 class="shine"> Franchisee Details</h3>
+            <div nz-row nzGutter="10" nzType="flex">
+              <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Location</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" maxlength="10" [(ngModel)]="model.Branch" name="Branch">
+                  </nz-form-control>
+                </nz-form-item>
+
+              </div>
+              <div nz-col nzMd="8" nzLg="8">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Department</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" maxlength="32" [disabled]="true" [(ngModel)]="model.Department"
+                      name="Department">
+                  </nz-form-control>
+                </nz-form-item>
+
+              </div>
+              <div nz-col nzMd="8" nzLg="8">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Designation</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" maxlength="64" [disabled]="true" [(ngModel)]="model.Designation"
+                      name="Designation">
+                  </nz-form-control>
+                </nz-form-item>
+
+              </div>
+              <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">PAN</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" maxlength="16" [disabled]="true" [(ngModel)]="model.PAN" name="PAN">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row nzGutter="10" nzType="flex">
+
+              <div nz-col nzMd="12" nzLg="12">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Email</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="Email" [(ngModel)]="model.Email" [textMask]="{mask:inputMasks.email}"
+                      pattern="{{inputPatterns.emailId}}" type="text" name="Email">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="12" nzLg="12">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Official Address</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" maxlength="500" [(ngModel)]="model.OfficialAddress"
+                      name="OfficialAddress">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row nzGutter="10" nzType="flex">
+
+              <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Telephone</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" [textMask]="{mask: inputMasks.decimal}" maxlength="10"
+                      [(ngModel)]="model.Telephone" name="Telephone">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="8" nzLg="8">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Monthly Remuneration Paid</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input type="text" [disabled]="true" F [textMask]="{mask: inputMasks.decimal}"
+                      maxlength="20" [(ngModel)]="model.MRP" name="MRP">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="6" nzLg="6">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Branch Start Date</nz-form-label>
+                  <nz-form-control>
+                    <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [(ngModel)]="model.DOO" name="DOO">
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="6" nzLg="6">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Date Of Closing</nz-form-label>
+                  <nz-form-control>
+                    <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true"
+                      [nzDisabled]="!formHandler.config.isModifyState" [(ngModel)]="model.DOC" name="DOC">
+                    </nz-date-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row nzGutter="10" nzType="flex" class="borderTop">
+              <div nz-col nzMd="12">
+
+                <div class="upload-wrap">
+                  <nz-form-label class="boldinglabel" nzRequired>Photo</nz-form-label>
+                  <nz-form-control>
+                    <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/" [nzFileList]="fileListPhoto"
+                      [nzBeforeUpload]="beforeUploadPhoto">
+                      <button nz-button>
+                        <i nz-icon type="upload"></i><span>Select File</span>
+                      </button>
+                    </nz-upload>
+                    <!-- <nz-upload [(nzFileList)]="fileListPhoto" nzListType="picture" [nzBeforeUpload]="beforeUploadPhoto">
+                        <button nz-button>
+                          <i nz-icon type="upload"></i><span>Select Photo</span>
+                        </button>
+                      </nz-upload> -->
+                  </nz-form-control>
+                  <button nz-button nzType="primary" *ngIf="model.photo"
+                    (click)="previewFile(model.photo,model.PhotoName,model.PhotoFileType)"
+                    class="btn-preview">Preview</button>
+                </div>
+                <!-- <img *ngIf="model.photo" [src]="photoPreview" class="img-preview"> -->
+
+              </div>
+              <div nz-col nzMd="12">
+                <div class="upload-wrap">
+                  <nz-form-label class="boldinglabel" nzRequired>Certificate</nz-form-label>
+                  <nz-form-control>
+                    <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/" [nzFileList]="fileListSignature"
+                      [nzBeforeUpload]="beforeUploadSign">
+                      <button nz-button>
+                        <i nz-icon type="upload"></i><span>Select File</span>
+                      </button>
+                    </nz-upload>
+                    <!-- <nz-upload [(nzFileList)]="fileListSignature" nzListType="picture"
+                        [nzBeforeUpload]="beforeUploadSign">
+                        <button nz-button>
+                          <i nz-icon type="upload"></i><span>Select Certificate</span>
+                        </button>
+                      </nz-upload> -->
+                  </nz-form-control>
+                  <button nz-button nzType="primary" *ngIf="model.CertificateName"
+                    (click)="previewFile(model.sign,model.CertificateName,model.CertificateFileType)"
+                    class="btn-preview">Preview</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div nz-col nzMd="8" nzLg="8">
+          <h3 align="left"> Location Mapping</h3>
+          <div nz-row nzGutter="10" *ngIf="LocationEditButton" >
+            <div nz-col nzMd="20" nzLg="20">
+              <nz-form-item>
+                <nz-form-label class="boldinglabel">Location Code</nz-form-label>
+                <nz-form-control>
+                  <master-find-ctrl [options]="locationFindopt" [(ngModel)]="model.Location" name="Location">
+                  </master-find-ctrl>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+          <nz-form-label>&nbsp;</nz-form-label>
+            <button  class="myButton" nz-button nzType="primary" (click)="updateLocationData('Update')">ADD</button>
+
+          </div>
+
+
+          <nz-table #basicTable class="table-responsive table-themed" [nzData]="Addtogrid" *ngIf="Addtogrid"
+            nzSize="small" nzShowPagination="false" nzBodered="false">
+
+            <thead>
+              <tr>
+                <th>Location Code</th>
+                <th>Location Name</th>
+                <th  *ngIf="LocationEditButton"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of basicTable.data"  [ngClass]="{'highlight':data.Highlight === 'Yes'}"  >
+                <td >{{data.Location}}</td>
+                <td locationTbl>{{data.LocationName}} </td>
+                <td  align="center"  *ngIf="LocationEditButton">
+                <button nz-button nzType="default"    (click)="updateLocationData('Delete')"><i nz-icon type="delete" style="color:#DC3545;" theme="outline" title="Delete"></i> </button>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+          <p><i>* Highlighted row will be indicates the user's current location.</i></p>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <form-handler (onModify)="modify()" (onSave)="Save()" (onFind)="Search()" (onReset)="Reset()"></form-handler>
+</div>
+<app-file-preview [(isVisible)]="filePreiewVisible" [content]="filePreiewContent" [contentType]="filePreiewContentType"
+  [fileName]="filePreiewFilename"></app-file-preview>
+<app-loader *ngIf="isSpinning"></app-loader>

@@ -1,0 +1,120 @@
+<div class="main-content">
+  <form nz-form nzLayout="vertical" [formGroup]="validateForm">
+    <h3 class="content-title">Client Location Transfer Report </h3>
+    <div class="fltrcolor">
+      <div nz-row nzGutter="8">
+        <div nz-col nzMd="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">State</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="stateFindopt" formControlName="state" [(ngModel)]="model.state" name="state"  (ngModelChange)="onChangeSearch($event,'state')">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Region</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="RegionFindopt" formControlName="region" [(ngModel)]="model.region"  name="Region" (ngModelChange)="onChangeSearch($event,'region')" > </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Location</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="locationFindopt" formControlName="location" [(ngModel)]="model.location" 
+                name="location"> </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Client</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="clientFindopt" formControlName="client" [(ngModel)]="model.client"
+                name="client"> </master-find-ctrl>
+
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Transfer From Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.transferFromDate" [nzDisabledDate]="disableDate" 
+              formControlName="transferFromDate" name="transferFromDate"></nz-date-picker>
+              <!-- <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.transferFromDate" 
+                formControlName="transferFromDate" name="transferFromDate" [nzDisabledDate]="disableDate"></nz-date-picker> -->
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Transfer To Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.transferToDate" formControlName="transferToDate" 
+                name="transferToDate" ></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row nzGutter="8">
+        <div nz-col nzSm="24" nzMd="8" nzLg="8">
+        </div>
+        <div nz-col nzSm="9" nzMd="16" nzLg="16" style="text-align: right;">
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <button nz-button nzType="primary"  class="mr-2" (click)="view()"><i nz-icon
+                type="eye" theme="outline"></i>View</button>
+
+              <button nzType="primary" nz-button   class="mr-2" (click)="exportData()"
+                style="background-color:#FB6542"><i nz-icon type="file-excel" theme="outline"></i>Excel</button>
+
+                <button nz-button nzType="primary" style="float: right;" class="mr-2" (click)="reset()"  style="background-color:#FFA500"><i nz-icon
+                  type="rollback" theme="outline"></i>Reset</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row nzGutter="8">
+        <ng-container *ngIf="tableData.length>0">
+          <nz-table *ngIf="tableData.length>0" [nzSize]="'small'" #expandTable nzBordered [nzData]="tableData"
+            [nzScroll]="{ x: '1300px'}" class="tranTbl table-responsive table-themed" [nzPageSize]="12"
+            [nzShowPagination]="tableData.length>12">
+            <thead>
+              <tr style="font-size:10px;">
+                <th class="table-head" *ngFor="let header of tableDataHeader" class="text-left">
+                  {{header}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of expandTable.data">
+                <td
+                  [ngClass]="{'text-center':header == 'Photo' ||  header == 'Complaint Document','text-right': header == 'Sum Assured' || header == 'Premium Amount' ||  header == 'Mobile No' ||  header == 'Plan and Term'||  header == 'Policy Tenure'||  header == 'Premium Paying Term'||  header == 'Charges or Fees Received'||   header == 'Billing Frequency'||  header == 'Remuneration Paid' }"
+                  class="text-left" *ngFor="let header of tableDataHeader;">
+                  <span>
+                    <button style="padding: 2px 4px 5px 5px;
+                      cursor: pointer;"
+                      *ngIf="header == 'Photo'&& data[header]=='View' || header == 'Complaint Document'&& data[header]=='View'   "
+                      nz-button nzType="small" (click)="viewImage(data)"><i nz-icon type="eye"
+                        style="color: #395D99;font-size: 13px;" theme="outline"></i> <span
+                        style="font-weight: 800;">{{data[header]}}</span> </button>
+                  </span>
+                  <span *ngIf="data[header]!='View'">{{data[header]}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </ng-container>
+      </div>
+
+    </div>
+
+    <app-loader *ngIf="isSpinning"></app-loader>
+  </form>
+</div>

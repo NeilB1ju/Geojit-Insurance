@@ -1,0 +1,50 @@
+<!-- <lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog> -->
+
+<div class="main-content">
+  <form nz-form nzLayout="vertical">
+    <h3 class="content-title"> Client Location Transfer</h3>
+    <div nz-row nzGutter="10">
+      <div nz-col nzMd="7" nzLg="7">
+        <nz-form-item>
+          <nz-form-label class="boldinglabel" nzRequired>Client</nz-form-label>
+          <nz-form-control>
+            <!-- {{model.client|json}} -->
+            <master-find-ctrl [options]="clientFindopt" [(ngModel)]="model.client" name="client "   (ngModelChange)="onChangeclient($event)" >
+            </master-find-ctrl>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="7" nzLg="7">
+        <nz-form-item>
+          <nz-form-label class="boldinglabel" nzRequired>From Location</nz-form-label>
+          <nz-form-control >
+            <master-find-ctrl [options]="fromLocationFindopt" [(ngModel)]="model.fromLocation" [disabled]="isselectclient"
+              name="fromLocation" (ngModelChange)="test()">
+            </master-find-ctrl>
+          </nz-form-control>
+          <!-- {{model.fromLocation|json}} -->
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="7" nzLg="7">
+        <nz-form-item>
+          <nz-form-label class="boldinglabel" nzRequired>To Location</nz-form-label>
+          <nz-form-control>
+            <master-find-ctrl [options]="toLocationFindopt" [(ngModel)]="model.toLocation" name="toLocation">
+            </master-find-ctrl>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+     
+      <div nz-col nzMd="7" nzLg="7">
+          <nz-form-label class="boldinglabel" nzRequired>Reason</nz-form-label>
+      <textarea
+      nz-input
+      placeholder="Reason for changing location"
+      [(ngModel)]="model.Reason" name="reason"
+      ></textarea>
+    </div>
+      <nz-form-label>&nbsp;</nz-form-label>
+      <button nz-button nzType="primary" (click)="transferLocation()">Transfer</button>
+    </div>
+  </form>
+</div>

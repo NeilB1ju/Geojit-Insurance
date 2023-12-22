@@ -1,0 +1,329 @@
+<div style="margin: auto;text-align:center"><i nz-icon nzType="down" nzTheme="outline"  (click)="openDrawer()"></i></div>
+<div class="main-content">
+    <form nz-form nzLayout="vertical">
+        <div nz-row nzGutter="8">
+            <div nz-col nzMd="8" nzLg="8">
+                <h3 class="content-title">Income Report</h3>
+            </div>
+           
+                <div nz-col nzMd="8" nzLg="8" style="float: right;    padding-bottom: 2px;">
+                  <form-handler style="    margin-right: 20px;
+                  " (onPreview)="preview()" (onExportExcel)="showmodalexport()" ></form-handler>
+                </div>
+            
+           
+        </div>
+         
+         <div class="borderclass">
+         <div nz-row nzGutter="8">
+            <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>General</nz-form-label>
+                    <nz-form-control>
+                      <nz-select nzPlaceHolder="Select General category"  [(ngModel)]="general" name="general" (ngModelChange)="reset_tabledata()"
+                          nzDropdownMatchSelectWidth="true">
+                        <nz-option *ngFor="let item of generalFill" [nzLabel]="item.Description" [nzValue]="item.id">
+                      </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Life</nz-form-label>
+                    <nz-form-control>
+                      <nz-select nzPlaceHolder="Select Life category"  [(ngModel)]="life" name="life" (ngModelChange)="reset_tabledata()"
+                          nzDropdownMatchSelectWidth="true">
+                        <nz-option *ngFor="let item of lifeFill" [nzLabel]="item.Description" [nzValue]="item.id">
+                      </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col nzMd="3" nzLg="3">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">From Date</nz-form-label>
+                    <nz-form-control>
+                        <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [(ngModel)]="dateFrom"  name="dateFrom" (ngModelChange)="getDate()"></nz-date-picker>   
+                    </nz-form-control>
+                </nz-form-item>
+              </div> 
+              <div nz-col nzMd="3" nzLg="3">
+                  <nz-form-item>
+                    <nz-form-label class="boldinglabel">To Date</nz-form-label>
+                      <nz-form-control>
+                          <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [(ngModel)]="dateTo"  name="dateTo" (ngModelChange)="reset_tabledata()"></nz-date-picker>   
+                      </nz-form-control>
+                  </nz-form-item>
+                </div> 
+               
+                <div nz-col nzMd="3" nzLg="3">
+                    <nz-form-item>
+                      <nz-form-label class="boldinglabel">Sp Code</nz-form-label>
+                      <nz-form-control>
+                        <master-find-ctrl [options]="SpFindopt" [(ngModel)]="spCode" name="spCode" (ngModelChange)="reset_tabledata()">
+                        </master-find-ctrl>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div nz-col nzMd="7" nzLg="7">
+                      <nz-form-label class="boldinglabel">Policy Status</nz-form-label>
+                   <nz-select
+             
+                  name="multiselect"
+                  nzMode="multiple"
+                  nzPlaceHolder="Please select Policy Status"
+                  [(ngModel)]="policystatus" 
+                  (ngModelChange)="onchange()">
+                  <nz-option *ngFor="let option of policylist"  [nzLabel]="option.Description" [nzValue]="option.Code"></nz-option>
+                </nz-select>
+              </div>
+           </div>
+           <div nz-row nzGutter="8">
+              <div nz-col nzMd="4" nzLg="4">
+                  <nz-form-item>
+                    <nz-form-label class="boldinglabel">State</nz-form-label>
+                    <nz-form-control>
+                      <master-find-ctrl [options]="stateFindopt" [(ngModel)]="State" name="State" (ngModelChange)="sortstate($event)"></master-find-ctrl>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                  <div nz-col nzMd="4" nzLg="4">
+                      <nz-form-item>
+                        <nz-form-label class="boldinglabel">Region</nz-form-label>
+                        <nz-form-control>
+                          <master-find-ctrl [options]="RegionFindopt" [(ngModel)]="Region" name="Region" (ngModelChange)="onchange_reg($event)"></master-find-ctrl>
+                        </nz-form-control>
+                      </nz-form-item>
+                   </div>
+                    <div nz-col nzMd="4" nzLg="4">
+                      <nz-form-item>
+                        <nz-form-label class="boldinglabel">Location</nz-form-label>
+                        <nz-form-control>
+                          <master-find-ctrl [options]="locationFindopt" [(ngModel)]="Location" name="Location" (ngModelChange)="reset_tabledata()"> </master-find-ctrl>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                 
+                      <div nz-col nzMd="5" nzLg="5">
+                          <nz-form-item>
+                            <nz-form-label class="boldinglabel" nzRequired>Company</nz-form-label>
+                              <nz-form-control>
+                                <nz-select nzPlaceHolder="Select Company"  [(ngModel)]="company" name="company" (ngModelChange)="reset_tabledata()"
+                                    nzDropdownMatchSelectWidth="true" >
+                                  <nz-option *ngFor="let item of CompList" [nzLabel]="item.Description" [nzValue]="item.Code">
+                                </nz-option>
+                              </nz-select>
+                            </nz-form-control>
+                          </nz-form-item>
+                      </div>
+                      <div nz-col nzMd="3" nzLg="3">
+                          <nz-form-item>
+                            <nz-form-label class="boldinglabel">Employee Code</nz-form-label>
+                            <nz-form-control>
+                              <master-find-ctrl [options]="EmployeeFindopt" [(ngModel)]="Employee" name="Employee" (ngModelChange)="reset_tabledata()">
+                              </master-find-ctrl>
+                            </nz-form-control>
+                          </nz-form-item>
+                      </div>
+                      <div nz-col nzMd="4" nzLg="4">
+                          <nz-form-item>
+                            <nz-form-label class="boldinglabel">Business Done By</nz-form-label>
+                            <nz-form-control>
+                              <nz-select nzPlaceHolder="Select" name="Business Done By" [(ngModel)]="businessDone" (ngModelChange)="reset_tabledata()"
+                                nzDropdownMatchSelectWidth="true">
+                                <nz-option *ngFor="let item of businessArr" [nzLabel]="item.Description" [nzValue]="item.Code">
+                                </nz-option>
+                              </nz-select>
+                            </nz-form-control>
+                          </nz-form-item>
+                        </div>
+                  </div>
+              
+              
+        </div>
+    </form>
+    <br>
+    <app-loader *ngIf="isSpinning"></app-loader>
+   
+
+    <nz-table #expandTable  *ngIf="treeData.length" style="height: 330px" nzBordered="true"
+    class="tranTbl  table-themed" nzPageSize="15" [nzHideOnSinglePage]=true nzSize="small"
+    [nzData]="treeData">
+    <thead style="background-color: #f7f4f4 !important;">
+        <tr >
+            <th  nzLeft="0px" colspan="1" style="font-weight: bolder;position: sticky;top: 0;z-index: 700;background:#d2cece;"></th>
+            <th class="text-center" colspan="13" style="font-weight: bolder;position: sticky;top: 0;z-index: 500;background:#d2cece;">LIFE</th>
+            <th class="text-center" colspan="12" style="font-weight: bolder;position: sticky;top: 0;z-index: 500;background:#c1b8b6;">GENERAL</th>
+        </tr>
+        <tr >
+            <th  class="text-center" nzLeft="0px" colspan="1" style="position: sticky;top: 25px;z-index: 700;background:#d2cece;"></th>
+
+            <th  class="text-center" colspan="3" style="position: sticky;top: 25px;z-index: 500;background:#d2cece;color:black">New Business</th>
+            <th  class="text-center" colspan="3" style="position: sticky;top: 25px;z-index: 500;background:#d2cece;color: black;">First Year Collection</th>
+            <th  class="text-center" colspan="4" style="position: sticky;top: 25px;z-index: 500;background:#d2cece;color:black;">Renewal</th>
+            <th  class="text-center" colspan="3" style="position: sticky;top: 25px;z-index: 500;background:#d2cece;color:black;">Total</th>
+
+            <th  class="text-center" colspan="3" style="position: sticky;top: 25px;z-index: 500;background:#c1b8b6;color:black;">New Business</th>
+            <th   class="text-center" colspan="3" style="position: sticky;top: 25px;z-index: 500;background:#c1b8b6;color: black;">Renewal</th>
+            <th  class="text-center" colspan="3" style="position: sticky;top: 25px;z-index: 500;background:#c1b8b6;color:black;">Portability</th>
+            <th  class="text-center" colspan="3" style="position: sticky;top: 25px;z-index: 500;background:#c1b8b6;color:black;">Total</th>
+        </tr>
+        <tr >
+            <th class="text-center" nzLeft="0px" style="position: sticky;top: 49px;z-index: 700;background:#d2cece;color: #716c6c;"></th>
+
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c" >NOP</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c">Premium(&#8377;)</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c">Income(&#8377;)</th>
+          
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c">NOP</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c">Premium(&#8377;)</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c">Income(&#8377;)</th>
+
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c">NOP</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c">Premium(&#8377;)</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c">Income(&#8377;)</th>
+            <!-- <th class="position2" style="position: sticky;top: 49px;z-index: 500;background:#b6d7de;;color: #716c6c"> NOP*
+              <div class="tooltip"><span class="tooltiptext">also included in FYC</span></div></th> -->
+              <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c; cursor: pointer;">
+              <span title="also included in FYC"> NOP*</span></th>
+    
+
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c">NOP</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c">Premium(&#8377;)</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#d2cece;color: #716c6c">Income(&#8377;)</th>
+
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">NOP</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">Premium(&#8377;)</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">Income(&#8377;)</th>
+          
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">NOP</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">Premium(&#8377;)</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">Income(&#8377;)</th>
+
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">NOP</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">Premium(&#8377;)</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">Income(&#8377;)</th>
+            <!-- <th class="position2" style="color: #716c6c">NOP(also included in FYC)</th> -->
+
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">NOP</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">Premium(&#8377;)</th>
+            <th class="text-center" style="position: sticky;top: 49px;z-index: 500;background:#c1b8b6;color: #716c6c">Income(&#8377;)</th>
+        </tr>
+
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let data of expandTable.data">
+        <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+          <tr   *ngIf="item.parent && item.parent.expand || !item.parent" style="font-size: 10px;" [ngClass]="{'total': item.NAME == 'TOTAL'}">
+            <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+              (nzExpandChange)="collapse(mapOfExpandedData[data.key],item,$event)" style="position: sticky;font-weight: bold;" nzLeft="0px"
+              [ngClass]="{'total': item.NAME == 'TOTAL'}">{{item.NAME}} 
+            </td>
+            <td class="text-right" [ngClass]="{'nopclass': item.LNB_NOP > 0 && item.NAME != 'TOTAL'}" (click)="getnop(item,'Life','NB',item.LNB_NOP)" >{{item.LNB_NOP}}</td>
+            <td class="text-right" >{{item.LNB_PREMIUM|number}}</td>
+            <td class="text-right" >{{item.LNB_INCOME|number}}</td>
+
+            <td class="text-right" [ngClass]="{'nopclass': item.LFY_NOP > 0 && item.NAME != 'TOTAL'}" (click)="getnop(item,'Life','FYC',item.LFY_NOP)" >{{item.LFY_NOP}}</td>
+            <td class="text-right" >{{item.LFY_PREMIUM|number}}</td>
+            <td class="text-right" >{{item.LFY_INCOME|number}}</td>
+
+            <td class="text-right" [ngClass]="{'nopclass': item.LRB_NOP > 0 && item.NAME != 'TOTAL'}" (click)="getnop(item,'Life','RB',item.LRB_NOP)" >{{item.LRB_NOP}}</td>
+            <td class="text-right" >{{item.LRB_PREMIUM|number}}</td>
+            <td class="text-right" >{{item.LRB_INCOME|number}}</td>
+            <td class="text-right" style="cursor: pointer; " [ngClass]="{'nopclass': item.LRB_NOP_MIS > 0 && item.NAME != 'TOTAL'}" (click)="getnop(item,'Life','RBFYC',item.LRB_NOP_MIS)">
+              <span title="also included in FYC">{{item.LRB_NOP_MIS}}</span></td>
+
+            <td class="text-right" [ngClass]="{'nopclass': item.LTOT_NOP > 0 && item.NAME != 'TOTAL'}" (click)="getnop(item,'Life','TOT',item.LTOT_NOP)" >{{item.LTOT_NOP}}</td>
+            <td class="text-right" >{{item.LTOT_PREMIUM|number}}</td>
+            <td class="text-right" >{{item.LTOT_INCOME|number}}</td>
+
+
+
+            <td class="text-right" [ngClass]="{'nopclass': item.GNB_NOP > 0 && item.NAME != 'TOTAL'}" (click)="getnop(item,'General','NB',item.GNB_NOP)" >{{item.GNB_NOP}}</td>
+            <td class="text-right">{{item.GNB_PREMIUM|number}}</td>
+            <td class="text-right" >{{item.GNB_INCOME|number}}</td>
+
+            <td class="text-right" [ngClass]="{'nopclass': item.GRB_NOP > 0 && item.NAME != 'TOTAL'}" (click)="getnop(item,'General','RB',item.GRB_NOP)" >{{item.GRB_NOP}}</td>
+            <td class="text-right" >{{item.GRB_PREMIUM|number}}</td>
+            <td class="text-right" >{{item.GRB_INCOME|number}}</td>
+            <!-- <td class="text-right" [ngClass]="{'nopclass': item.GRB_NOP_MIS > 0}" (click)="getnop(item,'General/NBFYC',item.GRB_NOP_MIS)">{{item.GRB_NOP_MIS}}</td> -->
+            <td class="text-right" [ngClass]="{'nopclass': item.GPOR_NOP > 0 && item.NAME != 'TOTAL'}" (click)="getnop(item,'General','POR',item.GPOR_NOP)" >{{item.GPOR_NOP}}</td>
+            <td class="text-right" >{{item.GPOR_PREMIUM|number}}</td>
+            <td class="text-right" >{{item.GPOR_INCOME|number}}</td>
+            
+            <td class="text-right" [ngClass]="{'nopclass': item.GTOT_NOP > 0 && item.NAME != 'TOTAL'}" (click)="getnop(item,'General','TOT',item.GTOT_NOP)" >{{item.GTOT_NOP}}</td>
+            <td class="text-right" >{{item.GTOT_PREMIUM|number}}</td>
+            <td class="text-right" >{{item.GTOT_INCOME|number}}</td>
+
+          </tr>
+        </ng-container>
+      </ng-container>
+    </tbody>
+  </nz-table>
+
+
+  <nz-modal nzWidth="50%" [(nzVisible)]="isVisible" [nzTitle]="headerdata" (nzOnCancel)="handleCancel()" [nzOkText]="null" >
+
+      <nz-table  [nzScroll]="{ x: '300px' }" nzHeight="300px"  class="tranTbl table-responsive table-themed"  nzSize="small"
+      #riderTable [nzPageSize]="'20'" [hidden]="tabledata.length==0" [nzData]="tabledata" >
+      <thead >
+        <tr >
+          <th >
+            Company
+          </th>
+          <th >
+            Policy No
+          </th>
+          <th > Employee Code </th>
+          <th class="text-right">
+            Premium
+          </th>
+          <th class="text-right" >
+              Commission
+          </th>
+      
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of riderTable.data">
+        <td>{{data.Company}}</td>
+        <td  >{{data.policyNo}}</td>
+        <td  >{{data.EmployeeCode}}</td>
+        <td   class="text-right"  >{{data.premium|number}}</td>
+        <td  class="text-right" >{{data.commission|number}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    
+    </nz-modal>
+
+ <nz-modal nzWidth="20%" nzWrapClassName="vertical-center-modal" [(nzVisible)]="exportModal" nzTitle="Choose Export Type" [nzFooter]="modalFooter"
+ (nzOnCancel)="handleCancelExport()"  [nzOkText]="null" [nzCancelText]="null">
+  <div>
+    <tr *ngFor="let ept of exporttypeList let i=index;">
+        <td>
+            <nz-radio-group class="RType" [(ngModel)]="exportType" name="exportType{{i}}" >
+                <label style="font-weight: bold" nz-radio [nzValue]="ept.Description" *ngIf="ept.Description !='TreeView'">{{ept.Description}}</label>&nbsp;      
+           </nz-radio-group>
+        </td>
+    </tr>
+  </div>
+  <ng-template #modalFooter>
+      <button nz-button  nzType="primary" (click)="exportData(exportType)">Export</button>
+    
+  </ng-template>
+ </nz-modal>
+</div>
+<div>
+    <nz-drawer [nzClosable]="false"
+    [nzVisible]="visibleDrawer"
+    [nzPlacement]="drawerPlacement"
+    nzTitle="Instruction"
+    (nzOnClose)="closeDrawer()">
+    <ul *ngFor="let item of drawerContent">
+    <!-- <p class="DrawerContent">{{drawerContentTxt}}</p> -->
+    <li class="liClass">{{item.DrawerDescription}}</li>
+    </ul>
+    </nz-drawer>
+    </div>

@@ -1,0 +1,227 @@
+<div class="main-content">
+	<form nz-form nzLayout="vertical">
+		<h3 class="content-title">Client Merging</h3>
+		<div class="fltrcolor"> 
+			<div nz-row nzGutter="8">
+				<div nz-col nzMd="12" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "> <label nz-checkbox [(ngModel)]="CName" 
+								name="CName" (ngModelChange)="onchange()">Name</label></nz-form-label>
+						<nz-form-control>
+							<input  class="text" nz-input placeholder="Name" [disabled]="!CName" [(ngModel)]="model.Name" type="text" (ngModelChange)="onchange()"
+								name="Name">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+
+				<div nz-col nzMd="12" nzLg="8">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "><label nz-checkbox [(ngModel)]="CAddress" 
+								name="CAddress" (ngModelChange)="onchange()">Address</label>
+							</nz-form-label>
+						<nz-form-control>
+							<input class="text" nz-input placeholder="Address" [disabled]="!CAddress" [(ngModel)]="model.Address" (ngModelChange)="onchange()"
+								type="text" name="Address">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+				<div nz-col nzMd="12" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "><label nz-checkbox [(ngModel)]="CEmail" 
+								name="CEmail" (ngModelChange)="onchange()">Email</label></nz-form-label>
+						<nz-form-control>
+							<input  nz-input placeholder="Email" [disabled]="!CEmail" [(ngModel)]="model.Email" (ngModelChange)="onchange()"
+								type="text" name="Email">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+				<div nz-col nzMd="12" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "><label nz-checkbox [(ngModel)]="CMobileC" 
+								name="CMobile" (ngModelChange)="onchange()">Mobile No</label></nz-form-label>
+						<nz-form-control>
+							<input class="text" nz-input placeholder="Mobile" [disabled]="!CMobileC" [(ngModel)]="model.Mobile" (ngModelChange)="onchange()"
+								type="text" name="Mobile">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+				<div nz-col nzMd="12" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "><label nz-checkbox [(ngModel)]="CDPId" 
+								name="CDPId" (ngModelChange)="onchange()">DPID</label></nz-form-label>
+						<nz-form-control>
+							<input class="text" [disabled]="!CDPId" nz-input placeholder="DPID" [(ngModel)]="model.DPId" type="text" (ngModelChange)="onchange()"
+								name="DPID">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+			</div>
+			<div nz-row nzGutter="8">
+
+
+
+
+				<div nz-col nzMd="12" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "><label nz-checkbox [(ngModel)]="CPAN" name="CPAN" (ngModelChange)="onchange()">PAN 
+								No</label></nz-form-label>
+						<nz-form-control>
+							<input  class="text" nz-input placeholder="PAN" maxlength="10" [disabled]="!CPAN" [(ngModel)]="model.PAN" (ngModelChange)="onchange()"
+								type="text" name="PAN ">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+				<div nz-col nzMd="12" nzLg="6">
+					<nz-form-item>
+						<nz-form-label>&nbsp;</nz-form-label>
+						<nz-form-control>
+
+							<button nz-button nzType="primary" style="float: right;" class="mr-2" (click)="view()"><i
+								nz-icon type="eye" theme="outline"></i>View</button>
+							<button nz-button nzType="primary" style="float: right;" class="mr-2" (click)="Search()"><i nz-icon
+								type="search"	 theme="outline"></i>Find</button>
+								<button type="primary"   nz-button nzType="primary" (click)="reset()" class="mr-2" style="background-color: #FFA500;float: right;"><i nz-icon
+									type="rollback" theme="outline"></i> Reset</button>
+								
+					
+							</nz-form-control>
+						</nz-form-item>
+				</div>
+
+
+			</div>
+
+		</div>
+
+
+
+
+	</form>
+
+	<div *ngIf="tablelist.length">
+		<nz-table *ngIf="tablelist.length" #basicTable [nzData]="tablelist" nzHideOnSinglePage="true"
+			class="tranTbl table-responsive table-themed" [nzPageSize]="7">
+			<thead>
+				<tr>
+					<th>Client Name</th>
+					<th>Mobile</th>
+					<th>PAN Number</th>
+					<th>Email</th>
+					<th>Address</th>
+					<th>Application No /Policy No Count</th>
+					<th>DPID</th>
+					<th>Merg</th>
+					<th>
+						Master
+					</th>
+
+					<!-- <th>Select</th> -->
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let data of basicTable.data;let i = index">
+
+		
+					<td *ngIf="!model.Name" >{{data.ClientFirstName}}</td>
+					<td *ngIf="model.Name"  [innerHTML]="data.ClientFirstName | highlight :CName?model.Name:''"></td>
+
+					<td *ngIf="!model.Mobile" >{{data.MobileNo}}</td>
+					<td  *ngIf="model.Mobile" [innerHTML]="data.MobileNo | highlight:CMobileC?model.Mobile:''"></td>
+
+					<td *ngIf="!model.PAN" >{{data.PANNumber}}</td>
+					<td *ngIf="model.PAN" [innerHTML]="data.PANNumber | highlight:CPAN?model.PAN:''"></td>
+
+					
+					<td *ngIf="!model.Email"  >{{data.Email}}</td>
+					<td *ngIf="model.Email" [innerHTML]="data.Email | highlight:CEmail?model.Email:''"></td>
+
+					<td *ngIf="!model.Address" >{{data.Address}}</td>
+					<td *ngIf="model.Address" [innerHTML]="data.Address | highlight:CAddress?model.Address:''"></td>
+
+					
+					<td (click)="Getpolicyno(data)" style="color: orange;text-align: center;">{{data.count}}</td>
+
+					<td *ngIf="!model.DPId" > {{data.DPID}}</td>
+					<td *ngIf="model.DPId" [innerHTML]="data.DPID | highlight:CDPId?model.DPId:''"></td>
+					<td>
+						<label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="changechecked(i)"></label>
+					</td>
+					<td>
+					
+						<label *ngIf="data.checked" nz-checkbox [(ngModel)]="data.master" [name]="data.Counter" (ngModelChange)="MasterClientid(data,data.Counter)"></label>
+						
+					</td>
+				
+
+
+
+				</tr>
+			</tbody>
+			
+		</nz-table>
+		<div style="text-align: right;padding-top: 10px;">	
+			<button type="primary" nz-button nzType="primary" class="mr-2" (click)="Merge()" >
+			<i nz-icon type="save" theme="outline"></i>Merge
+			</button>
+		</div>
+	</div>
+
+
+</div>
+
+<lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog>
+<app-loader *ngIf="isSpinning"></app-loader>
+
+
+
+
+
+
+
+
+<nz-modal
+      [(nzVisible)]="isVisible"
+      [nzTitle]="modalTitle"
+      [nzContent]="modalContent"
+      [nzFooter]="modalFooter"
+      (nzOnCancel)="handleCancel()"
+    >
+      <ng-template #modalTitle>
+       Policy Details
+      </ng-template>
+
+      <ng-template #modalContent>
+		<div>
+			<div *ngIf="!policydata.length">
+				<span>No Data</span>
+			</div>
+			<div *ngIf="policydata.length">
+			<nz-table  class="tranTbl table-responsive table-themed"  nzSize="small"
+			#policytable [hidden]="policydata.length==0" [nzData]="policydata">
+			<thead >
+			  <tr >
+				<th *ngFor="let header of policyheader;let i = index"  >
+				  {{header}}
+				</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr *ngFor="let data of policytable.data" >
+				<td *ngFor="let header of policyheader"  >
+			   
+				  {{data[header]}}</td>
+			  </tr>
+			</tbody>
+		  </nz-table>
+		</div>
+		</div>
+      </ng-template>
+
+      <ng-template #modalFooter>
+      
+        
+      </ng-template>
+    </nz-modal>

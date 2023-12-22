@@ -1,0 +1,74 @@
+<div class="main-content">
+	<form nz-form nzLayout="vertical">
+		<h3 class="content-title">Commission Slab</h3>
+		<div nz-row nzGutter="4">
+
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="8" nzXl="5">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel">Insurance Company</nz-form-label>
+					<nz-form-control>
+						<nz-select [(ngModel)]="model.insCompany" nzPlaceHolder="Select Insurance Company" name="insurance company"
+							nzDropdownMatchSelectWidth="true">
+							<nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code">
+							</nz-option>
+						</nz-select>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="8" nzXl="5">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel">Product</nz-form-label>
+					<nz-form-control>
+						<master-find-ctrl [options]="productFindopt" [(ngModel)]="model.product" name="Product"></master-find-ctrl>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+
+			<div nz-col nzXs="24" nzSm="6" nzMd="4" nzLg="4" nzXl="3">
+				<nz-form-item>
+					<nz-form-label>&nbsp;</nz-form-label>
+					<nz-form-control>
+						<!-- <button nz-button nzType="primary" (click)="exportData()" [disabled]="isProcessing">
+	                	<i nz-icon type="download" theme="outline"></i>
+						<span [hidden]="isProcessing">Export</span>
+						<span [hidden]="!isProcessing"><i class="fa fa-spinner fa-spin"></i> Processing...</span>
+					</button> -->
+						<nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUploadFile" [nzLimit]="1" [nzRemove]="Clear"
+							style="width: 100% !important;">
+							<button nz-button style="width: 100% !important;">
+								<i nz-icon type="upload"></i>
+								<span class="boldinglabel">Select File</span>
+							</button>
+						</nz-upload>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="12" nzXl="10">
+				<nz-form-item>
+					<nz-form-label>&nbsp;</nz-form-label>
+					<nz-form-control>
+						<button nz-button nzType="primary" (click)="processUpload()" class="mr-1">
+							<i nz-icon type="upload" theme="outline"></i>
+							<!-- <span [hidden]="isProcessing">Upload</span>
+							<span [hidden]="!isProcessing"><i class="fa fa-spinner fa-spin"></i> Processing...</span> -->Upload
+						</button>
+						<button nz-button nzType="primary" (click)="exportData('D')" class="mr-1">
+							<i nz-icon type="file-excel" theme="outline"></i>
+							<!-- <span [hidden]="isProcessingDownload">Download</span>
+							<span [hidden]="!isProcessingDownload"><i class="fa fa-spinner fa-spin"></i>
+								Processing...</span> --> Download
+						</button>
+						<button nz-button nzType="primary" (click)="exportData('E')">
+							<i nz-icon type="file-excel" theme="outline"></i>
+							Export Format
+						</button>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+
+		</div>
+
+	</form>
+</div>

@@ -1,0 +1,79 @@
+<div>
+ 
+  <div>
+
+   
+
+        
+        <nz-table   class="tranTbl table-responsive table-themed" [nzData]="Commissiondata"  [nzPageSize]=10 #ridertable1  
+        [nzShowPagination]=true *ngIf="Commissiondata.length"  >
+          <thead >
+            <tr>
+                <th style="background-color: #e0ecf3;color: #540b15;">Client Name</th>
+                <th style="background-color: #e0ecf3;color: #540b15;">Product Name</th>
+              <th style="background-color: #e0ecf3;color: #540b15;">Policy No</th>
+              <!-- <th>Application No </th> -->
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">New Bussiness Premium (&#8377;)</th>
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">Renewal Bussiness Premium (&#8377;)</th>
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">New Bussiness Commission (&#8377;)</th>
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">Renewal Bussiness Commission (&#8377;)</th>
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">GST (&#8377;)</th>
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">Commission Recovery (&#8377;)</th>
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">Net Commission (&#8377;)</th>
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">Commission Payable (&#8377;)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="line-height: 5px;" *ngFor="let data of ridertable1.data">
+                <td>{{data.ClientName}}</td>
+                <td>{{data.ProductName}}</td>
+              <td>{{data.PolicyNumber}}</td>
+              <td class="text-right">{{data.Net_New_Business_Premium|number}} </td>
+              <td class="text-right">{{data.Net_Renewal_Premium|number}} </td>
+              <td class="text-right">{{data.New_Business_Commission|number}} </td>
+              <td class="text-right">{{data.Renewal_Commission|number}} </td>
+              <td class="text-right">{{data.GST|number}} </td>
+              <td class="text-right">{{data.CommissionRecovery|number}} </td>
+              <td class="text-right">{{data.NetCommission|number}} </td>
+              <td class="text-right">{{data.CommissionPayabletoFranchisee|number}} </td>
+            </tr>
+          </tbody>
+            <!-- <nz-pagination [nzPageIndex]="1" [nzTotal]="50"></nz-pagination> -->
+        </nz-table>
+
+        <nz-table [nzScroll]="{ x: '1000px' }"   class="tranTbl table-responsive table-themed" 
+        [nzPageSize]=10   #ridertable
+        [nzShowPagination]=true  *ngIf="policyreportdata.length" [nzData]="policyreportdata">
+          <thead >
+            <tr>
+              <th style="background-color: #e0ecf3;color: #540b15;">Customer Name</th>
+              <th style="background-color: #e0ecf3;color: #540b15;">Product Name</th>
+              <th style="background-color: #e0ecf3;color: #540b15;">Policy No</th>
+              <!-- <th>Application No </th> -->
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">Gross Premium (&#8377;)</th>
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">Net Premium (&#8377;)</th>
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">Collected Premium (&#8377;)</th>
+              <th class="text-right" style="background-color: #e0ecf3;color: #540b15;">Estimated Premium (&#8377;)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="line-height: 5px;" *ngFor="let data of ridertable.data">
+         
+              <td>{{data.CustomerName}}</td>
+              <td>{{data.ProductName}}</td>
+              <td>{{data.policyNumber}}</td>
+              <td class="text-right">{{data.GrossPremium|number}}</td>
+              <td class="text-right">{{data.NetPremium|number}}</td>
+              <td class="text-right">{{data.CollectedPremium|number}} </td>
+              <td class="text-right">{{data.EstdCommission|number}} </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      
+     
+           
+
+
+  </div>
+</div>
+<app-loader *ngIf="isSpinning"></app-loader>

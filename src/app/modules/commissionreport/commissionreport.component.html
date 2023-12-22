@@ -1,0 +1,274 @@
+<div class="main-content">
+  <form nz-form nzLayout="vertical">
+    <h3 class="content-title">Commission Received Report</h3>
+    <div class="fltrcolor">
+      <div nz-row nzGutter="8">
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">From Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.fromDate" name="Date" (ngModelChange)="reset_tabledata()"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">To Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.toDate" name="Date1" (ngModelChange)="reset_tabledata()"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Insure Type</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Insurance Company" name="type" [(ngModel)]="model.type"
+                nzDropdownMatchSelectWidth="true"  (ngModelChange)="getInsuranceCompany()">
+                <nz-option *ngFor="let item of type" [nzLabel]="item.Type"
+                [nzValue]="item.Id">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Insurance Company</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Insurance Company" name="insurance company"
+                [(ngModel)]="model.insurancecompany" nzDropdownMatchSelectWidth="true" (ngModelChange)="reset_tabledata()">
+                <nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+   
+        <!-- <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Category</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Insurance Company" name="category" [(ngModel)]="model.category"
+                nzDropdownMatchSelectWidth="true">
+                <nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+        <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Business Done By</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select" name="Business Done By" [(ngModel)]="model.businessDoneby"
+                nzDropdownMatchSelectWidth="true" (ngModelChange)="reset_tabledata()">
+                <nz-option *ngFor="let item of businessArr" [nzLabel]="item.Description" [nzValue]="item.Code">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">State</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="stateFindopt" [(ngModel)]="model.state"  name="State" (ngModelChange)="sortstate($event)"></master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Region</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="RegionFindopt" [(ngModel)]="model.Region" name="Region" (ngModelChange)="onchange_reg($event)"></master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Location</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="locationFindopt" [(ngModel)]="model.Location" name="Location" (ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row nzGutter="8">
+        <div nz-col nzMd="12" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Employee</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="EmployeeFindopt" [(ngModel)]="model.Employee" name="Employee" (ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="5">
+        <nz-form-item>
+          <nz-form-label class="boldinglabel">Product Category</nz-form-label>
+          <nz-form-control>
+            <!-- {{model.state|json}} -->
+            <master-find-ctrl [options]="productcategoryFindopt" [(ngModel)]="model.pdtCategory" name="pdtCategory"(ngModelChange)="getproduct()">
+            </master-find-ctrl>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+        <div nz-col nzMd="12" nzLg="5">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Product</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="ProductFindopt" [(ngModel)]="model.Product" name="Product">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Sp Code</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="SpFindopt" [(ngModel)]="model.sp" name="sp">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Policy No</nz-form-label>
+            <nz-form-control>
+              <input nz-input placeholder="Policy No"  
+                [(ngModel)]="model.Policy" type="text" name="Policy Name">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        
+        <div nz-col nzMd="6" nzLg="3" >
+
+          
+              <nz-form-item>
+                  <nz-form-label class="boldinglabel">Date Type</nz-form-label>
+                  <nz-form-control>
+                    <nz-select nzPlaceHolder="Select Insurance Company" name="type" [(ngModel)]="model.datetype"
+                      nzDropdownMatchSelectWidth="true">
+                      <nz-option *ngFor="let item of datetype" [nzLabel]="item.Description" [nzValue]="item.Code" (ngModelChange)="reset_tabledata()">
+                      </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="5" >
+
+            <nz-form-item>
+              <nz-form-label>Report Type:</nz-form-label>
+              <nz-form-control>
+                <nz-radio-group [(ngModel)]="model.sORd" (ngModelChange)="reset_tabledata()" name="sord">
+                  <label class="boldinglabel" nz-radio nzValue="S">Summary</label>
+                  <label class="boldinglabel" nz-radio nzValue="D">Detail</label>
+                </nz-radio-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+      </div>
+
+
+
+      <div nz-row nzGutter="10">
+
+        
+     
+
+        <!-- <div nz-col nzMd="12" nzLg="3">
+        <nz-form-item>
+          <nz-form-label class="boldinglabel">SP</nz-form-label>
+          <nz-form-control>
+            <master-find-ctrl [options]="RegionFindopt" [(ngModel)]="model.Region" name="Region"></master-find-ctrl>
+          </nz-form-control>
+        </nz-form-item>
+      </div> -->
+
+
+
+      </div>
+    </div>
+  </form>
+
+  <nz-table class="tranTbl table-responsive table-themed" #Summary [nzData]="data"
+  [nzShowPagination]="data.length>15" *ngIf="data.length" >
+  <thead>
+    <tr>
+      <th *ngFor="let header of policyrpt;let i = index">
+        {{header}}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of Summary.data" >
+      <td *ngFor="let header of policyrpt" 
+        >{{data[header]}}
+        <!-- (click)="createComponentModal(data,header)" -->
+      </td>
+    </tr>
+  </tbody>
+ 
+</nz-table >
+
+
+<!-- tree -->
+<nz-table [nzScroll]="{x: '2200px' }" #expandTable [nzScroll]="{ y: '440px' }" *ngIf="treeData.length"
+class="tranTbl table-responsive table-themed" nzPageSize="15" [nzHideOnSinglePage]=true nzSize="small"
+[nzData]="treeData">
+<thead>
+  <tr style="color: #710505d9 !important">
+    <th nzWidth="400px">Name</th>
+    <!-- <th class="text-center" nzWidth="10%" >No. Of Policies</th>
+    <th class="text-right" nzWidth="10%">Premium Collected(&#8377;)</th>
+    <th class="text-right" nzWidth="10%">Annualized Premium(&#8377;)</th>
+    <th class="text-right" nzWidth="10%">New_Business(&#8377;)</th>
+    <th class="text-right" nzWidth="10%">Renewal_Business(&#8377;)</th>
+    <th class="text-right" nzWidth="10%">Commission(&#8377;)</th> -->
+    <th class="text-center" nzWidth="100px" >NB Premium</th>
+    <th class="text-right" nzWidth="100px">NB Commission(&#8377;)</th>
+    <th class="text-right" nzWidth="100px">RB Premium(&#8377;)</th>
+    <th class="text-right" nzWidth="100px">RB Commission(&#8377;)</th>
+    <th class="text-right" nzWidth="100px">NB Commission Reversal(&#8377;)</th>
+    <th class="text-right" nzWidth="100px">RB Commission Reversal(&#8377;)</th>
+    <th class="text-right" nzWidth="100px">Cheque Bounce Charges(&#8377;)</th>
+    <th class="text-right" nzWidth="100px">GST(&#8377;)</th>
+    <th class="text-right" nzWidth="100px">Total Commission(&#8377;)</th>
+ 
+  </tr>
+</thead>
+<tbody>
+  <ng-container *ngFor="let data of expandTable.data">
+    <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+      <tr (click)="showModal(item)" *ngIf="item.parent && item.parent.expand || !item.parent">
+        <td  [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+          (nzExpandChange)="collapse(mapOfExpandedData[data.key],item,$event)"
+          [ngClass]="{'treeName' :setClickStyle(item)}" nzWidth="400px"  >{{item.NAME}}
+        </td>
+        <td class="text-center" nzWidth="100px" >{{item.NB_Premium}}</td>
+        <td class="text-right"  nzWidth="100px">{{item.NB_Commission|number}}</td>
+        <td class="text-right"  nzWidth="100px">{{item.RB_Premium|number}}</td>
+        <td class="text-right"  nzWidth="100px">{{item.RB_Commission|number}}</td>
+        <td class="text-right"  nzWidth="100px">{{item.NB_Commission_Reversal|number}}</td>
+        <td class="text-right"  nzWidth="100px">{{item.RB_Commission_Reversal|number}}</td>
+        <td class="text-center" nzWidth="100px" >{{item.Cheque_Bounce_Charges}}</td>
+        <td class="text-right"  nzWidth="100px">{{item.GST|number}}</td>
+        <td class="text-right"  nzWidth="100px">{{item.Total_Commission|number}}</td>
+
+      </tr>
+    </ng-container>
+  </ng-container>
+</tbody>
+</nz-table>
+
+
+
+</div>
+<form-handler (onPreview)="preview()" (onReset)="reset()" (onExportExcel)="exportData()"></form-handler>
+<app-loader *ngIf="isSpinning"></app-loader>

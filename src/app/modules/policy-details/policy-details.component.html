@@ -1,0 +1,279 @@
+<div>
+  <app-html-preview [content]="htmlData" #reportView></app-html-preview>
+  <div>
+
+    <nz-tabset>
+      <nz-tab [nzTitle]="customTitle" class="tabtitle">
+        <ng-template #customTitle>
+          <b>PAYMENT HISTORY</b>
+        </ng-template>
+        <nz-table #basicTable class="table-responsive table-themed" [nzData]="paymentHistory" nzSize="small"
+          nzShowPagination="false" nzBodered="false">
+
+          <thead>
+            <tr>
+              <th nzWidth="25%">Date of Payment</th>
+              <th class="text-right" nzWidth="25%"> Gross Premium(&#8377;)</th>
+              <!-- <th class="text-right" nzWidth="25%">GST(&#8377;)</th> -->
+              <th class="text-right" nzWidth="25%">Net Premium(&#8377;)</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td nzWidth="25%">{{data.PremiumDue_Date}}</td>
+              <td nzWidth="25%" class="text-right">{{data.Premium_Amount}}</td>
+              <!-- <td nzWidth="25%" class="text-right">{{data.GST }}</td> -->
+              <td nzWidth="25%" class="text-right">{{data.NetPremium }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <nz-table #basicTable1 class="table-responsive table-themed" [nzData]="paymentHistory2" nzSize="small"
+          nzShowPagination="false" nzBodered="false">
+
+          <!-- <thead>
+            <tr>
+              <th>Date of Payment</th>
+              <th class="text-right"> Gross Premium(Rs.)</th>
+              <th class="text-right">GST(Rs.)</th>
+              <th class="text-right">Net Premium(Rs.)</th>
+
+            </tr>
+          </thead> -->
+          <tbody>
+            <tr *ngFor="let data of basicTable1.data" class="color">
+              <td class="wiDth Borderd"><b>Total</b></td>
+              <td class="text-right wiDth Borderd">{{data.TotalPremium }}</td>
+              <!-- <td class="text-right wiDth Borderd">{{data.TotalGst }}</td> -->
+              <td class="text-right wiDth Borderd">{{data.TotalNetpremium }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-tab>
+      <!-- <nz-tab [nzTitle]="customTitle2" class="tabtitle">
+        <ng-template #customTitle2>
+          <b>DUE</b>
+        </ng-template>
+      </nz-tab> -->
+
+
+      <nz-tab [nzTitle]="rider" class="tabtitle">
+          <ng-template #rider>
+            <b>PREMIUM INFO</b>
+          </ng-template>
+
+
+          <nz-table [nzScroll]="{ x: '1000px' }" class="tranTbl table-responsive table-themed"  nzSize="small"
+          #riderTable [hidden]="riderdata.length==0" [nzData]="riderdata">
+          <thead >
+            <tr >
+              <th *ngFor="let header of riderheader;let i = index" [ngClass]="{'alignright': header=='CoverageSum','alignright1': header=='CoveragePremium','alignright2': header=='ECS_or_NonECS' }" >
+                {{header}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of riderTable.data" >
+              <td *ngFor="let header of riderheader" [ngClass]="{'alignright': header=='CoverageSum','alignright1': header=='CoveragePremium','alignright2': header=='ECS_or_NonECS' }" >
+             
+                {{data[header]}}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      
+        </nz-tab>
+      <nz-tab [nzTitle]="customTitle3">
+        <ng-template #customTitle3>
+          <b>OTHER INFO</b>
+        </ng-template>
+
+        <app-html-preview [content]="otherInfohtml" #reportView></app-html-preview>
+        <!-- <nz-card style="width:1232px;">
+          <div nz-row nzGutter="10">
+            <div nz-col nzMd="8" nzLg="8" class="borderCol">
+              <div nz-row>
+                <h3><i nz-icon type="profile" [theme]="'fill'" class="mr-1 profileIconBackgroundColor"></i> Profile
+                </h3>
+                <div nz-col nzLg="5">
+                  <b>Address 1</b>
+                </div>
+                <div nz-col nzLg="19">
+                  : {{otherInfo.AdwCustDAddress1}}
+                </div>
+
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+              <div nz-row>
+                <div nz-col nzLg="5">
+                  <b>Address 2</b>
+                </div>
+                <div nz-col nzLg="19">
+                  : {{otherInfo.AdwCustDAddress2}}
+                </div>
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+
+              <div nz-row>
+                <div nz-col nzLg="5">
+                  <b>City</b>
+                </div>
+                <div nz-col nzLg="19" style="width:200px">
+                  : {{otherInfo.AdwCustDResCity}}
+                </div>
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+              <div nz-row>
+                <div nz-col nzLg="5">
+                  <b>State</b>
+                </div>
+                <div nz-col nzLg="19">
+                  : {{otherInfo.AdwCustDResState}}
+                </div>
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+              <div nz-row>
+                <div nz-col nzLg="5">
+                  <b>Pin Code</b>
+                </div>
+                <div nz-col nzLg="19">
+                  : {{otherInfo.AdwCustDResPINCode}}
+                </div>
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+         
+            </div>
+            <div nz-col nzMd="8" nzLg="8" class="borderCol">
+
+              <div nz-row>
+                <h3><i nz-icon="" ng-reflect-ng-class="false"
+                    class="anticon anticon-user ng-star-inserted addressIcon mr-2" ng-reflect-type="user"></i> Employee
+                  Info
+                </h3>
+                <div nz-col nzLg="10">
+                  <b>Employee Name</b>
+                </div>
+                <div nz-col nzLg="14" style="width:200px">
+                  : {{otherInfo.Name}}
+                </div>
+                <div nz-col nzLg="13" style="width:200px">
+
+                </div>
+              </div>
+              <div nz-row>
+                <div nz-col nzLg="10">
+                  <b>Employee Location</b>
+                </div>
+                <div nz-col nzLg="14" style="width:200px">
+                  : {{otherInfo.Location}}
+                </div>
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+              <div nz-row>
+                <div nz-col nzLg="10">
+                  <b>Employee Code</b>
+                </div>
+                <div nz-col nzLg="14" style="width:200px">
+                  : {{otherInfo.Employeeid}}
+                </div>
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+
+              <div nz-row>
+                <div nz-col nzLg="10">
+                  <b>SP Code</b>
+                </div>
+                <div nz-col nzLg="14" style="width:200px">
+                  : {{otherInfo.SPCode}}
+                </div>
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+              <div nz-row>
+                <div nz-col nzLg="10">
+                  <b>SP Name</b>
+                </div>
+                <div nz-col nzLg="14" style="width:200px">
+                  : {{otherInfo.SPName}}
+                </div>
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+
+            </div>
+            <div nz-col nzMd="8" nzLg="8">
+
+              <div nz-row>
+                <h3><i nz-icon nzType="bank" nzTheme="fill"></i> Location
+                  Info
+                </h3>
+             
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+              <div nz-row>
+                <div nz-col nzLg="10">
+                  <b>Location Code</b>
+                </div>
+                <div nz-col nzLg="1" style="width:200px">
+                  : {{otherInfo.LocationCode}}
+                </div>
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+              <div nz-row>
+                <div nz-col nzLg="10">
+                  <b>State</b>
+                </div>
+                <div nz-col nzLg="1" style="width:200px">
+                  : {{otherInfo.StateName}}
+                </div>
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+
+              <div nz-row>
+                <div nz-col nzLg="10">
+                  <b>Region</b>
+                </div>
+                <div nz-col nzLg="1" style="width:200px">
+                  : {{otherInfo.REGIONName}}
+                </div>
+                <div nz-col nzLg="13">
+
+                </div>
+              </div>
+            
+
+
+            </div>
+          </div>
+
+
+
+        </nz-card> -->
+      </nz-tab>
+    </nz-tabset>
+
+
+  </div>
+</div>
+<app-loader *ngIf="isSpinning"></app-loader>

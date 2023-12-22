@@ -1,0 +1,196 @@
+<!-- <div class="main-content">
+  <form nz-form nzLayout="vertical">
+    <h3 class="content-title">Inward Report</h3>
+    <div class="fltrcolor">
+      <div nz-row nzGutter="8"> -->
+        <!-- <div nz-col nzMd="12" nzLg="3">
+            <nz-form-item>
+              <nz-form-label class="boldinglabel">Insurance Company</nz-form-label>
+              <nz-form-control>
+                <nz-select nzPlaceHolder="Select Insurance Company" name="insurance company"
+                  [(ngModel)]="model.insurancecompany" nzDropdownMatchSelectWidth="true">
+                  <nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code">
+                  </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div> -->
+        <!-- <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">From Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.fromDate" name="fromDate"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+        <!-- <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">To Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.toDate" name="toDate"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+        <!-- <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Insurance Company</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select" name="Business Done By" [(ngModel)]="model.businessDoneBy"
+                nzDropdownMatchSelectWidth="true">
+                <nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+
+        <!-- <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Business Done By</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select" name="Business Done By" [(ngModel)]="model.businessDoneBy"
+                nzDropdownMatchSelectWidth="true">
+                <nz-option *ngFor="let item of businessArr" [nzLabel]="item.Description" [nzValue]="item.Code">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">State</nz-form-label>
+            <nz-form-control> -->
+              <!-- {{model.state|json}} -->
+              <!-- <master-find-ctrl [options]="stateFindopt" [(ngModel)]="model.state" name="State"></master-find-ctrl>
+            </nz-form-control>
+
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Region</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="RegionFindopt" [(ngModel)]="model.region" name="Region"></master-find-ctrl>
+            </nz-form-control> -->
+            <!-- {{model.Region|json}} -->
+          <!-- </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Location</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="RegionFindopt" [(ngModel)]="model.location" name="location">
+              </master-find-ctrl>
+            </nz-form-control> -->
+            <!-- {{model.Region|json}} -->
+          <!-- </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row nzGutter="10">
+
+
+        <div nz-col nzMd="12" nzLg="6">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Employee</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="EmployeeFindopt" [(ngModel)]="model.employee" name="Employee">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+        <!-- <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Product</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="ProductFindopt" [(ngModel)]="model.product" name="Product">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+        <!-- <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Policy No</nz-form-label>
+            <nz-form-control>
+              <input nz-input placeholder="Policy No" [textMask]="{mask: inputMasks.decimal}" maxlength="12"
+                [(ngModel)]="model.policyNo" type="text" name="policyNo">
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+        <!-- <div nz-col nzMd="8" nzLg="6">
+
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group [(ngModel)]="model.sOrD" (ngModelChange)="reset()" name="sOrD">
+                <label class="boldinglabel" nz-radio nzValue="S">Summary</label>
+                <label class="boldinglabel" nz-radio nzValue="D">Detail</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div> -->
+      <!-- <div nz-row nzGutter="10">
+        <div nz-col nzMd="12" nzLg="6" *ngIf="model.businessDoneBy == 'B'">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Location</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="locationFindopt" [(ngModel)]="model.frlocation" name="frlocation">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+        <!-- <div nz-col nzMd="12" nzLg="6" *ngIf="model.businessDoneBy == 'F'">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Franchisee</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="franchiseeFindopt" [(ngModel)]="model.frlocation" name="frlocation">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="mt-2">
+      <nz-table class="tranTbl table-responsive table-themed" nzSize="small" nzPageSize="15" #zoneTable1
+        [hidden]="ZoneData1.length==0" [nzData]="ZoneData1">
+        <thead>
+          <tr>
+            <th *ngFor="let header of ZoneDataHeader1;let i = index">
+              {{header}}
+            </th>
+          </tr>
+        </thead>
+        <tbody> -->
+         -->
+          <!-- <ng-container *ngFor="let data of expandTable.data">
+            <ng-container *ngFor="let item of mapOfExpandedData[data.key]"> -->
+              <!-- <tr *ngFor="let data of zoneTable1.data">
+            <td *ngFor="let header of ZoneDataHeader1" style="cursor: pointer">{{data[header]}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <nz-table #expandTable [nzScroll]="{ y: '440px' }" [hidden]="treeData.length==0"
+        class="tranTbl table-responsive table-themed" nzShowPagination="false" nzSize="small" [nzData]="treeData">
+        <thead>
+          <tr style="color: #710505d9 !important">
+            <th nzWidth="10%">Name</th>
+            <th nzWidth="10%">Total Application No</th>
+          </tr>
+        </thead>
+        <tbody>  <tr (click)="showModal(item)" *ngIf="item.parent && item.parent.expand || !item.parent">
+                <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+                  (nzExpandChange)="collapse(mapOfExpandedData[data.key],item,$event)"
+                  [ngClass]="{'treeName' :setClickStyle(item)}">
+                  {{item.Name}}
+                </td>
+                <td>{{item.TotalApplicationNo}}</td>
+
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </nz-table>
+    </div>
+  </form>
+  <form-handler (onPreview)="preview()" (onReset)="reset()"></form-handler>

@@ -1,0 +1,59 @@
+ 
+    .borderColumn {
+      
+      border-right: 1px solid #cccccc
+      
+    }
+    .borderTop{
+      
+       border-top: 1px solid #cccccc;
+      //  margin-top :10px;
+   padding-bottom: 10px;
+   padding-top: 8px;
+    }
+    .borderTopBottom{
+      
+      border-top: 1px solid #cccccc;
+      border-bottom: 1px solid #cccccc;
+     //  margin-top :10px;
+  padding-bottom: 10px;
+  padding-top: 8px;
+   }
+    
+    .labelSpacing{
+      width:100px;
+      display: inline-block;
+    }
+    .img-preview {
+      max-width: 200px;
+      max-height: 200px;
+      padding-top: 10px
+    }
+    .btn-preview {
+      position: absolute;
+      top: 20px;
+      right: 0;
+    }
+    .upload-wrap {
+      position: relative;
+    }
+    .highlight{
+
+      background-color: yellow;
+
+    }
+
+    :host {
+      ::ng-deep {
+          .ant-upload-list {
+              display: inline-block;
+              .ant-upload-list-item {
+                margin-top: 0;
+                  .ant-upload-list-item-info {
+                      padding-right: 25px;
+                  }
+              }
+          }
+      }
+  }
+  

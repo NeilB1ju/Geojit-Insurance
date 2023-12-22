@@ -1,0 +1,272 @@
+<!-- <lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog> -->
+<div class="main-content">
+  <form nz-form nzLayout="vertical">
+
+    <h2 class="content-title">Customer Dashboard</h2>
+    <div nz-row nzGutter="8">
+      <div nz-col nzMd="7" nzLg="7">
+        <nz-form-item>
+
+          <nz-form-control>
+            <nz-select name="filter" (ngModelChange)="onChangeFilter($event)" [(ngModel)]="model.filter"
+              nzDropdownMatchSelectWidth="true">
+              <nz-option *ngFor="let item of filters" [nzLabel]="item.Description" [nzValue]="item.Code">
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+          <!-- {{model.filter|json}} -->
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="7" nzLg="7">
+        <nz-form-item>
+
+          <nz-form-control>
+            <!-- <input  type="text" maxlength="20" [(ngModel)]="model.filterValue" name="filterValue"> -->
+            <input nz-input placeholder=" " type="text" maxlength="70" [(ngModel)]="model.filterValue"
+              name="filterValue">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <button class="myButton mr-2" nz-button nzType="primary" (click)="View()">View</button>
+      <button class="myButton mr-2" nz-button nzType="primary" (click)=reset()>Reset</button>
+    </div>
+    <div nz-row nzGutter="8">
+
+      <div nz-col nzMd="7" nzLg="7">
+
+        <h3 class="elementstyle"><b class="labelSpacing">PAN</b>
+          : {{this.model.PAN}}</h3>
+      </div>
+      <div nz-col nzMd="8" nzLg="8">
+        <h3 class="elementstyle"><b class="labelSpacing">Customer
+            Name</b> : {{this.model.customerName}}</h3>
+      </div>
+    </div>
+
+    <div nz-row nzGutter="8">
+      <div nz-col nzMd="24" nzLg="24">
+
+        <nz-card class="content-title style1 cardStyle2" [nzTitle]="extraTemplate">
+          <ng-template #extraTemplate>
+            <h3 class="headerStyle"><i nz-icon type="profile" [theme]="'fill'"
+                class="mr-1 profileIconBackgroundColor"></i>
+              Profile</h3>
+          </ng-template>
+          <div nz-row nzGutter="8">
+            <div nz-col nzMd="8" nzLg="8">
+
+
+
+              <!-- <p style="font-size:14px;color:rgba(0, 0, 0, 0.85);margin-bottom:16px;font-weight: 500;"> -->
+              <!-- <p>
+                <!-- <i nz-icon="" ng-reflect-ng-class="false" class="anticon anticon-user ng-star-inserted addressIcon mr-2"
+                  ng-reflect-type="user"></i> -->
+              <!-- <b class="labelSpacing">Customer Name &nbsp;&nbsp;:</b> {{this.model.customerName}} -->
+              <!-- </p> -->
+              <p>
+                <!-- <i nz-icon type="phone" [theme]="'fill'" class="text-primary addressIcon mr-2"></i> -->
+                <b class="labelSpacing">Mobile Number &nbsp;&nbsp; :</b> {{this.model.mobileNo}}</p>
+              <p>
+                <!-- <i nz-icon type="mail" [theme]="'fill'" class="text-danger addressIcon mr-2"></i> -->
+                <b class="labelSpacing">Email
+                  Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</b> {{this.model.emailId}}</p>
+              <p>
+                <!-- <i nz-icon type="environment" [theme]="'fill'" class="text-success addressIcon mt-2 mr-2"></i> -->
+                <b class="labelSpacing">Contact Address &nbsp;&nbsp;:</b> {{this.model.address}}</p>
+              <!-- <p><b class="labelSpacing">Location</b> : {{this.model.location}}</p> -->
+            </div>
+            <div nz-col nzMd="8" nzLg="8" class="borderCol">
+              <p class="Columnstyle ">
+                <!-- <i nz-icon="" ng-reflect-ng-class="false" class="anticon anticon-user ng-star-inserted addressIcon mr-2"
+                      ng-reflect-type="user"></i> -->
+                <b class="labelSpacing">State &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>
+                {{this.model.state}}
+              </p>
+              <p class="Columnstyle">
+                <!-- <i nz-icon="" ng-reflect-ng-class="false" class="anticon anticon-user ng-star-inserted addressIcon mr-2"
+                        ng-reflect-type="user"></i> -->
+                <b class="labelSpacing">City &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>
+                {{this.model.city}}
+              </p>
+              <p class="Columnstyle">
+                <!-- <i nz-icon="" ng-reflect-ng-class="false" class="anticon anticon-user ng-star-inserted addressIcon mr-2"
+                          ng-reflect-type="user"></i> -->
+                <b class="labelSpacing">Pin Code &nbsp;&nbsp;:</b> {{this.model.pinCode}}
+              </p>
+            </div>
+            <div nz-col nzMd="8" nzLg="8" class="borderCol">
+              <p class="Columnstyle ">
+                <!-- <i nz-icon="" ng-reflect-ng-class="false" class="anticon anticon-user ng-star-inserted addressIcon mr-2"
+                        ng-reflect-type="user"></i> -->
+                <b class="labelSpacing">Trade Code &nbsp;&nbsp;:</b>
+                {{this.model.tradeCode}}
+              </p>
+              <p class="Columnstyle">
+                <!-- <i nz-icon="" ng-reflect-ng-class="false" class="anticon anticon-user ng-star-inserted addressIcon mr-2"
+                          ng-reflect-type="user"></i> -->
+                <b class="labelSpacing">DP ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>
+                {{this.model.dpID}}
+              </p>
+              <p class="Columnstyle">
+                <!-- <i nz-icon="" ng-reflect-ng-class="false" class="anticon anticon-user ng-star-inserted addressIcon mr-2"
+                            ng-reflect-type="user"></i> -->
+                <b class="labelSpacing">Client ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> {{this.model.clientId}}
+              </p>
+              <p class="Columnstyle">
+                <!-- <i nz-icon="" ng-reflect-ng-class="false" class="anticon anticon-user ng-star-inserted addressIcon mr-2"
+                              ng-reflect-type="user"></i> -->
+                <b class="labelSpacing">MFACC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> {{this.model.mfIssId}}
+              </p>
+            </div>
+
+          </div>
+        </nz-card>
+      </div>
+    </div>
+    <div nz-row nzGutter="8">
+      <div nz-col nzMd="24" nzLg="24">
+
+        <nz-card class="content-title style1 style2 cardStyle cardStyle2" [nzTitle]="extraTemplate1">
+          <ng-template #extraTemplate1>
+            <h3 class="headerStyle"><i nz-icon type="insurance" [theme]="'fill'"
+                class="mr-1 profileIconBackgroundColor"></i>
+              Policy Details</h3>
+          </ng-template>
+          <!-- {{policyData.length}} -->
+          <nz-table #basicTable1 class="table-responsive table-themed" [nzData]="policyData" nzSize="middle"
+            nzShowPagination="false" nzBodered="false">
+            <!-- [nzTemplateMode]="true" -->
+            <thead>
+              <tr>
+                <th>Branch</th>
+                <th>Policy Number</th>
+                <!-- <th>Policy Owner</th> -->
+                <th>Policy Company</th>
+                <th>First Issuance Date</th>
+                <th>Policy Status</th>
+                <th>Application Number</th>
+                <th>Product Code</th>
+                <th>Product Name</th>
+                <th>Employee Code</th>
+                <th>Employee Name</th>
+                <th> Employee Current Location</th>
+
+              </tr>
+            </thead>
+
+            <!-- Employee Code,Employee Name and Employee Current Location  -->
+            <tbody>
+              <tr *ngFor="let data of basicTable1.data">
+                <td>{{data.BranchName}}</td>
+                <td (click)="createComponentModal(data)" class="treeName">{{data.ContractNumber}} </td>
+                <!-- <td>{{data.AdwCustDFullName}} </td> -->
+                <td>{{data.Insurancecompany}} </td>
+                <td>{{data.FirstIssuanceDate}} </td>
+                <td>{{data.PolicyStatus}} </td>
+                <td>{{data.ApplicationNo}} </td>
+                <td>{{data.ProductCode}} </td>
+                <td>{{data.ProductNAme}} </td>
+                <td>{{data.EmpCode}} </td>
+                <td>{{data.EmpName}} </td>
+                <td>{{data.EmpLocation}} </td>
+
+              </tr>
+            </tbody>
+          </nz-table>
+          <!-- <p><b class="labelSpacing">Application Number</b> : {{this.model.applicationNo}}</p>
+          <p><b class="labelSpacing">Policy Number</b> : {{this.model.policyNo}}</p>
+          <p><b class="labelSpacing">Product Code</b> : {{this.model.productCode}}</p>
+          <p><b class="labelSpacing">Product Name</b> : {{this.model.productName}}</p>
+          <p><b class="labelSpacing">Login Date</b> : {{this.model.loginDate}}</p>
+          <p><b class="labelSpacing">Sum Assured</b> : {{this.model.sumAssured}}</p>
+          <p><b class="labelSpacing">Net Premium</b> : {{this.model.netPremium}}</p>
+          <p><b class="labelSpacing">Commission</b> : {{this.model.netCommission}}</p> -->
+        </nz-card>
+      </div>
+    </div>
+    <div nz-row nzGutter="8">
+      <div nz-col nzMd="24" nzLg="24">
+        <nz-card class="content-title style3 cardStyle cardStyle2" [hidden]="!inwardData.length"
+          [nzTitle]="extraTemplate2">
+          <ng-template #extraTemplate2>
+            <h3 class="headerStyle"><i nz-icon type="insurance" [theme]="'fill'"
+                class="mr-1 profileIconBackgroundColor"></i>
+              Pending Policies</h3>
+          </ng-template>
+          <nz-table #basicTable2 class="table-responsive table-themed" [nzData]="inwardData" nzSize="middle"
+            nzShowPagination="false" nzBodered="false">
+            <!-- [nzTemplateMode]="true" -->
+            <thead>
+              <tr>
+                <th>Application Number</th>
+                <th>Employee Code</th>
+                <!-- <th>Policy Owner</th> -->
+                <th>Product</th>
+                <!-- <th>First Issuance Date</th>
+              <th>Policy Status</th>
+              <th>Application Number</th>
+              <th>Product Code</th>
+              <th>Product Name</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of basicTable2.data">
+                <td>{{data.InwardApplicationNo}}</td>
+                <!-- <td>{{data.AdwCustDFullName}} </td> -->
+                <td>{{data.EmployeeID}} </td>
+                <td>{{data.InwardProductName}} </td>
+                <!-- <td>{{data.ProductCode}} </td>
+              <td>{{data.ProductNAme}} </td> -->
+
+              </tr>
+            </tbody>
+          </nz-table>
+        </nz-card>
+      </div>
+    </div>
+
+
+    <nz-modal nzWidth="800px" [(nzVisible)]="isVisible" nzTitle="Customers" [nzFooter]="modalFooter"
+      (nzOnCancel)="handleCancel()">
+      <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">Close</button>
+      </ng-template>
+      <nz-table #basicTable class="table-responsive table-themed" [nzData]="customer" nzSize="small"
+        nzShowPagination="false">
+        <thead>
+          <tr>
+            <th>Customer Name</th>
+            <th>PAN Number</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td (click)=viewCustomerData(data)>{{data.AdwCustDFullName}}</td>
+            <td (click)=viewCustomerData(data) class="treeName">{{data.PANNumber}} </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-modal>
+
+    <!-- <nz-modal nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Insurance Details {{branchcode}}" [nzOkText]="null"
+      (nzOnCancel)="handleCancel()">
+      <nz-table class="tranTbl table-responsive table-themed" #branchTable [nzData]="branchdetailData">
+        <thead>
+          <tr>
+            <th *ngFor="let header of branchdetailDataHeader;let i = index">
+              {{header}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr (click)="createComponentModal(data)" *ngFor="let data of branchTable.data">
+            <td *ngFor="let header of branchdetailDataHeader" [ngClass]="{'text-right':setStyles(header)}">
+              {{data[header]}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-modal>  -->
+  </form>
+</div>

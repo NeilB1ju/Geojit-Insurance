@@ -1,0 +1,709 @@
+<div style="margin: auto;text-align:center"><i nz-icon nzType="down" nzTheme="outline"  (click)="openDrawer()"></i></div>
+<div class="main-content">
+  <form nz-form nzLayout="vertical">
+  
+    <div nz-row nzGutter="8">
+      <div nz-col nzMd="8" nzLg="8">
+         <h3 class="content-title">Fresh Business Tracker</h3>
+      </div>
+         <div nz-col nzMd="8" nzLg="8" style="float: right;    padding-bottom: 2px;">
+          <form-handler style="    margin-right: 20px;
+          " (onPreview)="preview()" (onExportExcel)="exportData()" ></form-handler>
+        </div>
+     </div>
+     
+    <div class="fltrcolor1">
+      <div nz-row nzGutter="8">
+        <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Report Type</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Report Type" name="Report Type" [(ngModel)]="ReportType"
+              (ngModelChange)="reset()" nzDropdownMatchSelectWidth="true">
+                <nz-option *ngFor="let item of rpttype" [nzLabel]="item.Description" [nzValue]="item.Code"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+
+        </div>
+        <div nz-col nzMd="3" nzLg="3">
+
+
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+          <nz-radio-group [(ngModel)]="MorY" [nzButtonStyle]="'solid'"   (ngModelChange)="reset()" name="MorY">
+            <label style="font-size: 10px;" nz-radio-button nzValue="M">Monthly</label>
+            <label style="font-size: 10px;" nz-radio-button nzValue="Y">Yearly</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item> 
+
+          <!-- <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group [(ngModel)]="MorY"    (ngModelChange)="reset()" name="MorY">
+                <label class="boldinglabel" nz-radio nzValue="M">Monthly</label>
+                <label class="boldinglabel" nz-radio nzValue="Y">Yearly</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item> -->
+        </div>
+
+        <!-- <div nz-col nzMd="2" nzLg="2" *ngIf="MorY=='M'">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Year</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Year" name="Year" [(ngModel)]="year1" nzDropdownMatchSelectWidth="true"
+              (ngModelChange)="reset()">
+                <nz-option *ngFor="let item of year" [nzLabel]="item.Description" [nzValue]="item.Code" required="">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+        <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Financial Year</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Financial year " name=" Type" [(ngModel)]="Finyear"
+                (ngModelChange)="reset()" nzDropdownMatchSelectWidth="true">
+                <nz-option *ngFor="let item of Finyearlist" [nzLabel]="item.PERIODDESC" [nzValue]="item.PERIODID">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+
+        </div>
+        <div nz-col nzMd="2" nzLg="2" *ngIf="MorY=='M'">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Month</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Month" name="Month" [(ngModel)]="mnth1" nzDropdownMatchSelectWidth="true"
+              (ngModelChange)="reset()">
+                <nz-option *ngFor="let item of mnth" [nzLabel]="item.Description" [nzValue]="item.Code" required="">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- <div nz-col nzMd="3" nzLg="3" *ngIf="MorY=='Y'"> -->
+       
+
+    
+
+        <div nz-col nzMd="4" nzLg="4">
+
+
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+          <nz-radio-group [(ngModel)]="BorF" [nzButtonStyle]="'solid'"  (ngModelChange)="changeBorF()" name="BorF">
+            <label style="font-size: 10px;" nz-radio-button nzValue="A">All</label>
+            <label  style="font-size: 10px;" nz-radio-button nzValue="F">Franchise</label>
+            <label  style="font-size: 10px;" nz-radio-button nzValue="B">Branch</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item> 
+
+          <!-- <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group [(ngModel)]="BorF" (ngModelChange)="changeBorF()" name="BorF">
+                <label class="boldinglabel" nz-radio nzValue="B">Branch</label>
+                <label class="boldinglabel" nz-radio nzValue="F">Franchise</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item> -->
+        </div>
+
+        <div nz-col nzMd="6" nzLg="6">
+          <!-- <nz-form-item> -->
+          <!-- <nz-form-label class="boldinglabel" >Select</nz-form-label> -->
+          <!-- <nz-tree-select style="width:100%" [nzDefaultExpandedKeys]="expandKeys" [nzNodes]="treedata" nzShowSearch
+            nzPlaceHolder="Please select" [(ngModel)]="value"  >
+          </nz-tree-select> -->
+           <nz-form-item>
+          <nz-form-label class="boldinglabel" >Select Zone/State/Region/Branch/Employee</nz-form-label>
+          <nz-tree-select style="width:100%" [nzDefaultExpandedKeys]="expandKeys"  [nzNodes]="treeData1" nzShowSearch
+          
+            nzPlaceHolder="Please select" [(ngModel)]="value" (ngModelChange)="preview()" name="tree" >
+          </nz-tree-select>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="3" nzLg="3">
+
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+          <nz-radio-group [(ngModel)]="sORd" [nzButtonStyle]="'solid'"  (ngModelChange)="reset()" name="sORd">
+            <label style="font-size: 10px;" nz-radio-button nzValue="S">Summary</label>
+            <label  style="font-size: 10px;" nz-radio-button nzValue="D">Detail</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item> 
+<!-- 
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group [(ngModel)]="sORd" (ngModelChange)="reset()" name="sORd">
+                <label class="boldinglabel" nz-radio nzValue="S">Summary</label>
+                <label class="boldinglabel" nz-radio nzValue="D">Detail</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item> -->
+        </div> 
+      </div>
+
+
+    </div>
+  </form>
+
+  <div nz-row nzGutter="8" style="margin-top: 12px!important;">
+    <div nz-col nzMd="16" nzLg="16">
+      <label *ngIf="mnthdata.length>0 || yeardata.length>0" style="font-weight: bold;color: #ea4646;margin-left: 12px;">{{filterpath}}</label>
+    </div>
+    <!-- <div nz-col nzMd="8" nzLg="8">
+      <form-handler style="    margin-right: 10px;
+      " (onPreview)="preview()" (onExportExcel)="exportData()" ></form-handler>
+    </div> -->
+
+</div>
+  <nz-table *ngIf="mnthdata.length>0"    #basicTable [nzData]="mnthdata" nzBordered="true" nzHideOnSinglePage="true" class="tranTbl table-responsive table-themed tableheight"
+    nzFrontPagination="false">
+    <div style="background-color: white;"></div>
+    <thead>
+      <tr style="line-height: 0">
+        <th class="position0" nzLeft="0px" style="z-index: 1000;"  colspan="2"></th>
+        <th class="position0" colspan="2">1</th>
+        <th class="position0" colspan="2">2</th>
+        <th class="position0" colspan="2">3</th>
+        <th class="position0" colspan="2">4</th>
+        <th class="position0" colspan="2">5</th>
+        <th class="position0" colspan="2">6</th>
+        <th class="position0" colspan="2">7</th>
+        <th class="position0" colspan="2">8</th>
+        <th class="position0" colspan="2">9</th>
+        <th class="position0" colspan="2">10</th>
+        <th class="position0" colspan="2">11</th>
+        <th class="position0"  colspan="2">12</th>
+        <th class="position0" colspan="2">13</th>
+        <th class="position0" colspan="2">14</th>
+        <th class="position0" colspan="2">15</th>
+        <th class="position0" colspan="2">16</th>
+        <th class="position0" colspan="2">17</th>
+        <th class="position0" colspan="2">18</th>
+        <th class="position0" colspan="2">19</th>
+        <th class="position0" colspan="2">20</th>
+        <th class="position0" colspan="2">21</th>
+        <th class="position0" colspan="2">22</th>
+        <th class="position0" colspan="2">23</th>
+        <th class="position0" colspan="2">24</th>
+        <th class="position0" colspan="2">25</th>
+        <th class="position0" colspan="2">26</th>
+        <th class="position0" colspan="2">27</th>
+        <th class="position0" colspan="2">28</th>
+        <th class="position0" colspan="2">29</th>
+        <th class="position0" colspan="2">30</th>
+        <th class="position0" colspan="2">31</th>
+        <th class="position0" colspan="2"></th>
+      </tr>
+      <tr style="line-height: 0">
+        <th  class="position50"  nzLeft="0px" style="z-index: 1000;" > Company  Name </th>
+        <th  class="position50" nzLeft="121px" style="z-index: 1000;">Product Category</th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">NOP</th>
+        <th class="position50 text-right">Premium </th>
+        <th class="position50 text-right">TotalNOP</th>
+        <th class="position50 text-right">Total Premium </th>
+
+      </tr>
+    </thead>
+    <tbody >
+      <tr style="line-height: 0!important ;font-size: 9px; " *ngFor="let item of basicTable.data" [style.color]="item.trcolor" [style.font-weight]="item.bold" [style.background-color]="item.backgroundcolor"
+      [ngClass]="{'total': item.productcategory === 'TOTAL', 'Gtotal':item.CompanyCode === 'GRAND TOTAL','colorblue':item.CompanyCode ==='LI  -  GRAND TOTAL'||item.CompanyCode==='GI  -  GRAND TOTAL','colorred':item.CompanyCode ==='SUMMARY' }">
+        <td  nzLeft="0px" [title]="item.CompanyName">{{item.CompanyCode}}</td>
+        <!-- nzLeft="0px" -->
+        <td   nzLeft="121px" >{{item.productcategory}}</td>
+        <td class="text-right"  (click)="getnopmnth(item,1,item.NOP1)" [ngClass]="{'nopclass': item.NOP1 > 0}" >{{item.NOP1}}</td>
+        <td class="text-right">{{item.PREMIUM1}}</td>
+        <td class="text-right" (click)="getnopmnth(item,2,item.NOP2)" [ngClass]="{'nopclass': item.NOP2 > 0}">{{item.NOP2}}</td>
+          <td class="text-right">{{item.PREMIUM2}}</td>
+          <td class="text-right" (click)="getnopmnth(item,3,item.NOP3)" [ngClass]="{'nopclass': item.NOP3 > 0}"> {{item.NOP3}}</td>
+          <td class="text-right" >{{item.PREMIUM3}}</td>
+          <td class="text-right" (click)="getnopmnth(item,4,item.NOP4)" [ngClass]="{'nopclass': item.NOP4 > 0}">{{item.NOP4}}</td>
+          <td class="text-right">{{item.PREMIUM4}}</td>
+          <td class="text-right" (click)="getnopmnth(item,5,item.NOP5)"[ngClass]="{'nopclass': item.NOP5 > 0}"> {{item.NOP5}}</td>
+          <td class="text-right">{{item.PREMIUM5}}</td>
+          <td class="text-right" (click)="getnopmnth(item,6,item.NOP6)" [ngClass]="{'nopclass': item.NOP6 > 0}">{{item.NOP6}}</td>
+          <td class="text-right">{{item.PREMIUM6}}</td>
+          <td class="text-right" (click)="getnopmnth(item,7,item.NOP7)" [ngClass]="{'nopclass': item.NOP7 > 0}">{{item.NOP7}}</td>
+          <td class="text-right">{{item.PREMIUM7}}</td>
+          <td class="text-right" (click)="getnopmnth(item,8,item.NOP8)" [ngClass]="{'nopclass': item.NOP8 > 0}">{{item.NOP8}}</td>
+          <td class="text-right">{{item.PREMIUM8}}</td>
+          <td class="text-right" (click)="getnopmnth(item,9,item.NOP9)"[ngClass]="{'nopclass': item.NOP9 > 0}">{{item.NOP9}}</td>
+          <td class="text-right">{{item.PREMIUM8}}</td>
+          <td class="text-right" (click)="getnopmnth(item,10,item.NOP10)" [ngClass]="{'nopclass': item.NOP10 > 0}">{{item.NOP10}}</td>
+          <td class="text-right">{{item.PREMIUM10}}</td>
+          <td class="text-right" (click)="getnopmnth(item,11,item.NOP11)" [ngClass]="{'nopclass': item.NOP11 > 0}">{{item.NOP11}}</td>
+          <td class="text-right">{{item.PREMIUM11}}</td>
+          <td class="text-right" (click)="getnopmnth(item,12,item.NOP12)" [ngClass]="{'nopclass': item.NOP12 > 0}">{{item.NOP12}}</td>
+          <td class="text-right">{{item.PREMIUM12}}</td>
+          <td class="text-right" (click)="getnopmnth(item,13,item.NOP13)" [ngClass]="{'nopclass': item.NOP13 > 0}">{{item.NOP13}}</td>
+          <td class="text-right">{{item.PREMIUM13}}</td>
+          <td class="text-right" (click)="getnopmnth(item,14,item.NOP14)" [ngClass]="{'nopclass': item.NOP14 > 0}">{{item.NOP14}}</td>
+          <td class="text-right">{{item.PREMIUM14}}</td>
+          <td class="text-right" (click)="getnopmnth(item,15,item.NOP15)" [ngClass]="{'nopclass': item.NOP15 > 0}">{{item.NOP15}}</td>
+          <td class="text-right">{{item.PREMIUM15}}</td>
+          <td class="text-right" (click)="getnopmnth(item,16,item.NOP16)" [ngClass]="{'nopclass': item.NOP16 > 0}">{{item.NOP16}}</td>
+          <td class="text-right">{{item.PREMIUM16}}</td>
+          <td class="text-right" (click)="getnopmnth(item,17,item.NOP17)" [ngClass]="{'nopclass': item.NOP17 > 0}">{{item.NOP17}}</td>
+          <td class="text-right">{{item.PREMIUM17}}</td>
+          <td class="text-right" (click)="getnopmnth(item,18,item.NOP18)" [ngClass]="{'nopclass': item.NOP18 > 0}">{{item.NOP18}}</td>
+          <td class="text-right">{{item.PREMIUM18}}</td>
+          <td class="text-right" (click)="getnopmnth(item,19,item.NOP19)" [ngClass]="{'nopclass': item.NOP19 > 0}">{{item.NOP19}}</td>
+          <td class="text-right">{{item.PREMIUM19}}</td>
+          <td class="text-right" (click)="getnopmnth(item,20,item.NOP20)" [ngClass]="{'nopclass': item.NOP20 > 0}">{{item.NOP20}}</td>
+          <td class="text-right">{{item.PREMIUM20}}</td>
+          <td class="text-right" (click)="getnopmnth(item,21,item.NOP21)" [ngClass]="{'nopclass': item.NOP21 > 0}">{{item.NOP21}}</td>
+          <td class="text-right">{{item.PREMIUM21}}</td>
+          <td class="text-right" (click)="getnopmnth(item,22,item.NOP22)" [ngClass]="{'nopclass': item.NOP22 > 0}">{{item.NOP22}}</td>
+          <td class="text-right">{{item.PREMIUM22}}</td>
+          <td class="text-right" (click)="getnopmnth(item,23,item.NOP23)" [ngClass]="{'nopclass': item.NOP23 > 0}">{{item.NOP23}}</td>
+          <td class="text-right">{{item.PREMIUM23}}</td>
+          <td class="text-right" (click)="getnopmnth(item,24,item.NOP24)" [ngClass]="{'nopclass': item.NOP24 > 0}">{{item.NOP24}}</td>
+          <td class="text-right">{{item.PREMIUM24}}</td>
+          <td class="text-right" (click)="getnopmnth(item,25,item.NOP25)" [ngClass]="{'nopclass': item.NOP25 > 0}">{{item.NOP25}}</td>
+          <td class="text-right">{{item.PREMIUM25}}</td>
+          <td class="text-right" (click)="getnopmnth(item,26,item.NOP26)" [ngClass]="{'nopclass': item.NOP26 > 0}">{{item.NOP26}}</td>
+          <td class="text-right">{{item.PREMIUM26}}</td>
+          <td class="text-right" (click)="getnopmnth(item,27,item.NOP27)" [ngClass]="{'nopclass': item.NOP27 > 0}">{{item.NOP27}}</td>
+          <td class="text-right">{{item.PREMIUM27}}</td>
+          <td class="text-right" (click)="getnopmnth(item,28,item.NOP28)" [ngClass]="{'nopclass': item.NOP28 > 0}">{{item.NOP28}}</td>
+          <td class="text-right">{{item.PREMIUM28}}</td>
+          <td class="text-right" (click)="getnopmnth(item,29,item.NOP29)" [ngClass]="{'nopclass': item.NOP29 > 0}">{{item.NOP29}}</td>
+          <td class="text-right">{{item.PREMIUM29}}</td>
+          <td class="text-right" (click)="getnopmnth(item,30,item.NOP30)" [ngClass]="{'nopclass': item.NOP30 > 0}">{{item.NOP30}}</td>
+          <td class="text-right" >{{item.PREMIUM30}}</td>
+          <td class="text-right" (click)="getnopmnth(item,31,item.NOP31)" [ngClass]="{'nopclass': item.NOP31 > 0}">{{item.NOP31}}</td>
+          <td class="text-right">{{item.PREMIUM31}}</td> 
+          <td class="text-right total" style="font-weight: bold!important;">{{item.TotalNOP}}</td> 
+          <td class="text-right total" style="font-weight: bold!important;">{{item.TotalPremium}}</td> 
+      </tr>
+    </tbody>
+  </nz-table>
+  
+<nz-table *ngIf="yeardata.length>0 && IncomeFlag"  #basicTable1  [nzData]="yeardata" nzBordered="true" nzHideOnSinglePage="true" class="tranTbl table-responsive table-themed tableheight"
+  nzFrontPagination="false"  >
+  
+  <thead>
+    <tr style="line-height: 0">
+      <th class="position0" nzLeft="0px" colspan="2" style="z-index: 1000;"  ></th>
+      <th class="position0" colspan="3">April</th>
+      <th class="position0" colspan="3">May</th>
+      <th class="position0" colspan="3">June</th>
+      <th class="position0" colspan="3">July</th>
+      <th class="position0" colspan="3">August</th>
+      <th class="position0" colspan="3">September</th>
+      <th class="position0" colspan="3">October</th>
+      <th class="position0" colspan="3">November</th>
+      <th class="position0" colspan="3">December</th>
+      <th class="position0" colspan="3">January</th>
+      <th class="position0" colspan="3">February</th>
+      <th class="position0" colspan="3">March</th>
+      <th class="position0" colspan="2"></th>
+    </tr>
+    <tr style="line-height: 0">
+      <th class="position50" nzLeft="0px" nzWidth=280px style="z-index: 1000;">Company Name  </th>
+      <th class="position50" nzLeft="121px" style="z-index: 1000;" >Product Category</th>
+      <th class="position50 text-right" >NOP</th>
+      <th class="position50 text-right" >Premium </th>
+      <th class="position50 " >Income</th>
+      <th class="position50 text-right" >NOP</th>
+      <th class="position50 text-right">Premium </th>
+      <th class="position50 ">Income</th>
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+      <th class="position50">Income</th>
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+      <th class="position50">Income</th>
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+      <th class="position50">Income</th>
+      <th class="position50 text-right" >NOP</th>
+      <th class="position50 text-right">Premium </th>
+      <th class="position50">Income</th>
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+      <th class="position50">Income</th>
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+      <th class="position50">Income</th>
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+      <th class="position50">Income</th>
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+      <th class="position50">Income</th>
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+      <th class="position50">Income</th>
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+      <th class="position50">Income</th>
+      <th class="position50 text-right">TotalNOP</th>
+      <th class="position50 text-right">Total Premium </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="line-height: 0!important ;font-size: 9px;" *ngFor="let item of basicTable1.data" [style.color]="item.trcolor" [style.font-weight]="item.bold" [style.background-color]="item.backgroundcolor"
+    [ngClass]="{'total': item.productcategory === 'TOTAL', 'Gtotal':item.CompanyCode === 'GRAND TOTAL','colorblue':item.CompanyCode ==='LI  -  GRAND TOTAL'||item.CompanyCode==='GI  -  GRAND TOTAL','colorred':item.CompanyCode ==='SUMMARY' }">
+      <td  nzLeft="0px"  [title]="item.CompanyName" >{{item.CompanyCode}}</td>
+      <td  nzLeft="121px" >{{item.productcategory}}</td>
+
+      <td class="text-right" (click)="getnopmnth(item,'April',item.NOPApr)" [ngClass]="{'nopclass': item.NOPApr > 0}">{{item.NOPApr}}</td>
+        <td class="text-right">{{item.PREMIUMApr}}</td>
+        <td class="text-right">{{item.IncomeApr}}</td>
+
+        <td class="text-right" (click)="getnopmnth(item,'May',item.NOPMay)" [ngClass]="{'nopclass': item.NOPMay > 0}">{{item.NOPMay}}</td>
+        <td class="text-right">{{item.PREMIUMMay}}</td>
+        <td class="text-right">{{item.IncomeMay}}</td>
+
+        <td class="text-right" (click)="getnopmnth(item,'June',item.NOPJun)" [ngClass]="{'nopclass': item.NOPJun > 0}">{{item.NOPJun}}</td>
+        <td class="text-right">{{item.PREMIUMJun}}</td>
+        <td class="text-right">{{item.IncomeJun}}</td>
+
+        <td class="text-right" (click)="getnopmnth(item,'July',item.NOPJul)" [ngClass]="{'nopclass': item.NOPJul > 0}">{{item.NOPJul}}</td>
+        <td class="text-right">{{item.PREMIUMJul}}</td>
+        <td class="text-right">{{item.IncomeJul}}</td>
+
+        <td class="text-right" (click)="getnopmnth(item,'August',item.NOPAug)" [ngClass]="{'nopclass': item.NOPAug > 0}">{{item.NOPAug}}</td>
+        <td class="text-right">{{item.PREMIUMAug}}</td>
+        <td class="text-right">{{item.IncomeAug}}</td>
+
+        <td class="text-right" (click)="getnopmnth(item,'September',item.NOPMar)" [ngClass]="{'nopclass': item.NOPSep > 0}">{{item.NOPSep}}</td>
+        <td class="text-right">{{item.PREMIUMSep}}</td>
+        <td class="text-right">{{item.IncomeSep}}</td>
+
+        <td class="text-right" (click)="getnopmnth(item,'October',item.NOPOct)" [ngClass]="{'nopclass': item.NOPOct > 0}">{{item.NOPOct}}</td>
+        <td class="text-right">{{item.PREMIUMOct}}</td>
+        <td class="text-right">{{item.IncomeOct}}</td>
+
+        <td class="text-right" (click)="getnopmnth(item,'November',item.NOPNov)" [ngClass]="{'nopclass': item.NOPNov > 0}">{{item.NOPNov}}</td>
+        <td class="text-right">{{item.PREMIUMNov}}</td>
+        <td class="text-right">{{item.IncomeNov}}</td>
+
+        <td class="text-right" (click)="getnopmnth(item,'December',item.NOPDec)" [ngClass]="{'nopclass': item.NOPDec > 0}">{{item.NOPDec}}</td>
+        <td class="text-right">{{item.PREMIUMDec}}</td>
+        <td class="text-right">{{item.IncomeDec}}</td>
+
+        <td class="text-right" (click)="getnopmnth(item,'January',item.NOPJan)" [ngClass]="{'nopclass': item.NOPJan > 0}">{{item.NOPJan}}</td>
+        <td class="text-right">{{item.PREMIUMJan}}</td>
+        <td class="text-right">{{item.IncomeJan}}</td>
+
+        <td class="text-right" (click)="getnopmnth(item,'February',item.NOPFeb)" [ngClass]="{'nopclass': item.NOPFeb > 0}">{{item.NOPFeb}}</td>
+        <td class="text-right">{{item.PREMIUMFeb}}</td>
+        <td class="text-right">{{item.IncomeFeb}}</td>
+
+        <td class="text-right" (click)="getnopmnth(item,'March',item.NOPMar)" [ngClass]="{'nopclass': item.NOPMar > 0}">{{item.NOPMar}}</td>
+        <td class="text-right">{{item.PREMIUMMar}}</td>
+        <td class="text-right">{{item.IncomeMar}}</td>
+
+     
+        <td class="text-right total" style="font-weight: bold!important;">{{item.TotalNOP}}</td> 
+        <td class="text-right total" style="font-weight: bold!important;">{{item.TotalPremium}}</td> 
+    </tr>
+  </tbody>
+</nz-table>
+
+
+<!-- new table for not showing income -->
+
+<nz-table *ngIf="yeardata.length>0 && !IncomeFlag"  #basicTable1  [nzData]="yeardata" nzBordered="true" nzHideOnSinglePage="true" class="tranTbl table-responsive table-themed tableheight"
+  nzFrontPagination="false">
+  
+  <thead>
+    <tr style="line-height: 0">
+      <th class="position0" nzLeft="0px" colspan="2" style="z-index: 1000;"  ></th>
+      <th class="position0" colspan="2">April</th>
+      <th class="position0" colspan="2">May</th>
+      <th class="position0" colspan="2">June</th>
+      <th class="position0" colspan="2">July</th>
+      <th class="position0" colspan="2">August</th>
+      <th class="position0" colspan="2">September</th>
+      <th class="position0" colspan="2">October</th>
+      <th class="position0" colspan="2">November</th>
+      <th class="position0" colspan="2">December</th>
+      <th class="position0" colspan="2">January</th>
+      <th class="position0" colspan="2">February</th>
+      <th class="position0" colspan="2">March</th>
+      <th class="position0" colspan="2"></th>
+    </tr>
+    <tr style="line-height: 0">
+      <th class="position50" nzLeft="0px" nzWidth=280px style="z-index: 1000;">Company Name  </th>
+      <th class="position50" nzLeft="121px" style="z-index: 1000;" >Product Category</th>
+      <th class="position50 text-right" >NOP</th>
+      <th class="position50 text-right" >Premium </th>
+     
+      <th class="position50 text-right" >NOP</th>
+      <th class="position50 text-right">Premium </th>
+     
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+      
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+     
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+     
+      <th class="position50 text-right" >NOP</th>
+      <th class="position50 text-right">Premium </th>
+     
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+     
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+     
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+    
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+      
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+    
+      <th class="position50 text-right">NOP</th>
+      <th class="position50 text-right">Premium </th>
+     
+      <th class="position50 text-right">TotalNOP</th>
+      <th class="position50 text-right">Total Premium </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="line-height: 0!important ;font-size: 9px;" *ngFor="let item of basicTable1.data" [style.color]="item.trcolor" [style.font-weight]="item.bold" [style.background-color]="item.backgroundcolor"
+    [ngClass]="{'total': item.productcategory === 'TOTAL', 'Gtotal':item.CompanyCode === 'GRAND TOTAL','colorblue':item.CompanyCode ==='LI  -  GRAND TOTAL'||item.CompanyCode==='GI  -  GRAND TOTAL','colorred':item.CompanyCode ==='SUMMARY' }">
+      <td  nzLeft="0px"  [title]="item.CompanyName" >{{item.CompanyCode}}</td>
+      <td  nzLeft="121px" >{{item.productcategory}}</td>
+
+      <td class="text-right" (click)="getnopmnth(item,'April',item.NOPApr)" [ngClass]="{'nopclass': item.NOPApr > 0}">{{item.NOPApr}}</td>
+        <td class="text-right">{{item.PREMIUMApr}}</td>
+        
+        <td class="text-right" (click)="getnopmnth(item,'May',item.NOPMay)" [ngClass]="{'nopclass': item.NOPMay > 0}">{{item.NOPMay}}</td>
+        <td class="text-right">{{item.PREMIUMMay}}</td>
+       
+
+        <td class="text-right" (click)="getnopmnth(item,'June',item.NOPJun)" [ngClass]="{'nopclass': item.NOPJun > 0}">{{item.NOPJun}}</td>
+        <td class="text-right">{{item.PREMIUMJun}}</td>
+       
+
+        <td class="text-right" (click)="getnopmnth(item,'July',item.NOPJul)" [ngClass]="{'nopclass': item.NOPJul > 0}">{{item.NOPJul}}</td>
+        <td class="text-right">{{item.PREMIUMJul}}</td>
+        
+
+        <td class="text-right" (click)="getnopmnth(item,'August',item.NOPAug)" [ngClass]="{'nopclass': item.NOPAug > 0}">{{item.NOPAug}}</td>
+        <td class="text-right">{{item.PREMIUMAug}}</td>
+        
+
+        <td class="text-right" (click)="getnopmnth(item,'September',item.NOPMar)" [ngClass]="{'nopclass': item.NOPSep > 0}">{{item.NOPSep}}</td>
+        <td class="text-right">{{item.PREMIUMSep}}</td>
+       
+
+        <td class="text-right" (click)="getnopmnth(item,'October',item.NOPOct)" [ngClass]="{'nopclass': item.NOPOct > 0}">{{item.NOPOct}}</td>
+        <td class="text-right">{{item.PREMIUMOct}}</td>
+       
+
+        <td class="text-right" (click)="getnopmnth(item,'November',item.NOPNov)" [ngClass]="{'nopclass': item.NOPNov > 0}">{{item.NOPNov}}</td>
+        <td class="text-right">{{item.PREMIUMNov}}</td>
+        
+
+        <td class="text-right" (click)="getnopmnth(item,'December',item.NOPDec)" [ngClass]="{'nopclass': item.NOPDec > 0}">{{item.NOPDec}}</td>
+        <td class="text-right">{{item.PREMIUMDec}}</td>
+       
+
+        <td class="text-right" (click)="getnopmnth(item,'January',item.NOPJan)" [ngClass]="{'nopclass': item.NOPJan > 0}">{{item.NOPJan}}</td>
+        <td class="text-right">{{item.PREMIUMJan}}</td>
+       
+
+        <td class="text-right" (click)="getnopmnth(item,'February',item.NOPFeb)" [ngClass]="{'nopclass': item.NOPFeb > 0}">{{item.NOPFeb}}</td>
+        <td class="text-right">{{item.PREMIUMFeb}}</td>
+        
+
+        <td class="text-right" (click)="getnopmnth(item,'March',item.NOPMar)" [ngClass]="{'nopclass': item.NOPMar > 0}">{{item.NOPMar}}</td>
+        <td class="text-right">{{item.PREMIUMMar}}</td>
+        
+
+     
+        <td class="text-right total" style="font-weight: bold!important;">{{item.TotalNOP}}</td> 
+        <td class="text-right total" style="font-weight: bold!important;">{{item.TotalPremium}}</td> 
+    </tr>
+  </tbody>
+</nz-table>
+
+
+<!-- --------------------- -->
+</div>
+
+
+
+<nz-modal nzWidth="50%" [(nzVisible)]="isVisible" [nzTitle]="headerdata" (nzOnCancel)="handleCancel()" [nzOkText]="null" *ngIf="CommisionFlag">
+
+  <nz-table  [nzScroll]="{ x: '300px' }" nzHeight="300px"  class="tranTbl table-responsive table-themed"  nzSize="small"
+  #riderTable [nzPageSize]="'20'" [hidden]="tabledata.length==0" [nzData]="tabledata" >
+  <thead >
+    <tr >
+      <th >
+        Code
+      </th>
+      <th >
+        Location Name
+      </th>
+      <th class="text-right">
+        Policy Count
+      </th>
+      <th class="text-right" >
+        Premium Amount
+      </th>
+      <th class="text-right" >
+        Commission 
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of riderTable.data" [ngStyle]="{'font-weight':data.Code === 'All' ? 'bold' : '' }">
+    <td>{{data.Code}}</td>
+    <td  >{{data.LocationName}}</td>
+    <td   class="text-right"  >{{data. policyCount}}</td>
+    <td  class="text-right" >{{data. PremiumAmount}}</td>
+    <td   class="text-right"  >{{data. CommissionPaid}}</td>
+    </tr>
+  </tbody>
+</nz-table>
+
+</nz-modal>
+
+<app-loader *ngIf="isSpinning"></app-loader>
+
+<!-- Newly added code(for commission not showing) -->
+<nz-modal nzWidth="50%" [(nzVisible)]="isVisible" [nzTitle]="headerdata" (nzOnCancel)="handleCancel()" [nzOkText]="null" *ngIf="!CommisionFlag">
+<nz-table  [nzScroll]="{ x: '300px' }" nzHeight="300px"  class="tranTbl table-responsive table-themed"  nzSize="small"
+  #riderTable [nzPageSize]="'20'" [hidden]="tabledata.length==0" [nzData]="tabledata" >
+  <thead >
+    <tr >
+      <th >
+        Code
+      </th>
+      <th >
+        Location Name
+      </th>
+      <th class="text-right">
+        Policy Count
+      </th>
+      <th class="text-right" >
+        Premium Amount
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of riderTable.data" [ngStyle]="{'font-weight':data.Code === 'All' ? 'bold' : '' }">
+    <td>{{data.Code}}</td>
+    <td  >{{data.LocationName}}</td>
+    <td    class="text-right" >{{data. policyCount}}</td>
+    <td  class="text-right" >{{data. PremiumAmount}}</td>
+    </tr>
+  </tbody>
+</nz-table>
+</nz-modal>
+
+<div>
+  <nz-drawer [nzClosable]="false"
+  [nzVisible]="visibleDrawer"
+  [nzPlacement]="drawerPlacement"
+  nzTitle="Instruction"
+  (nzOnClose)="closeDrawer()">
+  <ul *ngFor="let item of drawerContent">
+  <!-- <p class="DrawerContent">{{drawerContentTxt}}</p> -->
+  <li class="liClass">{{item.DrawerDescription}}</li>
+  </ul>
+  </nz-drawer>
+  </div>
+
+
+<!-- <div disabled="true">
+ 
+<input nz-input placeholder="Basic usage" [(ngModel)]="value1"    />
+<input nz-input placeholder="Basic usage" [(ngModel)]="value2"   (keyup)="enter($event)" />
+<input nz-input placeholder="Basic usage"  [(ngModel)]="value3" (keyup)="enter($event)"  />
+<input nz-input placeholder="Basic usage"  [(ngModel)]="value4"  (keyup)="enter($event)" />
+<input nz-input placeholder="Basic usage" [(ngModel)]="value5"   (keyup)="enter($event)" />
+<input nz-input placeholder="Basic usage" [(ngModel)]="value6"   (keyup)="enter($event)" />
+<input nz-input placeholder="Basic usage"  [(ngModel)]="value7"  (keyup)="enter($event)" />
+
+
+<button type="button" id="check" (click)="test()">Click Me!</button>
+</div> -->
+
+

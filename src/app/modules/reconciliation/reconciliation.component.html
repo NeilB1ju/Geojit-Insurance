@@ -1,0 +1,83 @@
+<div class="main-content">
+	<form nz-form nzLayout="vertical" #reconProcForm="ngForm">
+		<h3 class="content-title">Reconciliation Process</h3>
+		<div nz-row nzGutter="8">
+			<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="5" nzXl="5">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel">Insurance Company</nz-form-label>
+					<nz-form-control>
+						<nz-select [(ngModel)]="model.insCompany" nzPlaceHolder="Select Insurance Company"
+							name="insurance company" nzDropdownMatchSelectWidth="true">
+							<nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description"
+								[nzValue]="item.Code">
+							</nz-option>
+						</nz-select>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+			<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="5" nzXl="4">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel">From Date</nz-form-label>
+					<nz-form-control>
+						<nz-date-picker [(ngModel)]="model.fromDate" name="fromDate" nzFormat="dd-MM-yyyy" required>
+						</nz-date-picker>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+			<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="5" nzXl="4">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel">To Date</nz-form-label>
+					<nz-form-control>
+						<nz-date-picker [(ngModel)]="model.toDate" name="toDate" nzFormat="dd-MM-yyyy" required>
+						</nz-date-picker>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+
+			<div nz-col nzSm="9" nzMd="9" nzLg="7">
+				<nz-form-item>
+					<nz-form-label>&nbsp;</nz-form-label>
+					<nz-form-control>
+						<button nz-button nzType="primary" class="mr-2" (click)="viewReconProcess()"><i nz-icon
+								type="eye" theme="outline"></i>View</button>
+						<button nz-button nzType="primary" (click)="processRecon(reconProcForm)"
+							[disabled]="reconProcessList.length == 0" class="mr-1"><i nz-icon nzType="sync"
+								nzTheme="outline"></i>Process</button>
+						<button nz-button nzType="primary" (click)="ClearData()"><i nz-icon type="rollback"
+								theme="outline"></i>Reset</button>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+		</div>
+		<div [hidden]="!reconProcessList.length">
+			<nz-table #basicTable [nzData]="reconProcessList" [hidden]="!reconProcessList.length"
+				nzHideOnSinglePage="true" class="reconTbl table-responsive table-themed" [nzPageSize]="18">
+				<thead>
+					<tr>
+						<th></th>
+						<th>ProcessId</th>
+						<th>ProcessName</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let data of basicTable.data;let i = index">
+						<td><label nz-checkbox [(ngModel)]="data.checked" name="data[{{i}}]"></label></td>
+						<td>{{data["ProcessId"]}}</td>
+						<td>{{data["ProcessName"]}}</td>
+						<td>
+							<div>
+								<span>
+									<nz-tag [nzColor]="'#2db7f5'" *ngIf="data.status == 'Processing'">Processing
+									</nz-tag>
+									<nz-tag [nzColor]="'#87d068'" *ngIf="data.status == 'Success'">Completed</nz-tag>
+									<nz-tag [nzColor]="'#f50'" *ngIf="data.status == 'Failed'">Failed</nz-tag>
+								</span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</nz-table>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,64 @@
+<div class="main-content">
+  <form nz-form nzLayout="vertical">
+    <h3 class="content-title">Franchise Commission Process</h3>
+    <div class="fltrcolor">
+      <div nz-row nzGutter="8">
+        <div nz-col nzMd="6" nzLg="2">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Year</nz-form-label>
+            <nz-form-control >
+              <nz-select nzPlaceHolder="Year" name="Year" 
+                [(ngModel)]="model.year" nzDropdownMatchSelectWidth="true" [disabled]="savebutton || processbutton ">
+                <nz-option *ngFor="let item of year" [nzLabel]="item.Description" [nzValue]="item.Code" required="">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="2">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Month</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Month" name="Month"
+                [(ngModel)]="model.month" nzDropdownMatchSelectWidth="true" [disabled]="savebutton || processbutton ">
+                <nz-option *ngFor="let item of mnth" [nzLabel]="item.Description" [nzValue]="item.Code" required="">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="5">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired>Insurance Company</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Insurance Company" name="insurance company"
+                [(ngModel)]="model.insurancecompany" nzDropdownMatchSelectWidth="true" [disabled]="savebutton || processbutton ">
+                <nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code" required="">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="5">
+        <nz-form-item>
+					<nz-form-label>&nbsp;</nz-form-label>
+					<nz-form-control>
+						<button [hidden]='processbutton' (click)="proessandsave('P')" nz-button nzType="primary" class="mr-2" ><i nz-icon nzType="sync"
+              nzTheme="outline"></i>Process</button>
+						<button [hidden]='!processbutton' nz-button nzType="primary" 
+							 class="mr-1"><i nz-icon [nzType]="'loading'"></i>Processing...</button>  
+            <button (click)="proessandsave('S')" [hidden]='savebutton' nz-button nzType="primary" ><i nz-icon type="save" theme="outline"></i>Save</button>
+            <button [hidden]='!savebutton' nz-button nzType="primary" ><i nz-icon [nzType]="'loading'"></i>Saving...</button>
+					</nz-form-control>
+        </nz-form-item>
+        </div>
+      </div>
+      
+    </div>
+  </form>
+
+  
+</div>
+
+
+<app-loader *ngIf="isSpinning"></app-loader>

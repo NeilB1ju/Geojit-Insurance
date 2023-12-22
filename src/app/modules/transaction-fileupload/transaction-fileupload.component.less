@@ -1,0 +1,41 @@
+.tranTbl {
+    tr {
+        &:hover>td {
+            /*background-color: #cac4c4 !important;*/
+        }
+        th {
+            /*background-color: #3e5d8a;*/
+            /*color: white;*/
+            padding: 0px;
+        }
+        td {
+            padding: 4px;
+            font-size: 13px;
+        }
+    }
+}
+
+.tranRow {
+    background-color: #adf0ff;
+}
+
+:host {
+    ::ng-deep {
+        .ant-upload-list {
+            display: inline-block;
+            .ant-upload-list-item {
+              margin-top: 0;
+                .ant-upload-list-item-info {
+                    padding-right: 25px;
+                }
+            }
+        }
+    }
+}
+.errMsg {
+  color: red;
+  margin-left: 10px;
+}
+.pointer {
+  cursor: pointer;
+}

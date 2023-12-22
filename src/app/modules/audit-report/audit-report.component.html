@@ -1,0 +1,99 @@
+<div style="    padding: 20px;">
+  <h4>Audit Report</h4>
+
+
+<form nz-form nzLayout="vertical">
+
+
+  <!-- Filter -->
+
+
+  <div nz-row nzGutter="10">
+    <div nz-col nzMd="4" nzLg="4" class>
+
+      <nz-form-item>
+        <nz-form-label>Master</nz-form-label>
+        <nz-form-control>
+          <nz-select>
+            <nz-option nzCustomContent nzValue="SpMaster" nzLabel="Sp Master">SpMaster</nz-option>
+            <nz-option  nzCustomContent nzValue="ProductMaster" nzLabel="Product Master">Product Master</nz-option>
+            <nz-option  nzCustomContent nzValue=" ClientMaster"nzLabel=" Client Master">Client Master</nz-option>
+
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+    </div>
+
+
+    <div nz-col nzMd="3" nzLg="3">
+      <nz-form-item>
+        <nz-form-label nzRequired>From Date</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker  [nzDisabledTime]="true">
+          </nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+    </div>
+    <div nz-col nzMd="3" nzLg="3">
+
+      <nz-form-item>
+        <nz-form-label nzRequired>To Date</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker [nzDisabledTime]="true">
+          </nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col ngMd="4" ngLg="4" class="mt-3">
+      <button nz-button nzType="primary" ><i nz-icon type="eye"
+          nzTheme="outline" ></i>Preview</button>
+      <button nz-button nzType="danger"><i nz-icon type="rollback"
+          nzTheme="outline" ></i>Reset</button>
+        
+    </div>
+
+
+  </div>
+
+</form>
+
+
+
+
+<nz-table [nzFrontPagination]="false" [nzShowPagination]="false"
+#rowSelectionTable nzSize="small"
+
+[nzData]="listOfAllData"
+
+>
+<thead>
+  <tr>
+    <th></th>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Address</th>
+  </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let data of rowSelectionTable.data">
+    <td nzShowCheckbox   [(nzChecked)]="data.checked"  (nzCheckedChange)="checkedCheckBox($event)"></td>
+    <td>{{ data.name }}</td>
+    <td>{{ data.age }}</td>
+    <td>{{ data.address }}</td>
+  </tr>
+</tbody>
+</nz-table>
+<button  nz-button nzType="primary" *ngIf="counter>1" style="float:right;margin:2px;width:100px;height:30px;" (click)="compare()">Compare</button>
+<nz-drawer
+[nzWidth]="400"
+[nzClosable]="true"
+[nzVisible]="visible"
+nzPlacement="right"
+nzTitle="Compare the Changes"
+(nzOnClose)="close()"
+>
+{{checkedData|json}}
+</nz-drawer>
+</div>

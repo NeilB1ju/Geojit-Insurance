@@ -1,0 +1,317 @@
+<div class="main-content">
+  <form nz-form nzLayout="vertical">
+    <h3 class="content-title">Policy Status Reports</h3>
+    <div class="fltrcolor">
+      <div nz-row nzGutter="8">
+
+        <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Report Type</nz-form-label>
+            <nz-form-control>
+              <nz-select  nzPlaceHolder="Select Report Type"  name="Report Type" [(ngModel)]="model.ReportType" (ngModelChange)="setviewtype()"
+                nzDropdownMatchSelectWidth="true">
+                <nz-option *ngFor="let item of rpttype" [nzLabel]="item.Description" [nzValue]="item.Code"></nz-option>
+              </nz-select>
+            </nz-form-control>
+            <!-- {{model.ReportType|json}} -->
+          </nz-form-item>
+        </div>
+        
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">From Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.fd" name="Date" (ngModelChange)="reset_tabledata()"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">To Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.td" name="Date1" (ngModelChange)="reset_tabledata()"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+ 
+        <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Insurance Company</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Insurance Company" name="insurance company"
+                [(ngModel)]="model.insurancecompany" nzDropdownMatchSelectWidth="true" (ngModelChange)="getcategory()">
+                <nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">State</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="stateFindopt" [(ngModel)]="model.state" name="State" (ngModelChange)="sortstate($event)"></master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Region</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="RegionFindopt" [(ngModel)]="model.Region" name="Region"  (ngModelChange)="onchange_reg($event)"></master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="12" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Location</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="locationFindopt" [(ngModel)]="model.Location" name="Location" (ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row nzGutter="10">
+
+        <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Employee</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="EmployeeFindopt" [(ngModel)]="model.Employee" name="Employee" (ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="6" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Product Category</nz-form-label>
+            <nz-form-control>
+              <!-- {{model.state|json}} -->
+              <master-find-ctrl [options]="productcategoryFindopt" [(ngModel)]="model.pdtCategory" name="pdtCategory" (ngModelChange)="getproduct()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="12" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Product</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="ProductFindopt" [(ngModel)]="model.Product" name="Product" (ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- <div nz-col nzMd="6" nzLg="3"> -->
+          <!-- <nz-form-item>
+            <nz-form-label class="boldinglabel">Category</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="stateFindopt" [(ngModel)]="model.category" name="category">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item> -->
+        <!-- </div> -->
+
+
+          
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">SP Code</nz-form-label>
+            <nz-form-control>
+              <!-- {{model.state|json}} -->
+              <master-find-ctrl [options]="SPFindopt" [(ngModel)]="model.spCode" name="spCode" (ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      
+        <div nz-col nzMd="8" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Policy No</nz-form-label>
+            <nz-form-control>
+              <input nz-input placeholder="Policy No" 
+                [(ngModel)]="model.Policy" type="text" name="Policy Name">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="4">
+
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control *ngIf="Viewtype" >
+              <nz-radio-group [(ngModel)]="model.sORd"  name="sord" (ngModelChange)="reset_tabledata()" >
+                <label class="boldinglabel" nz-radio nzValue="S">Summary</label>
+                <label class="boldinglabel" nz-radio nzValue="D">Detail</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="4">
+         
+                <nz-form-control>
+                    <label class="boldinglabel"  nz-checkbox [(ngModel)]="checked" name="checked" style="margin-top:20px">Include renewed Policies</label>               
+                 
+                </nz-form-control>
+            
+        </div>
+      </div>
+    </div>
+    <div class="mt-2">
+
+      <!-- <nz-table #basicTable class="table-responsive table-themed" nzPageSize="15" [hidden]="!policyrpt.length"
+        [nzData]="policyrpt" *ngIf="policyrpt" nzSize="small" nzBodered="false">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>Policy Number</th>
+            <th>Policy Owner</th>
+            <th>Product Name</th>
+            <th class="text-right">Premium Paid</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td>{{data.Branch}}</td>
+            <td (click)="createComponentModal(data)" class="treeName">{{data.PolicyNumber}}</td>
+            <td>{{data.PolicyOwner}}</td>
+            <td>{{data.ProductCode}}</td>
+            <td class="text-right">{{data.PremiumPaid }}</td>
+          </tr>
+        </tbody>
+      </nz-table> -->
+      <nz-table class="tranTbl table-responsive table-themed" #Summary [nzData]="data"
+      [nzShowPagination]="data.length>10" *ngIf="data.length" >
+      <thead>
+        <tr>
+          <th *ngFor="let header of policyrpt;let i = index">
+            {{header}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  *ngFor="let data of Summary.data" >
+          <td *ngFor="let header of policyrpt" (click)="createComponentModal(data,header)"
+            >{{data[header]}}
+            
+          </td>
+        </tr>
+      </tbody>
+     
+    </nz-table >
+
+
+<nz-table [nzScroll]="{x: '220px' }" #expandTable [nzScroll]="{ y: '440px' }" *ngIf="treeData.length && model.ReportType == 'PL'"
+class="tranTbl table-responsive table-themed" nzPageSize="15" [nzHideOnSinglePage]=true nzSize="small"
+[nzData]="treeData">
+<thead>
+  <tr style="color: #710505d9 !important">
+    <th nzWidth="40%">Name</th>
+    <th class="text-center" nzWidth="70px" >No. Of Policies</th>
+    <th class="text-right" nzWidth="70px">Gross Premium(&#8377;)</th>
+    <th class="text-right" nzWidth="70px">Net Premium(&#8377;)</th>
+    <th class="text-right" nzWidth="70px">Approximate Premium Outstanding <br>Since Policy(&#8377;)</th>
+    <th class="text-right" nzWidth="70px">Estd. Commn. on Premium Outstanding <br>Since Policy Lapsed(&#8377;)</th>
+    <!-- <th class="text-right" nzWidth="70px">Commission(&#8377;)</th> -->
+
+  </tr>
+</thead>
+<tbody>
+  <ng-container *ngFor="let data of expandTable.data">
+    <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+      <tr (click)="showPolicyDashboard(item)" *ngIf="item.parent && item.parent.expand || !item.parent">
+        <td  [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+         
+          [ngClass]="{'treeName' :setClickStyle(item)}" nzWidth="40%"  >{{item.Name}}
+        </td>
+        <td class="text-center"  >{{item.No_Of_Policies}}</td>
+        <td class="text-right" >{{item.GrossPremium|number}}</td>
+        <td class="text-right" >{{item.NetPremium|number}}</td>
+        <td class="text-right"  >{{item.ApproximatePremium|number}}</td>
+        <td class="text-right"  >{{item.EstimatedCommission|number}}</td>
+
+      </tr>
+    </ng-container>
+  </ng-container>
+</tbody>
+</nz-table>
+
+ <nz-table [nzScroll]="{x: '220px' }" #expandTable [nzScroll]="{ y: '440px' }" *ngIf="treeData.length && model.ReportType == 'PP'"
+class="tranTbl table-responsive table-themed" nzPageSize="15" [nzHideOnSinglePage]=true nzSize="small"
+[nzData]="treeData">
+<thead>
+  <tr style="color: #710505d9 !important">
+    <th nzWidth="40%">Name</th>
+    <th class="text-center" nzWidth="70px" >No. Of Policies</th>
+    <th class="text-right" nzWidth="70px">Gross Premium(&#8377;)</th>
+    <th class="text-right" nzWidth="70px">Net Premium(&#8377;)</th>
+    <th class="text-right" nzWidth="70px">Collected Premium(&#8377;)</th>
+    <th class="text-right" nzWidth="70px">Estimated Commission (&#8377;)</th>
+    <!-- <th class="text-right" nzWidth="70px">Commission(&#8377;)</th> -->
+
+  </tr>
+</thead>
+<tbody>
+  <ng-container *ngFor="let data of expandTable.data">
+    <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+      <tr (click)="showPolicyDashboard(item)" *ngIf="item.parent && item.parent.expand || !item.parent">
+        <td  [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+         
+          [ngClass]="{'treeName' :setClickStyle(item)}" nzWidth="40%"  >{{item.Name}}
+        </td>
+        <td class="text-center"  nzWidth="70px" >{{item.No_Of_Policies}}</td>
+        <td class="text-right"  nzWidth="70px">{{item.GrossPremium|number}}</td>
+        <td class="text-right" nzWidth="70px" >{{item.NetPremium|number}}</td>
+        <td class="text-right" nzWidth="70px">{{item.CollectedPremium|number}}</td>
+        <td class="text-right"  nzWidth="70px">{{item.EstimatedCommission|number}}</td>
+        <!-- <td class="text-right"  nzWidth="70px">{{item.Commission|number}}</td> -->
+
+      </tr>
+    </ng-container>
+  </ng-container>
+</tbody>
+</nz-table>
+
+
+<nz-table [nzScroll]="{x: '220px' }" #expandTable [nzScroll]="{ y: '440px' }" *ngIf="treeData.length && model.ReportType == 'PD'"
+class="tranTbl table-responsive table-themed" nzPageSize="15" [nzHideOnSinglePage]=true nzSize="small"
+[nzData]="treeData">
+<thead>
+  <tr style="color: #710505d9 !important">
+    <th nzWidth="40%">Name</th>
+    <th class="text-center" nzWidth="70px" >No. Of Policies</th>
+    <th class="text-right" nzWidth="70px">Gross Premium(&#8377;)</th>
+    <th class="text-right" nzWidth="70px">Net Premium(&#8377;)</th>
+   
+    <th class="text-right" nzWidth="70px">Estimated Commission (&#8377;)</th>
+    <!-- <th class="text-right" nzWidth="70px">Commission(&#8377;)</th> -->
+
+  </tr>
+</thead>
+<tbody>
+  <ng-container *ngFor="let data of expandTable.data">
+    <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+      <tr (click)="showPolicyDashboard(item)" *ngIf="item.parent && item.parent.expand || !item.parent">
+        <td  [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+         
+          [ngClass]="{'treeName' :setClickStyle(item)}" nzWidth="40%"  >{{item.Name}}
+        </td>
+        <td class="text-center"  nzWidth="70px" >{{item.No_Of_Policies}}</td>
+        <td class="text-right"  nzWidth="70px">{{item.GrossPremium|number}}</td>
+        <td class="text-right" nzWidth="70px" >{{item.NetPremium|number}}</td>
+      
+        <td class="text-right"  nzWidth="70px">{{item.EstimatedCommission|number}}</td>
+        <!-- <td class="text-right"  nzWidth="70px">{{item.Commission|number}}</td> -->
+
+      </tr>
+    </ng-container>
+  </ng-container>
+</tbody>
+</nz-table>
+    </div>
+  </form>
+</div>
+<form-handler (onExportExcel)="exportData()" (onPreview)="preview()" (onReset)="reset()"></form-handler>
+<app-loader *ngIf="isSpinning"></app-loader>

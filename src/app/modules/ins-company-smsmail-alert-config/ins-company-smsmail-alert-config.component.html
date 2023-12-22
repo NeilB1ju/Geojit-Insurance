@@ -1,0 +1,386 @@
+<div class="main-content">
+<form nzLayout="vertical" >
+<fieldset class="fieldset-shadow-condensed" >
+<nz-tabset>
+<nz-tab nzTitle="SMS Mail Configuration">
+    <fieldset [disabled]="!modifyForm">
+<div  *ngIf="DivLoad==2 && ShowDtlDiv">
+
+<!-- <legend class="fieldset-shadow-condensed">
+<span>SMS Mail Configuration</span>
+</legend> -->
+      <div nz-row nzGutter="4">
+           <div nz-col nzMd="3" nzLg="2">
+                <nz-form-item>
+                    <nz-form-label class="boldinglabel" nzRequired>Insurance Type</nz-form-label>
+                    <nz-form-control>
+                       <nz-select nzPlaceHolder="Select Insurance Type" name="InsuranceType" [(ngModel)]="Insurance" (ngModelChange)="getInsCompany()" [disabled]="!modifyForm">
+                        <nz-option *ngFor="let Ins of InsuranceType" [nzLabel]="Ins.ProductType" [nzValue]="Ins.Id">
+                        </nz-option>
+                       </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+           </div>
+           <div nz-col nzMd="4" nzLg="6">
+                <nz-form-item>
+                    <nz-form-label class="boldinglabel" nzRequired>Company</nz-form-label>
+                    <nz-form-control>
+                      <nz-select nzPlaceHolder="Select Company" name="Company" [(ngModel)]="CompanyNg" [disabled]="!modifyForm">
+                        <nz-option *ngFor="let Com of Company" [nzLabel]="Com.Description" [nzValue]="Com.Code">   
+                        </nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+           </div>
+           <div nz-col nzMd="3" nzLg="2">
+                <nz-form-item>
+                    <nz-form-label class="boldinglabel" nzRequired>Frequency</nz-form-label>
+                    <nz-form-control>
+                      <nz-select nzPlaceHolder="Select Frequency" name="Frequency" [(ngModel)]="FrequencyNg" [disabled]="!modifyForm">
+                        <nz-option *ngFor="let Fre of Frequency" [nzLabel]="Fre.Description" [nzValue]="Fre.Code">           
+                        </nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+           </div>
+           <div nz-col nzMd="2" nzLg="3">
+                <nz-form-item>
+                    <nz-form-label class="boldinglabel">Grace Period Days</nz-form-label>
+                    <nz-form-control>
+                      <input nz-input placeholder="Grace Period Days" type="text" [(ngModel)]="GracePeriod" name="GracePeriod" [textMask]="{mask: inputMasks.numeric}">
+                    </nz-form-control>
+                </nz-form-item>
+           </div>
+     
+      <!-- <div nz-row nzGutter="4"> -->
+            <div nz-col nzMd="4" nzLg="5">
+                <nz-form-item>
+                    <nz-form-label class="boldinglabel" nzRequired>Alert Type</nz-form-label>
+                    <nz-form-control>
+                            <nz-radio-group [(ngModel)]="BeforeorAfter" [nzButtonStyle]="'solid'" name="BeforeorAfter" (ngModelChange)="RadioChange()" [nzDisabled]="!modifyForm">
+                                    <label  nz-radio-button nzValue="B">Before</label>
+                                    <label  nz-radio-button nzValue="A">After</label>
+                                    <label  nz-radio-button nzValue="S">Same Day</label>
+                            </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col nzMd="3" nzLg="2">
+                <nz-form-item>
+                    <nz-form-label class="boldinglabel" nzRequired>Alert Days</nz-form-label>
+                    <nz-form-control>
+                      <input nz-input placeholder="Alert Days" type="text" [(ngModel)]="AlertDays" name="AlertDays" [disabled]="BeforeorAfter=='S'" [textMask]="{mask: inputMasks.numeric}">   
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col nzMd="3" nzLg="2">
+                <nz-form-item>
+                    <nz-form-label class="boldinglabel" nzRequired>SMS or Email</nz-form-label>
+                    <nz-form-control>
+                        <nz-select nzPlaceHolder="Select SMS or Email" name="SMSMail" [(ngModel)]="SMSMailNg" [disabled]="!modifyForm">
+                           <nz-option *ngFor="let sms of SMSMail" [nzLabel]="sms.Description" [nzValue]="sms.Code">
+                           </nz-option>
+                        </nz-select>      
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+      <!-- </div> -->
+    </div>  
+</div>
+</fieldset>
+<form-handler [hidden]="DivLoad==1 && ShowLoadDiv" (onSave)="Save('1')" (onReset)="resetForm()" (onFind)="Search()" (onModify)="modify()" (onPreview)="DivLoadForm(1)"></form-handler>
+
+<!-- ------------------------------------------------------------------------------ -->
+
+<div *ngIf="DivLoad==1 && ShowLoadDiv" class="LoadTableDiv">
+    
+    <!-- <form nzLayout="vertical">
+        <fieldset class="fieldset-shadow-condensed"> -->
+    <nz-table #basicTable  
+    nzHideOnSinglePage="true" class="reconTbl table-responsive table-themed"  [hidden]="PageLoad.length==0" [nzData]="PageLoad" style="padding-right: 20px;
+    padding-left: 20px;" nzShowPagination="false">
+      <!-- <thead>
+        <tr>
+          <th *ngFor="let col of PageLoad">{{col.AlertID}}</th>
+        </tr>
+      </thead> -->
+      <tbody style="padding: 4px;font-size: 12px;" >
+        <tr *ngFor="let col of PageLoad ; let i=index">
+          <!-- <td *ngFor="let col of PageLoad">
+              {{col.Alert}}
+          </td> -->
+          <td>
+          <h3 style="color: #1890ff">Alert {{i+1}}</h3>
+          <span>{{col.Alert}}</span>
+
+          </td>
+          <td>
+            <!-- <a (click)="Edit(col)">Edit</a> -->
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="modalLoad(col)">More</a>
+          </td>
+        </tr>
+        <!-- <tr *ngFor="let col of PageLoad">{{col.AlertID}}
+
+        </tr> -->
+       
+      </tbody>
+      
+    </nz-table>
+  <!-- </fieldset>
+  </form> -->
+  <button nz-button (click)="DivLoadForm(2)"  class="NewEntryBtn">New Entry</button>
+  </div>
+  
+<!-- ------------------------------------------------------------------------------ -->
+</nz-tab>
+</nz-tabset>
+</fieldset>
+
+</form>
+
+<lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog>
+</div>
+
+
+<!-- ------------------------------------------------------------------------------ -->                                                                                                               
+<nz-modal nzWrapClassName="vertical-center-modal" [(nzVisible)]="isVisibleModal" nzTitle="SMS/Mail Template" [nzFooter]="modalFooter"
+(nzOnCancel)="handleCancel()" nzOkText="Save" (nzOnOk)="TemplateSave()" [nzOkText]="null" [nzCancelText]="null">
+
+    <nz-tabset [(nzSelectedIndex)]="TemplateTabIndex" (nzSelectedIndexChange)="saveBtnFlag()">
+        <nz-tab nzTitle="SMS" *ngIf="AlertObjarry.SmsorEmail=='S' || AlertObjarry.SmsorEmail=='B'">
+          <!-- This is for SMS -->
+ <nz-form-item>
+      <nz-form-label class="boldinglabel"><span class="TdColTemplate">Template :</span></nz-form-label>
+      <br><br>
+     <nz-form-control>
+         <textarea nz-input placeholder="Template" type="text" name="Template" [(ngModel)]="TemplateNg" style="height: 100px;" [disabled]="TabDisable==false"></textarea>       
+   
+     <!-- <tr>
+      <td style="width:50%">
+          <nz-form-label class="boldinglabel"><span class="TdColTemplate">Approved By :</span></nz-form-label>
+      </td>
+      <td style="width:50%">
+        <nz-form-label class="boldinglabel TdColTemplate"><span class="TdColTemplate">Approved Date :</span></nz-form-label>
+      </td>
+      <td style="width:50%">
+        <nz-form-label class="boldinglabel TdColTemplate"><span class="TdColTemplate">Checked By :</span></nz-form-label>
+      </td>
+      <td style="width:50%">
+        <nz-form-label class="boldinglabel TdColTemplate"><span class="TdColTemplate">Checked Date :</span></nz-form-label>
+      </td>
+      <td style="width:50%">
+        <nz-form-label class="boldinglabel TdColTemplate"><span class="TdColTemplate">Created By :</span></nz-form-label>
+      </td>
+      <td style="width:50%">
+        <nz-form-label class="boldinglabel TdColTemplate"><span class="TdColTemplate">Created Date :</span></nz-form-label>
+      </td>
+     
+    </tr> -->
+    <!-- <tr>
+     <td>
+        <nz-form-label class="boldinglabel">{{ApprovedByNg}}</nz-form-label> 
+        
+     </td>
+     <td>
+        <nz-form-label class="boldinglabel" >{{ApprovedDateNg}}</nz-form-label>
+     </td>
+     <td>
+        <nz-form-label class="boldinglabel">{{CheckedByNg}}</nz-form-label>
+     </td>
+     
+     <td>
+        <nz-form-label class="boldinglabel">{{CheckedDateNg}}</nz-form-label>
+     </td>
+     <td>
+        <nz-form-label class="boldinglabel">{{CreatedByNg}}</nz-form-label>
+     </td>
+     <td>
+        <nz-form-label class="boldinglabel">{{CreatedDateNg}}</nz-form-label>
+    </td>
+    </tr> -->
+    <div style="background: #ECECEC;padding:10px;" *ngIf="SaveBtnFlag==false">
+      <div nz-row [nzGutter]="8">
+        <div nz-col [nzSpan]="8">
+          <nz-card nzTitle="Approved By">
+            <tr>
+              <nz-form-label style="font-size: 11px">{{ApprovedByNg}}</nz-form-label>              
+           </tr>
+           <tr>
+            <nz-form-label style="font-size:11px">{{ApprovedByNameNg}}</nz-form-label>              
+         </tr>
+           <tr>
+              <nz-form-label style="font-size: 11px" >{{ApprovedDateNg}}</nz-form-label>
+           </tr>
+          </nz-card>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-card nzTitle="Checked By">
+            <tr>
+              <nz-form-label style="font-size: 11px">{{CheckedByNg}}</nz-form-label>
+           </tr>    
+           <tr>
+            <nz-form-label style="font-size: 11px">{{CheckedByNameNg}}</nz-form-label>
+           </tr>        
+           <tr>
+              <nz-form-label style="font-size: 11px">{{CheckedDateNg}}</nz-form-label>
+           </tr>
+          </nz-card>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-card nzTitle="Created By">
+           <tr>
+              <nz-form-label style="font-size: 11px">{{CreatedByNg}}</nz-form-label>
+           </tr>
+           <tr>
+            <nz-form-label style="font-size: 11px">{{CreatedByNameNg}}</nz-form-label>
+           </tr>
+           <tr>
+              <nz-form-label style="font-size: 11px">{{CreatedDateNg}}</nz-form-label>
+           </tr>
+          </nz-card>
+        </div>
+      </div>
+    </div>
+
+
+  </nz-form-control>
+ 
+</nz-form-item>
+    </nz-tab>
+
+
+    <nz-tab nzTitle="Mail" *ngIf="AlertObjarry.SmsorEmail=='M' || AlertObjarry.SmsorEmail=='B'">
+        <!-- Content of Mail -->
+        <nz-form-item>
+            <nz-form-label class="boldinglabel"><span class="TdColTemplate">Template :</span></nz-form-label>
+            <br><br>
+           <nz-form-control>
+               <textarea nz-input placeholder="Template" type="text" name="Template" [(ngModel)]="MailTemplateNg" style="height: 100px;" [disabled]="TabDisable==false"></textarea>       
+               
+              <!-- <tr>
+                <td>
+                   <nz-form-label class="boldinglabel">{{MailApprovedByNg}}</nz-form-label> 
+                   
+                </td>
+                <td>
+                   <nz-form-label class="boldinglabel" >{{MailApprovedDateNg}}</nz-form-label>
+                </td>
+                <td>
+                   <nz-form-label class="boldinglabel">{{MailCheckedByNg}}</nz-form-label>
+                </td>
+                
+                <td>
+                   <nz-form-label class="boldinglabel">{{MailCheckedDateNg}}</nz-form-label>
+                </td>
+                <td>
+                   <nz-form-label class="boldinglabel">{{MailCreatedByNg}}</nz-form-label>
+                </td>
+                <td>
+                   <nz-form-label class="boldinglabel">{{MailCreatedDateNg}}</nz-form-label>
+               </td>
+               </tr> -->
+               <div style="background: #ECECEC;padding:10px;" *ngIf="SaveBtnFlag==false">
+                <div nz-row [nzGutter]="8">
+                  <div nz-col [nzSpan]="8">
+                    <nz-card nzTitle="Approved By">
+                      <tr>
+                        <nz-form-label style="font-size: 11px">{{MailApprovedByNg}}</nz-form-label>              
+                     </tr>
+                     <tr>
+                      <nz-form-label style="font-size: 11px">{{MailApprovedByNameNg}}</nz-form-label>              
+                     </tr>
+                     <tr>
+                        <nz-form-label style="font-size: 11px">{{MailApprovedDateNg}}</nz-form-label>
+                     </tr>
+                    </nz-card>
+                  </div>
+                  <div nz-col [nzSpan]="8">
+                    <nz-card nzTitle="Checked By">
+                      <tr>
+                        <nz-form-label style="font-size: 11px">{{MailCheckedByNg}}</nz-form-label>
+                     </tr>  
+                     <tr>
+                      <nz-form-label style="font-size: 11px">{{MailCheckedByNameNg}}</nz-form-label>
+                     </tr>         
+                     <tr>
+                        <nz-form-label style="font-size: 11px">{{MailCheckedDateNg}}</nz-form-label>
+                     </tr>
+                    </nz-card>
+                  </div>
+                  <div nz-col [nzSpan]="8">
+                    <nz-card nzTitle="Created By">
+                      <tr>
+                        <nz-form-label style="font-size: 11px">{{MailCreatedByNg}}</nz-form-label>
+                     </tr>
+                     <tr>
+                      <nz-form-label style="font-size: 11px">{{MailCreatedByNameNg}}</nz-form-label>
+                     </tr>
+                     <tr>
+                        <nz-form-label style="font-size: 11px">{{MailCreatedDateNg}}</nz-form-label>
+                    </tr>
+                    </nz-card>
+                  </div>
+                </div>
+              </div>
+          
+
+        </nz-form-control>
+       
+      </nz-form-item>
+
+      </nz-tab>
+    </nz-tabset>
+                                                                         
+    <ng-template #modalFooter>
+      
+        <button nz-button  class="TemplateSaveBtn" (click)="handleCancel()">Cancel</button>
+        <!-- <button nz-button  class="TemplateSaveBtn" (click)="TemplateSave()" *ngIf="TemplateIDMail=='' || TemplateID==''">Save</button>
+        <button nz-button  class="TemplateSaveBtn" (click)="TemplateModify()" *ngIf="TemplateID || TemplateIDMail">Modify</button> -->
+        <button nz-button  class="TemplateSaveBtn" (click)="TemplateSave1()" *ngIf="SaveBtnFlag==true">Save</button>
+        <button nz-button  class="TemplateSaveBtn" (click)="TemplateModify1()" *ngIf="SaveBtnFlag==false && !ModifyUpdateBtnFlag">Modify</button>
+        <button nz-button  class="TemplateSaveBtn" (click)="TemplateModify()" *ngIf="ModifyUpdateBtnFlag">Modify & Update</button>
+    </ng-template>
+   
+  </nz-modal>
+
+<!-- ------------------------------------------------------------------------------ -->
+
+
+ 
+ <!-- <div nz-row>
+  <div nz-col nzMd="2" nzLg="6">
+      <nz-form-label class="boldinglabel">Approved By</nz-form-label>
+      <nz-form-label class="boldinglabel">Approved Date</nz-form-label>
+  </div>
+</div>
+<div nz-row>
+  <div nz-col nzMd="2" nzLg="6">
+      <nz-form-label class="boldinglabel">{{ApprovedByNg}}</nz-form-label>         
+      <nz-form-label class="boldinglabel"  style="position: relative; top: -27px;right: -188px;">{{ApprovedDateNg}}</nz-form-label>
+  </div>
+</div> -->
+   <!-- <tr style="padding-top: 1.5em; float: right;">
+   
+        <button nz-button  class="TemplateSaveBtn" (click)="TemplateSave()">Save</button>
+  
+   </tr> -->
+      <!-- <div nz-row>
+      <div nz-col nzMd="2" nzLg="6">
+          <nz-form-label class="boldinglabel">Checked By</nz-form-label>
+          <nz-form-label class="boldinglabel"  style="position: relative; top: -10px;">{{CheckedByNg}}</nz-form-label>
+          <nz-form-label class="boldinglabel">Checked Date</nz-form-label>
+          <nz-form-label class="boldinglabel"  style="position: relative; top: -37px; right: -188px;">{{CheckedDateNg}}</nz-form-label>
+      </div>
+      </div>
+      <div nz-row>
+      <div nz-col nzMd="2" nzLg="6">
+          <nz-form-label class="boldinglabel">Created By</nz-form-label>
+          <nz-form-label class="boldinglabel"   style="position: relative; top: -18px;">{{CreatedByNg}}</nz-form-label>
+          <nz-form-label class="boldinglabel">Created Date</nz-form-label>
+          <nz-form-label class="boldinglabel"  style="position: relative; top: -45px; right: -188px;">{{CreatedDateNg}}</nz-form-label>
+      </div>
+      </div> -->
+      <!-- <div nz-row style="padding-top: 1.5em; float: right; right: -343px;">
+          <button nz-button  class="TemplateSaveBtn" (click)="TemplateSave()">Save</button>
+      </div> -->

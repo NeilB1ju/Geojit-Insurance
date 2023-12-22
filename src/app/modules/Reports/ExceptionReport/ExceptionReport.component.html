@@ -1,0 +1,163 @@
+<div class="main-content" >
+	<div nz-row nzGutter="10"  style="margin-bottom:31px">
+	  <h2 class="title">Exception Report</h2>
+	  <div   class="mb-2 row">
+	  <div nz-col nzMd="6"  *ngFor="let data of totalData;let i=index;" style="margin-bottom:10px">
+		<nz-card [nzTitle]="Brokerag" [@zooming]="zooming">
+		  <ng-template #Brokerag>
+		  <div  class="header" [ngStyle]="{'background': data.color}" >{{data.HeaderName}}</div>  
+		  </ng-template>
+  
+		<!-- <div nz-card-grid style="width: 100%" class="addressPadding" (click)="OpenPopup(data.ID)">
+			<div class="amount2"   nzType="primary">{{data.SubHeaderName}}</div>
+			<div class="label2" *ngIf="data.SubHeaderValue">{{data.SubHeaderValue}}</div>
+		  </div> -->
+<div style="cursor: pointer;">
+
+		  <div nz-card-grid style="width: 100%" class="addressPadding"  (click)="OpenPopup(data.ID)"  
+		  nz-popover
+		  [nzTitle]="headerdata"
+		  (nzVisibleChange)="change($event)"
+		  nzTrigger="click"
+		  [nzContent]="contentTemplate"
+		  nzPlacement="bottomLeft">
+		  <div nz-row style="font-size:16px" >
+			  <div nz-col nzMd="18">
+				{{data.SubHeaderName}}
+			  </div>
+			  <div nz-col nzMd="6">
+				{{data.SubHeaderValue}}
+				
+			</div>
+			  
+		  </div>
+			 <!-- <div class="amount2"   nzType="primary">{{data.SubHeaderName}}</div>
+			<div class="label2" *ngIf="data.SubHeaderValue">{{data.SubHeaderValue}}</div> -->
+		  </div>
+		</div>
+	  </nz-card>
+	</div>
+	</div>
+
+
+	</div>
+
+	<!-- <nz-modal nzWidth="50%" nzHeight="20%" [(nzVisible)]="isVisible" [nzTitle]="headerdata" (nzOnCancel)="handleCancel()" 
+	[nzOkText]="null" [nzCancelText]="null" style="background: coral;">
+	<div >
+		<nz-table  [nzData]="popupDataHeader" [nzShowPagination]=false class="table-responsive"  [nzScroll]="{ y: '250px' } ">
+		<thead >
+			<tr>
+				<th *ngFor="let header of popupDataHeader" >{{header}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let detail of popupData">
+				<td  *ngFor="let header of popupDataHeader" style="text-align: left;">{{detail[header]}}</td>
+			</tr>
+		</tbody>
+	</nz-table>
+</div>
+	</nz-modal> -->
+
+	<!-- <ng-template #contentTemplate>
+		<div *ngIf="popupData.length>0">
+		<nz-table #basicTable [nzData]="popupDataHeader"  [nzScroll]="{ y: '220px' }" 		
+		 [nzShowPagination]=false>
+			<thead >
+				<tr>
+					<th *ngFor="let header of popupDataHeader">{{header}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let detail of popupData">
+					<td  *ngFor="let header of popupDataHeader">{{detail[header]}}</td>
+				</tr>
+			</tbody>
+		</nz-table>
+	</div>
+	<div *ngIf="popupData.length==0">
+		<span>No data</span>
+	</div>
+	  </ng-template> -->
+
+	 <!-- <ng-template #contentTemplate>
+		<div *ngIf="popupData.length>0" >
+		<nz-table #basicTable [nzData]="popupData" class="tranTbl table-responsive"  [nzScroll]="{ y: '220px' }" 	
+		 [nzShowPagination]=false>
+			<thead >
+				
+				<tr>
+					<th *ngFor="let header of popupDataHeader;let i = index"  >{{header}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let detail of basicTable.data">
+					<td  *ngFor="let header of popupDataHeader" >{{detail[header]}}</td>
+				</tr>
+			</tbody>
+		</nz-table>
+	</div>
+	<div *ngIf="popupData.length==0">
+		<span>No data</span>
+	</div>
+	  </ng-template> -->
+
+	  <ng-template #contentTemplate>
+		<div *ngIf="popupData.length>0" >
+			<div class="table-responsive" style="max-height: 300px;">
+				<table class="table" >
+				 
+					<thead >
+					<tr >
+					  <th *ngFor="let col of popupDataHeader;"  style="padding-bottom: 10px;">
+						  {{col | uppercase}}
+					  </th>
+					</tr>
+				</thead>
+				<tbody>
+					 <tr *ngFor="let data of popupData;let i=index;" >
+					  <td *ngFor="let col of popupDataHeader" style="padding-bottom: 10px;border-top: thin solid;border-bottom: thin solid;border-color: #b1abab;">
+						{{data[col]}}
+					  </td>
+					</tr>
+				  </tbody>
+			
+				</table>
+			  </div>
+	</div>
+	<div *ngIf="popupData.length==0">
+		<span>No data</span>
+	</div>
+	  </ng-template>
+
+	  <!-- <ng-template #contentTemplate>
+		<div *ngIf="popupData.length>0" >
+			<div class="table-responsive" style="max-height: 300px;">
+				<table  >
+				  <tbody>
+					<tr>
+
+					  <th *ngFor="let col of popupDataHeader;"  >
+						  {{col | uppercase}}
+					  </th>
+					</tr>
+					 <tr *ngFor="let data of popupData;let i=index;" >
+					  <td *ngFor="let col of popupDataHeader" style="padding-bottom: 10px;">
+						{{data[col]}}
+					  </td>
+					</tr>
+				  </tbody>
+				</table>
+			  </div>
+	</div>
+	<div *ngIf="popupData.length==0">
+		<span>No data</span>
+	</div>
+	  </ng-template> -->
+
+	
+
+	
+
+  </div>

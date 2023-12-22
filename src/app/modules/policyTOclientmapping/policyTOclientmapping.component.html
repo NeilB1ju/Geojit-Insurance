@@ -1,0 +1,373 @@
+<div class="main-content">
+	<form nz-form nzLayout="vertical" #reconProcForm="ngForm">
+
+		<h3 class="content-title">Policy To Client Mapping</h3>
+		<div class="fltrcolor">
+			<div nz-row nzGutter="8">
+
+				<div nz-col nzMd="12" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel">Insurer Type</nz-form-label>
+
+						<nz-select nzShowSearch nzAllowClear nzPlaceHolder="Insurer Type"
+							[(ngModel)]="model.InsurerType" name="InsurerType" [ngModelOptions]="{standalone: true}"
+							(ngModelChange)="getInsuranceCompany()">
+							<nz-option *ngFor="let item1 of Insuertype" [nzLabel]="item1.Type"
+								[nzValue]="item1.Type"></nz-option>
+
+						</nz-select>
+
+					</nz-form-item>
+				</div>
+
+				<div nz-col nzMd="12" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel" nzRequired>Company</nz-form-label>
+
+						<nz-select nzShowSearch nzAllowClear required nzPlaceHolder="Company" [(ngModel)]="model.insCompany"
+							name="Company" [ngModelOptions]="{standalone: true}"
+							(ngModelChange)="getproductwithcompany()">
+							<nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description"
+								[nzValue]="item.Code"></nz-option>
+
+						</nz-select>
+
+					</nz-form-item>
+				</div>
+
+				<div nz-col nzMd="6" nzLg="6">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel">Product Category</nz-form-label>
+						<nz-form-control>
+							<!-- {{model.state|json}} -->
+							<master-find-ctrl [options]="productcategoryFindopt" [(ngModel)]="model.pdtCategory" (ngModelChange)="onchangecat()"
+								name="pdtCategory">
+							</master-find-ctrl>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+				<div nz-col nzMd="12" nzLg="6">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel">Product Code/Name</nz-form-label>
+						<nz-form-control>
+							<nz-select nzShowSearch nzAllowClear nzPlaceHolder="Product Code"
+								[(ngModel)]="model.ProductCodeorName" name='sad'>
+								<nz-option *ngFor="let item of product" [nzLabel]="item.Description"
+									[nzValue]="item.Code"></nz-option>
+
+							</nz-select>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+				<div nz-col nzMd="12" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel">Policy No</nz-form-label>
+						<nz-form-control>
+							<input nz-input placeholder="Policy No"  [(ngModel)]="model.Policyno"
+								type="text" name="Policy ">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+			</div>
+			<div nz-row nzGutter="8">
+
+
+				<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="5" nzXl="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel" nzRequired>From Date</nz-form-label>
+						<nz-form-control>
+							<nz-date-picker [(ngModel)]="model.fromDate" name="fromDate" nzFormat="dd-MM-yyyy" required  (ngModelChange)="onchangecat()">
+							</nz-date-picker>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+				<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="5" nzXl="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel" nzRequired>To Date</nz-form-label>
+						<nz-form-control>
+							<nz-date-picker [(ngModel)]="model.toDate" name="toDate" nzFormat="dd-MM-yyyy" required  (ngModelChange)="onchangecat()">
+							</nz-date-picker>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+
+
+				<div nz-col nzSm="9" nzMd="9" nzLg="16"  style="text-align: right;" >
+					<nz-form-item>
+						<nz-form-label>&nbsp;</nz-form-label>
+						<nz-form-control>
+							<button nz-button nzType="primary" style="float: right;" class="mr-2" (click)="Reset()"><i nz-icon
+								type="rollback" theme="outline"></i>Reset</button>
+								<button nz-button nzType="primary" style="float: right;" class="mr-2" (click)="view(0)"><i
+									nz-icon type="eye" theme="outline"></i>View</button>
+									<button  nzType="primary" nz-button nzType="primary"class="mr-2" (click)="exportData()" 
+									style="background-color:#FB6542"><i nz-icon type="file-excel" theme="outline"></i>Excel</button>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div style="text-align: right;"><br>	
+		<!-- <button nz-button nzType="primary" (click)="showModal()">
+		<span>Show Pending List</span>
+	  </button> -->
+
+	  <div>
+		<label style="font-size: large;font-weight: 700;">  {{Head}} </label> <span style="    color: red;font-size: small;">{{pendinglist}}</span>
+	  </div>
+	</div>
+	<div *ngIf="tablelist.length">
+		<span style="font-weight: 900;"> Select The Combination Of:Policy Information(For Client Tagging)</span>
+		<nz-table *ngIf="tablelist.length" #basicTable [nzData]="tablelist" nzHideOnSinglePage="true"
+			class="tranTbl table-responsive table-themed" [nzPageSize]="18">
+			<thead>
+				<tr>
+					<th>Policy Id</th>
+					<th>Product</th>
+					<th>Policy Issue Date</th>
+					<th>Premium</th>
+					<th>Sum Assured</th>
+					<!-- <th>Branch</th> -->
+					<th>Customer Name</th>
+					<th>Location</th>
+					<th>City</th>
+					<th>Address</th>
+					<th>Email</th>
+					<th>Mobile</th>
+					<th>Pan</th>
+					<th>Inward Entry Date</th>
+					<!-- <th>Select</th> -->
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let data of basicTable.data" >
+
+					<td >{{data.PolicyNumber}}</td>
+					<td>{{data.ProductId}}</td>
+					<td>{{data.PolicyIssueDate}}</td>
+					<td>{{data.NetPremium}}</td>
+					<td>{{data.SumInsured}}</td>
+
+					<td>{{data.CustomerName}}</td>
+					<td>{{data.Location}}</td>
+					<td>{{data.City}}</td>
+					<td>{{data.Address}}</td>
+					<td>{{data.Email}}</td>
+					<td>{{data.Mobile}}</td>
+					<td>{{data.PAN}}</td>
+					<td>{{data.InwardEntryDate}}</td>
+
+
+
+				</tr>
+			</tbody>
+			
+		</nz-table>
+		<div style="float: right;padding: 10px;">
+			<Button (click)="view(1)" >
+		<i nz-icon nzType="double-right" nzTheme="outline" ></i>
+	</Button>
+	</div>
+	</div>
+
+
+	<form nz-form nzLayout="vertical" *ngIf="tablelist.length"> 
+<div [@slideInOutup]="showLeftSide">
+		<div class=""><br><br><br>
+			<div nz-row nzGutter="8">
+				<div nz-col nzMd="12" nzLg="12">
+
+					<nz-form-item>
+
+						<nz-form-control>
+							<nz-radio-group [(ngModel)]="model.LorE" name="LorE" (ngModelChange)="onchange()">
+								<span style="font-weight: 900;"> Select The Combination
+									Of:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<label class="boldinglabel" nz-radio nzValue="L">Like</label>
+								<label class="boldinglabel" nz-radio nzValue="E">Equals</label>
+							</nz-radio-group>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+				<div nz-col nzMd="12" nzLg="12">
+
+					<nz-form-item>
+
+						<nz-form-control>
+							<nz-radio-group [(ngModel)]="model.IorB" name="IorB" (ngModelChange)="onchange()">
+								<span style="font-weight: 900;"> Search From
+									:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<label class="boldinglabel" nz-radio nzValue="I">Insurance</label>
+								<label class="boldinglabel" nz-radio nzValue="B">Bo</label>
+							</nz-radio-group>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+			</div>
+
+			<div nz-row nzGutter="8">
+
+
+				<div nz-col nzMd="4" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "> <label nz-checkbox [(ngModel)]="CName" 
+								name="CName">Name</label></nz-form-label>
+						<nz-form-control>
+							<input  class="text" nz-input placeholder="Name" [disabled]="!CName" [(ngModel)]="model.Name" type="text" (ngModelChange)="onchange()"
+								name="Name">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+				<div nz-col nzMd="4" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "><label nz-checkbox [(ngModel)]="CLocation" 
+								name="CLocation">Location</label></nz-form-label>
+						<nz-form-control>
+							<master-find-ctrl [disabled]="!CLocation" [options]="locationFindopt"
+								[(ngModel)]="model.Location" name="Location" (ngModelChange)="onchange()">
+							</master-find-ctrl>
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+				<div nz-col nzMd="4" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "><label nz-checkbox [(ngModel)]="CCity" 
+								name="CCity">City</label></nz-form-label>
+						<nz-form-control>
+							<input class="text" [disabled]="!CCity" nz-input placeholder="City" [(ngModel)]="model.City" type="text" (ngModelChange)="onchange()"
+								name="City">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+				<div nz-col nzMd="8" nzLg="8">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "><label nz-checkbox [(ngModel)]="CAddress" 
+								name="CAddress">Address</label></nz-form-label>
+						<nz-form-control>
+							<input class="text" nz-input placeholder="Address" [disabled]="!CAddress" [(ngModel)]="model.Address" (ngModelChange)="onchange()"
+								type="text" name="Address">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+				<div nz-col nzMd="4" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "><label nz-checkbox [(ngModel)]="CEmail" 
+								name="CEmail">Email</label></nz-form-label>
+						<nz-form-control>
+							<input  nz-input placeholder="Email" [disabled]="!CEmail" [(ngModel)]="model.Email" (ngModelChange)="onchange()"
+								type="text" name="Email">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+			</div>
+			<div nz-row nzGutter="8">
+
+				<div nz-col nzMd="4" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "><label nz-checkbox [(ngModel)]="CMobileC" 
+								name="CMobile">Mobile No</label></nz-form-label>
+						<nz-form-control>
+							<input class="text" nz-input placeholder="Mobile" [disabled]="!CMobileC" [(ngModel)]="model.Mobile" (ngModelChange)="onchange()"
+								type="text" name="Mobile">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+
+
+				<div nz-col nzMd="12" nzLg="4">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel "><label nz-checkbox [(ngModel)]="CPAN" name="CPAN" >PAN 
+								No</label></nz-form-label>
+						<nz-form-control>
+							<input  class="text" nz-input placeholder="PAN" maxlength="10" [disabled]="!CPAN" [(ngModel)]="model.PAN" (ngModelChange)="onchange()"
+								type="text" name="PAN ">
+						</nz-form-control>
+					</nz-form-item>
+				</div>
+				<div nz-col nzMd="12" nzLg="4">
+					<nz-form-item>
+						<nz-form-label>&nbsp;</nz-form-label>
+						<nz-form-control>
+						
+					
+					<button nz-button nzType="primary" style="float: right;" class="mr-2" (click)="Find()"><i nz-icon
+						type="search"	 theme="outline"></i>Find</button>
+							</nz-form-control>
+						</nz-form-item>
+				</div>
+
+
+			</div>
+
+		</div>
+		
+	</div>
+	<div style="text-align:center;position: relative;"><i nz-icon type="up" *ngIf="showLeftSide===false" (click)="toggleCenter()"></i><i nz-icon type="down" *ngIf="showLeftSide===true" (click)="toggleCenter()"></i>
+	</div>
+
+		<div >
+
+		<nz-table *ngIf="Findlist.length" #basicTable1 [nzData]="Findlist" nzHideOnSinglePage="true"
+			class="tranTbl table-responsive table-themed" [nzPageSize]="5">
+			<thead >
+				<tr>
+					<!-- <th *ngIf="model.IorB=='I'" style="background-color: #d2eafb;">Policy Id <br>(Existing)</th>
+					<th *ngIf="model.IorB=='I'" style="background-color: #d2eafb;">Product<br>(Existing)</th>
+					<th *ngIf="model.IorB=='I'" style="background-color: #d2eafb;">Policy Issue Date</th>
+					<th *ngIf="model.IorB=='I'" style="background-color: #d2eafb;">Premium</th> -->
+					<!-- <th>Sum Assured</th> -->
+					<!-- <th>Branch</th> -->
+					<th   style="background-color: #d2eafb; ">Customer Name</th>
+					<th   style="background-color: #d2eafb; ">Location</th>
+					<th   style="background-color: #d2eafb; ">City</th>
+					<th   style="background-color: #d2eafb; ">Address</th>
+					<th   style="background-color: #d2eafb; ">Email</th>
+					<th   style="background-color: #d2eafb; ">Mobile</th>
+					<th   style="background-color: #d2eafb; ">Pan</th>
+					<th nzRight=0  style="background-color: #d2eafb;">Merge</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let data of basicTable1.data" data-toggle="tooltip" data-placement="top" title={{data.MatchString}}>
+
+					<!-- <td *ngIf="model.IorB=='I'">{{data.PolicyNumber}}</td>
+					<td *ngIf="model.IorB=='I'">{{data.ProductId}}</td>
+				    <td *ngIf="model.IorB=='I'">{{data.PolicyIssueDate}}</td> 
+					<td *ngIf="model.IorB=='I'">{{data.NetPremium}}</td> -->
+		
+
+
+					<td  [innerHTML]="data.CustomerName | highlight :CName?model.Name:''"></td>
+					<td  [innerHTML]="data.Location | highlight:model.CLocation?Location.Location:''"></td>
+					<td  [innerHTML]="data.City | highlight:CCity?model.City:''"></td>
+					<td  [innerHTML]="data.Address | highlight:CAddress?model.Address:''"></td>
+					<!-- <td ></td>					 -->
+					<td  [innerHTML]="data.Email | highlight:CEmail?model.Email:''"></td>
+					<td  [innerHTML]="data.Mobile | highlight:CMobileC?model.Mobile:''"></td>
+					<td  [innerHTML]="data.PAN | highlight:CPAN?model.PAN:''"></td>
+					<td  nzRight=0 style="text-align: center;"> <button nz-button (click)="save(data)" nzType="primary" style="float: right;" class="mr-2" ><i nz-icon
+					theme="outline"></i>Update</button></td>
+
+
+				</tr>
+			</tbody>
+		</nz-table>
+	</div>
+
+	</form>
+
+</div>
+
+<app-loader *ngIf="isSpinning"></app-loader>
+
+

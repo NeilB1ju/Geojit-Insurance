@@ -1,0 +1,197 @@
+<div class="main-content">
+  <form nz-form nzLayout="vertical">
+    <h3 class="content-title">persistency Report</h3>
+    <div class="fltrcolor">
+      <div nz-row nzGutter="8">
+        <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel"> From Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [(ngModel)]="model.fromDate"
+                name="fromDate" (ngModelChange)="reset_tabledata()"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel"> To Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [(ngModel)]="model.toDate" name="toDate" (ngModelChange)="reset_tabledata()">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="5">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Insurance Company</nz-form-label>
+            <nz-form-control>
+              <nz-select [(ngModel)]="model.insCompany" nzPlaceHolder="Select Insurance Company"
+                name="insurance company" nzDropdownMatchSelectWidth="true" (ngModelChange)="getcategory()">
+                <nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code" >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">State</nz-form-label>
+            <nz-form-control>
+              <!-- {{model.state|json}} -->
+              <master-find-ctrl [options]="stateFindopt" [(ngModel)]="model.state" name="state" (ngModelChange)="sortstate($event)">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Region</nz-form-label>
+            <nz-form-control>
+              <!-- {{model.region|json}} -->
+              <master-find-ctrl [options]="regionFindopt" [(ngModel)]="model.region" name="region" (ngModelChange)="onchange_reg($event)">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Location</nz-form-label>
+            <nz-form-control>
+              <!-- {{model.location|json}} -->
+              <master-find-ctrl [options]="locationFindopt" [(ngModel)]="model.location" name="location" (ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- <div nz-col nzMd="6" nzLg="6">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Report</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Report Type" name="Report Type" (ngModelChange)="onchangeRpttype()"
+                [(ngModel)]="model.ReportType" nzDropdownMatchSelectWidth="true" (ngModelChange)="reset_tabledata()">
+                <nz-option *ngFor="let item of rpttype" [nzLabel]="item.Description" [nzValue]="item.Code"></nz-option>
+              </nz-select>
+            </nz-form-control>
+         
+          </nz-form-item>
+        </div> -->
+      </div>
+
+      <div nz-row nzGutter="10" nzType="flex">
+        <!-- <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel"> From Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [(ngModel)]="model.fromDate"
+                name="fromDate"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel"> To Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [(ngModel)]="model.toDate" name="toDate">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+
+        <div nz-col nzMd="6" nzLg="5">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Product Category</nz-form-label>
+            <nz-form-control>
+              <!-- {{model.state|json}} -->
+              <master-find-ctrl [options]="productcategoryFindopt" [(ngModel)]="model.pdtCategory" name="pdtCategory"(ngModelChange)="getproduct()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Product</nz-form-label>
+            <nz-form-control>
+              <master-find-ctrl [options]="ProductFindopt" [(ngModel)]="model.Product" name="Product" (ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+
+        
+
+      </div>
+    </div>
+  </form>
+
+  <div class="mt-2">
+
+    <nz-table #expandTable [nzScroll]="{ y: '440px' }"   [hidden]="treeData.length==0" 
+    class="tranTbl table-responsive table-themed" nzPageSize="15" [nzHideOnSinglePage]=true nzSize="small"
+    [nzData]="treeData">
+    <thead>
+      <tr style="color: #710505d9 !important">
+        <th nzWidth="40%">Name</th>
+        <th class="text-right" nzWidth="15%" >Total Count </th>
+        <th class="text-right" nzWidth="15%" >Renewed</th>
+        <th class="text-right" nzWidth="15%" >Pending</th>
+        <th class="text-right" nzWidth="15%" >persistency Ratio</th>
+       
+    
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let data of expandTable.data">
+        <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+          <tr (click)="showmodal(item)" *ngIf="item.parent && item.parent.expand || !item.parent">
+            <td  [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+              (nzExpandChange)="collapse(mapOfExpandedData[data.key],item,$event)" 
+              [ngClass]="{'treeName' :setClickStyleComm(item)}" nzWidth="40%"  >{{item.NAME}}
+            </td>
+            <td class="text-right" nzWidth="15%" >{{item.TotalCount}}</td>
+            <td class="text-right" nzWidth="15%" >{{item.Renewed}}</td>
+            <td class="text-right" nzWidth="15%" >{{item.Pending}}</td>
+            <td class="text-right" nzWidth="15%" >{{item.PersistencyRatio}}</td>
+            
+
+            
+    
+          </tr>
+        </ng-container>
+      </ng-container>
+    </tbody>
+    </nz-table>
+  
+</div>
+
+
+
+<nz-modal nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Policy Details" [nzOkText]="null"
+[nzCancelText]="null" (nzOnCancel)="handleCancel()">
+
+
+<nz-table [nzScroll]="{ x: '1000px' }" class="tranTbl table-responsive table-themed"  nzSize="small"
+#riderTable [hidden]="riderdata.length==0" [nzData]="riderdata">
+<thead >
+  <tr >
+    <th *ngFor="let header of riderheader;let i = index" [ngClass]="{'alignright': header=='CoverageSum','alignright1': header=='CoveragePremium','alignright2': header=='ECS_or_NonECS' }" >
+      {{header}}
+    </th>
+  </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let data of riderTable.data" >
+    <td *ngFor="let header of riderheader" [ngClass]="{'alignright': header=='CoverageSum','alignright1': header=='CoveragePremium','alignright2': header=='ECS_or_NonECS' }" >
+   
+      {{data[header]}}</td>
+  </tr>
+</tbody>
+</nz-table>
+
+</nz-modal>
+
+
+  <form-handler (onPreview)="preview()" (onReset)="resetForm()"></form-handler>
+  <app-loader *ngIf="isSpinning"></app-loader>
+

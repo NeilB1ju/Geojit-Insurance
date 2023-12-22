@@ -1,0 +1,389 @@
+<div class="main-content">
+  <form nz-form nzLayout="vertical">
+    <h3 class="content-title">Reconciliation Report</h3>
+    <div class="fltrcolor">
+      <div nz-row nzGutter="8">
+        <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel"> From Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [(ngModel)]="model.fromDate"
+                name="fromDate" (ngModelChange)="reset_tabledata()"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel"> To Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [(ngModel)]="model.toDate" name="toDate" (ngModelChange)="reset_tabledata()">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Insurance Company</nz-form-label>
+            <nz-form-control>
+              <nz-select [(ngModel)]="model.insCompany" nzPlaceHolder="Select Insurance Company"
+                name="insurance company" nzDropdownMatchSelectWidth="true" (ngModelChange)="getcategory()">
+                <nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code" >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">State</nz-form-label>
+            <nz-form-control>
+              <!-- {{model.state|json}} -->
+              <master-find-ctrl [options]="stateFindopt" [(ngModel)]="model.state" name="state" (ngModelChange)="sortstate($event)">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Region</nz-form-label>
+            <nz-form-control>
+              <!-- {{model.region|json}} -->
+              <master-find-ctrl [options]="regionFindopt" [(ngModel)]="model.region" name="region" (ngModelChange)="onchange_reg($event)">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Location</nz-form-label>
+            <nz-form-control>
+              <!-- {{model.location|json}} -->
+              <master-find-ctrl [options]="locationFindopt" [(ngModel)]="model.location" name="location" (ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="6">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Report</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Report Type" name="Report Type" (ngModelChange)="onchangeRpttype()"
+                [(ngModel)]="model.ReportType" nzDropdownMatchSelectWidth="true" (ngModelChange)="reset_tabledata()">
+                <nz-option *ngFor="let item of rpttype" [nzLabel]="item.Description" [nzValue]="item.Code"></nz-option>
+              </nz-select>
+            </nz-form-control>
+            <!-- {{model.ReportType|json}} -->
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row nzGutter="10" nzType="flex">
+        <!-- <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel"> From Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [(ngModel)]="model.fromDate"
+                name="fromDate"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel"> To Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker [nzFormat]="dateFormat" [nzDisabledTime]="true" [(ngModel)]="model.toDate" name="toDate">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+
+        <!-- <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Category</nz-form-label>
+            <nz-form-control>
+      
+              <master-find-ctrl [options]="stateFindopt" [(ngModel)]="model.category" name="category" (ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">SP Code</nz-form-label>
+            <nz-form-control>
+              <!-- {{model.state|json}} -->
+              <master-find-ctrl [options]="SPFindopt" [(ngModel)]="model.spCode" name="spCode" (ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Product Category</nz-form-label>
+            <nz-form-control>
+              <!-- {{model.state|json}} -->
+              <master-find-ctrl [options]="productcategoryFindopt" [(ngModel)]="model.pdtCategory" name="pdtCategory"(ngModelChange)="reset_tabledata()">
+              </master-find-ctrl>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="6" nzLg="3">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Report Type</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select Report Type" name="exporttype" (ngModelChange)="onchangeRpttype()"
+                [(ngModel)]="model.exporttype" nzDropdownMatchSelectWidth="true">
+                <nz-option *ngFor="let item of exporttypeList" [nzLabel]="item.Description" [nzValue]="item.Code">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzMd="8" nzLg="4">
+
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group [(ngModel)]="model.sORd" (ngModelChange)="changeType()" name="sord">
+                <label class="boldinglabel" nz-radio nzValue="S">Summary</label>
+                <label class="boldinglabel" nz-radio nzValue="D">Detail</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+
+        </div>
+
+      </div>
+    </div>
+  </form>
+
+  <div class="mt-2">
+
+    <nz-table #expandTable [nzScroll]="{ y: '440px' }" [hidden]="treeData.length==0" *ngIf="this.model.ReportType !='Comm'"
+      class="tranTbl table-responsive table-themed" nzShowPagination="false" nzSize="small" [nzData]="treeData">
+      <thead>
+        <tr style="color: #710505d9 !important">
+          <th nzWidth="10%">Name</th>
+          <th nzWidth="10%">Total Application No</th>
+          <!-- <th class="text-center" nzWidth="10%">Issuance Only</th>
+          <th nzWidth="10%">Inward Available and Login Missing</th>
+          <th nzWidth="10%">Inward Missing and Login Available </th>
+          <th nzWidth="10%">Login Available and Issuance Missing </th> -->
+          <!-- <th nzWidth="10%">Issuance Available and Commission Missing </th> -->
+          <!-- <th class="text-left" nzWidth="10%">Commission Not Recieved</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of expandTable.data">
+          <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+            <tr (click)="showModal(item)" *ngIf="item.parent && item.parent.expand || !item.parent">
+              <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+                (nzExpandChange)="collapse(mapOfExpandedData[data.key],item,$event)"
+                [ngClass]="{'treeName' :setClickStyle(item)}">
+                {{item.Name}}
+              </td>
+              <td>{{item.TotalApplication}}</td>
+              <!-- <td>{{item.IssuanceOnly}}</td>
+              <td>{{item.Inwardavlibl_and_LoginMsng}}</td>
+              <td>{{item.Loginavlbl_and_InwardMsng}}</td>
+              <td>{{item.Loginavlbl_and_IssuanceMsng}}</td> -->
+              <!-- <td>{{item.Issuanceavlbl_and_commissionnotrecieved}}</td> -->
+              <!-- <td class="text-center">{{item.Commission_Not_Recieved}}</td> -->
+            </tr>
+          </ng-container>
+        </ng-container>
+      </tbody>
+    </nz-table>
+
+
+    
+    <nz-table #expandTable [nzScroll]="{ y: '440px' }"   [hidden]="treeData.length==0" *ngIf="this.model.ReportType =='Comm'"
+    class="tranTbl table-responsive table-themed" nzPageSize="15" [nzHideOnSinglePage]=true nzSize="small"
+    [nzData]="treeData">
+    <thead>
+      <tr style="color: #710505d9 !important">
+        <th nzWidth="60%">Name</th>
+        <th class="text-right" nzWidth="20%" >COMMISSION RECEIVED</th>
+        <th class="text-right" nzWidth="20%" >COMMISSION RECEIVABLE(&#8377;)</th>
+       
+    
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let data of expandTable.data">
+        <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+          <tr (click)="showmodal(item)" *ngIf="item.parent && item.parent.expand || !item.parent">
+            <td  [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+              (nzExpandChange)="collapse(mapOfExpandedData[data.key],item,$event)" 
+              [ngClass]="{'treeName' :setClickStyleComm(item)}" nzWidth="60%"  >{{item.NAME}}
+            </td>
+            <td class="text-right" nzWidth="20%" >{{item.CommissionPayable}}</td>
+            <td class="text-right" nzWidth="20%" >{{item.CommissionPaid}}</td>
+            
+
+            
+    
+          </tr>
+        </ng-container>
+      </ng-container>
+    </tbody>
+    </nz-table>
+
+
+    
+    <nz-table class="tranTbl table-responsive table-themed" nzSize="small" [nzHideOnSinglePage]=true nzPageSize="15"
+      #zoneTable1 [hidden]="ZoneData1.length==0" [nzData]="ZoneData1">
+      <thead>
+        <tr>
+          <th *ngFor="let header of ZoneDataHeader1;let i = index">
+            {{header}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of zoneTable1.data">
+          <td *ngFor="let header of ZoneDataHeader1" style="cursor: pointer"
+          [ngClass]="{'text-right':setStyles(header),'treeName': header == 'PolicyNo' &&  model.ReportType == 'IssuanceOnly','treeName': header == 'PolicyNo' &&  model.ReportType == 'IssuanceAvailableandLoginMissing'}"
+          (click)="showPolicyDashboard(data,header)">{{data[header]}}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    <nz-table #basicTable class="table-responsive table-themed" nzPageSize="15" [nzHideOnSinglePage]=true
+      [hidden]="!stateData1.length" [nzData]="stateData1" *ngIf="stateData1" nzSize="small" nzBodered="false">
+      <thead>
+        <tr>
+          <th nzWidth="30%">Name</th>
+          <th nzWidth="70%" class="text-center">TotalApplication</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+
+          <td nzWidth="30%">{{data.Name}}</td>
+          <td nzWidth="70%" class="text-center">{{data.TotalApplication}}</td>
+
+        </tr>
+      </tbody>
+    </nz-table>
+    <nz-table #basicTable1 class="table-responsive table-themed" nzPageSize="15" [nzHideOnSinglePage]=true
+      [hidden]="!regionData1.length" [nzData]="regionData1" *ngIf="regionData1" nzSize="small" nzBodered="false">
+      <thead>
+        <tr>
+          <th nzWidth="30%">Name</th>
+          <th nzWidth="70%" class="text-center">TotalApplication</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable1.data">
+
+          <td nzWidth="30%">{{data.Name}}</td>
+          <td nzWidth="70%" class="text-center">{{data.TotalApplication}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+
+    
+    <nz-table #basicTable2 class="table-responsive table-themed" nzPageSize="15" [nzHideOnSinglePage]=true
+      [hidden]="!branchData1.length" [nzData]="branchData1" *ngIf="branchData1" nzSize="small" nzBodered="false">
+      <thead>
+        <tr>
+          <th nzWidth="30%">Name</th>
+          <th nzWidth="70%" class="text-center">TotalApplication</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable2.data">
+
+          <td nzWidth="30%">{{data.Name}}</td>
+          <td nzWidth="70%" class="text-center">{{data.TotalApplication}}</td>
+
+        </tr>
+      </tbody>
+    </nz-table>
+    <nz-table #basicTable3 class="table-responsive table-themed" nzPageSize="15" [nzHideOnSinglePage]=true
+      nzSize="small" [hidden]="!employeeData.length" [nzData]="employeeData" *ngIf="employeeData" nzBodered="false">
+      <thead>
+        <tr>
+          <th nzWidth="30%">Name</th>
+          <th nzWidth="70%" class="text-center">TotalApplication</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable3.data">
+
+          <td nzWidth="30%">{{data.Name}}</td>
+          <td nzWidth="70%" class="text-center">{{data.TotalApplication}}</td>
+
+        </tr>
+      </tbody>
+    </nz-table>
+
+  </div>
+
+  <nz-modal nzWidth="1000px" [(nzVisible)]="isVisible" nzTitle="Reconciliation Report {{branchcode}}" [nzOkText]="null"
+    nzCancelText="Close" (nzOnCancel)="handleCancel()">
+    <nz-table class="tranTbl table-responsive table-themed" [nzHideOnSinglePage]=true nzSize="small" #branchTable
+      [nzData]="branchdetailData">
+      <thead>
+        <tr>
+          <th *ngFor="let header of branchdetailDataHeader;let i = index">
+            {{header}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of branchTable.data">
+          <td *ngFor="let header of branchdetailDataHeader"
+            [ngClass]="{'text-right':setStyles(header),'treeName1': header == 'PolicyNo' &&  model.ReportType == 'IssuanceOnly','treeName': header == 'PolicyNo' &&  model.ReportType == 'IssuanceAvailableandLoginMissing'}"
+            (click)="showPolicyDashboard(data,header)">{{data[header]}}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+<!-- 
+    <nz-table #expandTable [nzScroll]="{ y: '440px' }"   [hidden]="treeData.length==0" 
+    class="tranTbl table-responsive table-themed" nzPageSize="15" [nzHideOnSinglePage]=true nzSize="small"
+    [nzData]="treeData">
+    <thead>
+      <tr style="color: #710505d9 !important">
+        <th nzWidth="40%">Name</th>
+        <th class="text-center" nzWidth="10%" >COMMISSION RECEIVED</th>
+        <th class="text-right" nzWidth="10%">COMMISSION RECEIVABLE(&#8377;)</th>
+       
+    
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let data of expandTable.data">
+        <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+          <tr (click)="showModal(item)" *ngIf="item.parent && item.parent.expand || !item.parent">
+            <td  [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+              (nzExpandChange)="collapse(mapOfExpandedData[data.key],item,$event)"
+              [ngClass]="{'treeName' :setClickStyle(item)}" nzWidth="40%"  >{{item.NAME}}
+            </td>
+            <td class="text-center"  nzWidth="10%" >{{item.NoOfpolicy}}</td>
+            <td class="text-center"  nzWidth="10%" >{{item.NoOfpolicy}}</td>
+            
+    
+          </tr>
+        </ng-container>
+      </ng-container>
+    </tbody>
+    </nz-table> -->
+
+
+
+  </nz-modal>
+
+
+
+  <form-handler (onExportExcel)="exportData()" (onPreview)="preview()" (onReset)="resetForm()"></form-handler>
+  <app-loader *ngIf="isSpinning"></app-loader>

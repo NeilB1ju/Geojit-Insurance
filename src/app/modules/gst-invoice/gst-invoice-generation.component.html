@@ -1,0 +1,39 @@
+<div class="main-content">
+    <div nz-row nzGutter="5">
+        <div nz-col nzMd="4" nzLg="4">
+  
+            <nz-form-item>
+              <nz-form-label>Insurance Company</nz-form-label>
+              <nz-form-control>
+                <nz-select nzAllowClear nzPlaceHolder="Choose" style="width:100%">
+                    <nz-option nzValue="NSDL" nzLabel="NSDL"></nz-option>
+                    <nz-option nzValue="CDSL" nzLabel="CDSL"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+      </div>
+      <div nz-col nzMd="4"  nzLg="4">
+          <nz-form-item>
+              <nz-form-label nzRequired>From Date</nz-form-label>
+        
+              <nz-form-control>
+                <nz-date-picker  [(ngModel)]="fdt" name="from Date" [nzDisabledTime]="true">
+                </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+      </div>
+      <div nz-col nzMd="4"  nzLg="4">
+          <nz-form-item>
+              <nz-form-label nzRequired>To Date</nz-form-label>
+              <nz-form-control>
+                <nz-date-picker [(ngModel)]="tdt" name="to Date" [nzDisabledTime]="true">
+                </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+      </div>
+      <div nz-col nzMd="4"  nzLg="4" class="mt-5">
+          <button nz-button nzType="primary" (click)="generate()">
+              <i nz-icon type="file-excel" nzTheme="outline" style="font-size: 13px"></i>Generate</button>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,54 @@
+<div class="main-content">
+  	<form nz-form nzLayout="vertical">
+<h3 class="content-title">Client Transfer Details</h3>
+<div class="fltrcolor" style="padding: 4px">
+  	<div nz-row nzGutter="8">
+        <div nz-col nzMd="6" nzLg="6">
+            <nz-form-item>
+                <nz-form-label class="boldinglabel" nzRequired>Client</nz-form-label> 
+              <nz-form-control>  
+                            
+                  <master-find-ctrl [options]="clientFindopt" [(ngModel)]="client"  name="Client" (ngModelChange)="cleardataclient()"></master-find-ctrl>
+                   
+                </nz-form-control>        
+              
+            </nz-form-item>
+          </div>
+
+
+          <div nz-col nzMd="6" nzLg="6">
+           
+
+          <label class="Checkbox" nz-checkbox [(ngModel)]="checked" name="checked" (ngModelChange)="cleardatacheck()">ALL</label>  
+            
+      
+</div>
+    </div>
+   
+</div>
+<form-handler (onPreview)="preview(0)" (onReset)="resetForm()" (onExportExcel)="preview(1)"></form-handler>
+</form>
+
+<!-- <form-handler (onPreview)="preview()" (onReset)="resetForm()"></form-handler> -->
+
+<!-- ------------------report table--------------------------- -->
+<div >
+  <nz-table #basicTable  
+  nzHideOnSinglePage="true" class="reconTbl table-responsive table-themed" [nzPageSize]="18" [hidden]="ClientlogList.length==0" [nzData]="ClientlogList">
+    <thead>
+      <tr>
+        <th *ngFor="let colTd of ClientlogListTd">{{colTd}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td *ngFor="let colTd of ClientlogListTd">
+          {{data[colTd]}}
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- ------------------------------------------------------------------------- -->
+</div>

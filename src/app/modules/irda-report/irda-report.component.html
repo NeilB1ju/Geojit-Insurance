@@ -1,0 +1,143 @@
+<div class="main-content">
+  <form nz-form nzLayout="vertical" [formGroup]="validateForm">
+    <h3 class="content-title">IRDA Register</h3>
+    <div class="fltrcolor">
+      <div nz-row nzGutter="8">
+        <div nz-col nzMd="5">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Register Type</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select State" [(ngModel)]="model.registerType" name="registerType"
+                (ngModelChange)="onChangeRptType($event)" formControlName="registerType">
+                <nz-option *ngFor="let item of registerType" [nzLabel]="item.RegisterType"
+                  [nzValue]="item.ID"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3" *ngIf="dateFlag">
+          <nz-form-item>
+            <nz-form-label nzRequired class="boldinglabel">From Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.fromDate" [nzDisabledDate]="disableDate"
+                formControlName="fromDate" name="fromDate"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3" *ngIf="dateFlag">
+          <nz-form-item>
+            <nz-form-label nzRequired class="boldinglabel">To Date</nz-form-label>
+            <nz-form-control>
+              <nz-form-control>
+                <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.toDate" [nzDisabledDate]="disableDate"
+                  formControlName="toDate" name="toDate"></nz-date-picker>
+              </nz-form-control>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="4" *ngIf="FilterOnFlag">
+          <nz-form-item>
+            <nz-form-label nzRequired class="boldinglabel">Filter on</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select State" [(ngModel)]="model.filterOn" (ngModelChange)="restTable()"
+                name="filterOn" formControlName="filterOn">
+                <nz-option *ngFor="let item of filterOn" [nzLabel]="item.FilterOn" [nzValue]="item.ID"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3" *ngIf="StatusFlag">
+          <nz-form-item>
+            <nz-form-label nzRequired class="boldinglabel">Status</nz-form-label>
+            <nz-form-control>
+              <nz-select nzPlaceHolder="Select State" [(ngModel)]="model.status" (ngModelChange)="restTable()"
+                name="status" formControlName="status">
+                <nz-option *ngFor="let item of status" [nzLabel]="item.Status" [nzValue]="item.ID"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row nzGutter="8">
+        <div nz-col nzSm="17" nzMd="17" nzLg="17"> </div>
+        <div nz-col nzSm="7" nzMd="7" nzLg="7">
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <button nz-button nzType="primary" style="float: right;" class="mr-2" (click)="preview()"
+                style="background-color:#395D99"><i nz-icon type="eye" theme="outline"></i>View</button>
+              <button nzType="primary" nz-button nzType="primary" class="mr-2" (click)="exportData()"
+                style="background-color:#FB6542"><i nz-icon type="file-excel" theme="outline"></i>Excel</button>
+              <button nz-button nzType="primary" style="float: right;" class="mr-2" (click)="resetForm()"
+                style="background-color:#FFA500"><i nz-icon type="rollback" theme="outline"></i>Reset</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <app-file-preview [(isVisible)]="isVisible" [content]="filePreiewContent" [contentType]="filePreiewContentType"
+  [fileName]="filePreiewFilename"></app-file-preview>
+
+      <div nz-row nzGutter="8">
+        <ng-container *ngIf="tableData.length>0">
+          <nz-table *ngIf="tableData.length>0" [nzSize]="'small'" #expandTable nzBordered [nzData]="tableData"
+            [nzScroll]="{ x: '1300px'}" class="tranTbl table-responsive table-themed" [nzPageSize]="12"
+            [nzShowPagination]="tableData.length>12">
+            <thead>
+              <tr style="font-size:10px;">
+                <th class="table-head" *ngFor="let header of tableDataHeader" class="text-left">
+                  {{header}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of expandTable.data">
+                <td
+                  [ngClass]="{'text-center':header == 'Photo' ||  header == 'Complaint Document','text-right': header == 'Sum Assured' || header == 'Premium Amount' ||  header == 'Mobile No' ||  header == 'Plan and Term'||  header == 'Policy Tenure'||  header == 'Premium Paying Term'||  header == 'Charges or Fees Received'||   header == 'Billing Frequency'||  header == 'Remuneration Paid' }"
+                  class="text-left" *ngFor="let header of tableDataHeader;">
+                  <span>
+                      <button style="padding: 2px 4px 5px 5px;
+                      cursor: pointer;" *ngIf="header == 'Photo'&& data[header]=='View' || header == 'Complaint Document'&& data[header]=='View'   " nz-button nzType="small"  (click)="viewImage(data)" ><i nz-icon type="eye" style="color: #395D99;font-size: 13px;" theme="outline"></i> <span style="font-weight: 800;">{{data[header]}}</span> </button>
+                  </span>
+                 <span *ngIf="data[header]!='View'" >{{data[header]}}</span> 
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </ng-container>
+      </div>
+
+
+      <nz-modal [(nzVisible)]="showProposal" nzTitle="View Image" (nzOnCancel)="handleCancel1()" [nzOkText]="null"
+        [nzCancelText]="null" nzWidth="75%" (nzOnOk)="handleCancel1()">
+        <div nz-row>
+          <div nz-col nzMd="24" nzLg="24">
+            <div nz-row>
+              <div nz-col nzMd="21" nzLg="21" > </div>
+              <div nz-col nzMd="2" nzLg="2">
+                <button nz-button nzType="primary" (click)="downloadBase64Image()"  nzShape="round"><i nz-icon type="download"></i>Download</button>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col nzMd="24" nzLg="24">
+                <div style="margin:10px;max-height: 412px;overflow: auto;display: flex;
+               justify-content: center;">
+                  <img min-width="100%" height="412" [src]="photo" alt="Image" />
+                </div>
+              </div>
+            </div>
+            <!-- <hr *ngIf="fileExtension === 'jpg' || fileExtension === 'jpeg'"> -->
+
+
+          </div>
+        </div>
+
+      </nz-modal>
+
+
+
+    </div>
+  </form>
+  <app-loader *ngIf="isSpinning"></app-loader>
+</div>

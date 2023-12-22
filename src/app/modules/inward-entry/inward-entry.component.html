@@ -1,0 +1,136 @@
+<div class="main-content">
+	<form nz-form nzLayout="vertical" #inwardEntryForm="ngForm">
+			<fieldset [disabled]="!modifyform">
+		<h3 class="content-title">Inward Entry</h3>
+		<div nz-row nzGutter="8">
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6" nzXl="6">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel" nzRequired>Insurance Company</nz-form-label>
+					<nz-form-control>
+						<nz-select [(ngModel)]="model.insCompany" [disabled]="!modifyform" nzPlaceHolder="Select Insurance Company"
+							name="insurance company" nzDropdownMatchSelectWidth="true" (ngModelChange)="getProduct(1)">
+							<nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description"
+								[nzValue]="item.Code">
+							</nz-option>
+						</nz-select>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6" nzXl="6">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel" nzRequired>Client</nz-form-label>
+					<nz-form-control>
+						<master-find-ctrl [options]="clientFindopt" [(ngModel)]="model.client"  name="Client">
+						</master-find-ctrl>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6" nzXl="5">
+				<nz-form-item >
+					<nz-form-label class="boldinglabel" nzRequired>Introducer</nz-form-label>
+					<nz-form-control>
+						<nz-radio-group [(ngModel)]="model.type" (ngModelChange)="onChangeIntroducer($event)"
+							name="Introducer" disabled>
+							<label class="boldinglabel" nz-radio nzValue="E" read>Employee</label>
+							<label class="boldinglabel" nz-radio nzValue="F">Franchisee</label>
+							<!-- <label class="boldinglabel" nz-radio nzValue="B">BA</label> -->
+						</nz-radio-group>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6" nzXl="7" *ngIf="model.type == 'E'" >
+	
+				<nz-form-item>
+					<nz-form-label class="boldinglabel" nzRequired>Employee</nz-form-label>
+  
+					<nz-form-control>
+					  <master-find-ctrl  [options]="EmployeeFindopt" [(ngModel)]="model.inwardType" name="Employee"
+						required="">
+  
+					  </master-find-ctrl>
+  
+					</nz-form-control>
+				  </nz-form-item>
+			</div>
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6" nzXl="7" *ngIf="model.type == 'F'" >
+				<nz-form-item >
+					<nz-form-label class="boldinglabel" nzRequired>Franchisee</nz-form-label>
+					<nz-form-control >
+					  <master-find-ctrl  [disabled]="true" [options]="locationFindopt" [(ngModel)]="model.FinwardType" name="Location"
+						required="">
+					  </master-find-ctrl>
+  
+					</nz-form-control>
+				  </nz-form-item>
+			</div>
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6" nzXl="7" *ngIf="model.type == 'B'" >
+				<nz-form-item>
+					<nz-form-label class="boldinglabel" nzRequired>BA</nz-form-label>
+					<nz-form-control>
+							<input nz-input placeholder="BA" [(ngModel)]="model.BA" type="text"
+							name="BA" maxlength="20" disabled required="">
+						<!-- <master-find-ctrl disabled [options]="BaFindopt" [(ngModel)]="model.BA" name="BA">
+						</master-find-ctrl> -->
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+		</div>
+		<div nz-row nzGutter="8">
+
+			<div  *ngIf="Drop1 =='P' " nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6" nzXl="6">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel" nzRequired>Product</nz-form-label>
+					<nz-form-control>
+						<nz-select [(ngModel)]="model.product" [disabled]="!modifyform" nzPlaceHolder="Product" name="Product"
+							nzDropdownMatchSelectWidth="true">
+							<nz-option *ngFor="let item of productList" [nzLabel]="item.Description"
+								[nzValue]="item.ProductId">
+							</nz-option>
+						</nz-select>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+
+
+			<div *ngIf="Drop1 =='C' " nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6" nzXl="6">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel">Product Category</nz-form-label>
+					<nz-form-control>
+						<!-- {{model.state|json}} -->
+						<master-find-ctrl [options]="productcategoryFindopt" [(ngModel)]="model.pdtCategory" 
+							name="pdtCategory" required="">
+						</master-find-ctrl>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6" nzXl="6">
+				<nz-form-item>
+					<nz-form-label *ngIf="Drop2 =='A' " class="boldinglabel" nzRequired>Application No &nbsp;&nbsp;{{Example}}</nz-form-label>
+					<nz-form-label *ngIf="Drop2 =='P' " class="boldinglabel" nzRequired>Policy No &nbsp;&nbsp;{{Example}}</nz-form-label>
+					<nz-form-control>
+						<input nz-input placeholder="Application No" [(ngModel)]="model.applNo" type="text"
+							name="Application No"  >
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+
+
+			<div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="4">
+				<nz-form-item>
+					<nz-form-label class="boldinglabel"> Entry Date</nz-form-label>
+					<nz-form-control>
+						<nz-date-picker [nzFormat]="dateFormat" [disabled]="true" [nzDisabledTime]="true"
+							[(ngModel)]="model.entryDate" name="entryDate"></nz-date-picker>
+					</nz-form-control>
+				</nz-form-item>
+			</div>
+
+		</div>
+			</fieldset>
+	</form>
+	<form-handler (onSave)="Save(inwardEntryForm)" (onDelete)="delete()" (onModify)="modify()" (onFind)="Search()" (onReset)="Reset()"></form-handler>
+</div>
+
+<lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog>
+<app-loader *ngIf="isSpinning"></app-loader>

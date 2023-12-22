@@ -1,0 +1,641 @@
+<div *ngIf="!this.isSpining">
+<div *ngIf="!this.showdash"  >
+<h2 style="padding: 30px;font-weight: bold;">WELCOME TO SPICE-INSURANCE BACK OFFICE</h2>
+</div>
+<!-- <br><br> -->
+<br><br>
+<div  class="main-content" *ngIf="this.showdash" >
+  <h1></h1>
+  <div nz-row nzGutter="16">
+    <div nz-col nzMd="18">
+      <div nz-row nzGutter="15">
+        <div nz-col nzMd="8">
+          <!--Commission Section-->
+          <nz-card nzTitle={{this.CommissionCaption}}>
+            <i nz-icon type="wallet" nzTheme="outline" class="capIcon bg-danger"></i>
+            <!-- <i nz-icon type="exclamation" nzTheme="outline" class="paidIcon bg-warning"></i> -->
+
+            <div style="margin-top: -20px">
+              <div class="card-counter" *ngFor="let content of Commission">
+                <span class="count-numbers">{{content.COMMISSION|nrFormat}}</span>
+                <span class="count-name">{{content.SubCaption}}</span>
+              </div>
+            </div>
+          </nz-card>
+        </div>
+        <div nz-col nzMd="8">
+          <nz-card nzTitle={{this.ActivePolicyCaption}}>
+            <i nz-icon type="fork" nzTheme="outline" class="capIcon bg-success"></i>
+            <div style="margin-top: -20px">
+              <div class="card-counter" *ngFor="let content of ActivePolicy">
+                <span class="count-numbers">{{content.ACTIVEPOLICY}}</span>
+                <span class="count-name">{{content.TYPE}}</span>
+              </div>
+            </div>
+          </nz-card>
+        </div>
+
+        <div nz-col nzMd="8">
+          <nz-card nzTitle={{this.PersistencyCaption}}>
+            <i nz-icon type="alipay" nzTheme="outline" class="capIcon bg-primary"></i>
+            <div style="margin-top: -20px">
+              <div class="card-counter" *ngFor="let content of Persistency">
+                <span class="count-numbers">{{content.PersistencyRatio}}</span>
+                <span class="count-name">{{content.SubCaption}}</span>
+              </div>
+            </div>
+          </nz-card>
+        </div>
+      </div>
+      <br>
+      <div nz-row *ngIf="premiumGraphData.length>0" nzGutter="15">
+        <div nz-col nzMd="24" style="padding: 0px;">
+          <nz-card>
+            <canvas baseChart width="50" height="15" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+              [colors]="lineChartColors"  [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
+            </canvas>
+          </nz-card>
+        </div>
+      </div>
+
+      <div nz-row nzGutter="15"><br><br><br>
+        <div nz-col nzMd="6">
+          <nz-card nzTitle="Lapse">
+            <i nz-icon type="fork" nzTheme="outline" class="capIcon bg-warning"></i>
+
+            <!-- <i nz-icon type="exclamation" nzTheme="outline" class="paidIcon bg-warning"></i> -->
+
+            <div class="card-counter" style="margin-top: -20px">
+              <span class="count-numbers">{{laps.ThisMonth}}</span>
+              <span class="count-name">This Month</span>
+            </div>
+
+            <div class="card-counter">
+              <span class="count-numbers">{{laps.LastOneMonth}}</span>
+              <span class="count-name">Last 1 Month</span>
+            </div>
+            <div class="card-counter">
+              <span class="count-numbers">{{laps.LastSixMonths}}</span>
+              <span class="count-name">Last 6 Months</span>
+            </div>
+
+            <div class="card-counter">
+              <span class="count-numbers">{{laps.LastYear}}</span>
+              <span class="count-name">Last Year</span>
+            </div>
+            <div class="card-counter">
+              <span class="count-numbers">{{laps.LastYear}}</span>
+              <span class="count-name">Since Inception</span>
+            </div>
+
+          </nz-card>
+        </div>
+
+        <div nz-col nzMd="18" class="card-container" style="margin-top: -39px;">
+
+          <nz-tabset [nzTabPosition]="'top'">
+            <nz-tab [nzTitle]="titleTemplate0">
+              <ng-template #titleTemplate0><i nz-icon [nzType]="apple"></i>TOP 5 ACTIVE PRODUCTS</ng-template>
+
+              <nz-card [nzTitle]="Brokerag">
+                <nz-table [nzFrontPagination]="false" [nzShowPagination]="false" #rowSelectionTable [nzSize]="'medium'" [nzData]="ActiveProduct">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Name</th>
+                      <th class="text-right">Count</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of ActiveProduct">
+                      <td>{{ data.PRODUCTCODE }}</td>
+                      <td>{{ data.PRODUCTNAME }}</td>
+                      <td class="text-right"><span class="count-numbers">{{ data.PRODUCTCOUNT|number }}</span></td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+              </nz-card>
+            </nz-tab>
+            <nz-tab [nzTitle]="titleTemplate">
+              <ng-template #titleTemplate> <i nz-icon [nzType]="alipay"></i>TOP 5 PROFITABLE PRODUCTS</ng-template>
+
+              <nz-card [nzTitle]="Brokerag">
+                <nz-table [nzFrontPagination]="false" [nzShowPagination]="false" #rowSelectionTable [nzSize]="'medium'" [nzData]="PofitablePolicy">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Name</th>
+                      <th class="text-right">COMMISSION</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of PofitablePolicy">
+                      <td>{{ data.PRODUCTCODE }}</td>
+                      <td>{{ data.PRODUCTNAME }}</td>
+                      <td class="text-right">{{ data.COMMISSION|nrFormat }}</td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+              </nz-card>
+            </nz-tab>
+            <nz-tab [nzTitle]="titleTemplate1">
+              <ng-template #titleTemplate1> <i nz-icon [nzType]="eye"></i>TOP 5 PERFORMING LOCATION</ng-template>
+
+              <nz-card [nzTitle]="Brokerag" >
+                <nz-table [nzFrontPagination]="false" [nzShowPagination]="false" #rowSelectionTable [nzSize]="'medium'" [nzData]="PerformLocation">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Name</th>
+                      <th class="text-right">Count</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of PerformLocation">
+                      <td>{{ data.LOCATIONCODE }}</td>
+                      <td>{{ data.LOCATION }}</td>
+                      <td class="text-right">{{ data.POLICYCOUNT|number }}</td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+              </nz-card>
+            </nz-tab>
+          </nz-tabset>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div nz-col nzMd="6">     
+        <!--<div nz-row nzGutter="25">-->
+        <!--class="mt-4"-->
+        <div >
+          <!--<nz-card>-->
+            <!--<i nz-icon type="fund" nzTheme="outline" class="amountIcon bg-success"></i>-->
+            <div nz-col nzMd="24" style="margin-top: 1px;">
+              <nz-card class="bg-warm-flame">
+                <div class="icon-wrapper-bg bg-black opacity-10"></div>
+                <i nz-icon type="border-bottom" class="amountIcon"></i>
+                <!--<i nz-icon type="fund" nzTheme="outline" class="amountIcon bg-info"></i>          -->
+                <span class="titles">Policy Due Details</span><br>
+                <div class="Amount">&#8377;{{premium.NetCommission|nrFormat}}</div><br><br>
+                <div nz-row>
+                <div nz-col nzMd="12">Last Month : 1.23 Lacs</div>
+                <div nz-col nzMd="12">Last Year : 3.78 Lacs</div></div>
+              </nz-card>
+            </div>
+            <!--</div>-->
+            <div nz-col nzMd="24">
+              <nz-card class="bg-warm-flame">
+                <div class="icon-wrapper-bg bg-black opacity-10"></div>
+                <i nz-icon type="border-horizontal" class="amountIcon"></i>
+                <!--<i nz-icon type="fund" nzTheme="outline" class="amountIcon bg-warning"></i>-->
+                <span class="titles">New Policy Details</span><br>
+                <div class="Amount">&#8377;{{premium.ThisMonthPremium|nrFormat}}</div><br><br>
+                <div nz-row>
+                  <div nz-col nzMd="12">Last Month : 1.23 Lacs</div>
+                  <div nz-col nzMd="12">Last Year : 3.78 Lacs</div>
+                </div>
+              </nz-card>
+            </div>
+            <div nz-col nzMd="24">
+              <nz-card class="bg-warm-flame">
+                <div class="icon-wrapper-bg bg-black opacity-10"></div>
+                <i nz-icon type="border-inner" class="amountIcon"></i>
+                <!--<i nz-icon type="fund" nzTheme="outline" class="amountIcon bg-danger"></i>-->
+                <span class="titles">New Client Details</span><br>
+                <div class="Amount">&#8377;{{premium.LastMonthPremium|nrFormat}}</div><br><br>
+                <div nz-row>
+                  <div nz-col nzMd="12">Last Month : 1.23 Lacs</div>
+                  <div nz-col nzMd="12">Last Year : 3.78 Lacs</div>
+                </div>
+              </nz-card>
+            </div>
+
+            <div nz-col nzMd="24">
+              <nz-card class="bg-warm-flame">
+                <div class="icon-wrapper-bg bg-black opacity-10"></div>
+                <i nz-icon type="border-outer" class="amountIcon"></i>
+                <!--<i nz-icon type="fund" nzTheme="outline" class="amountIcon bg-primary"></i>-->
+                <span class="titles">Policy renewed Details</span><br>
+                <div class="Amount">&#8377;{{premium.ThisYearPremium|nrFormat}}</div>
+                <br><br>
+                <div nz-row>
+                  <div nz-col nzMd="12">Last Month : 1.23 Lacs</div>
+                  <div nz-col nzMd="12">Last Year : 3.78 Lacs</div>
+                </div>
+              </nz-card>
+            </div>
+            <div nz-col nzMd="24">
+              <nz-card class="bg-warm-flame">
+                <div class="icon-wrapper-bg bg-black opacity-10"></div>
+                <i nz-icon type="pic-center" class="amountIcon"></i>
+                <!--<i nz-icon type="fund" nzTheme="outline" class="amountIcon bg-success"></i>            -->
+                <span class="titles">Inward Pending Details</span><br>
+                <div class="Amount">&#8377;{{premium.NetPremium|nrFormat}}</div>
+                <br><br>
+                <div nz-row>
+                  <div nz-col nzMd="12">Last Month : 1.23 Lacs</div>
+                  <div nz-col nzMd="12">Last Year : 3.78 Lacs</div>
+                </div>
+              </nz-card>
+            </div>
+            <div nz-col nzMd="24">
+              <nz-card class="bg-warm-flame">
+                <div class="icon-wrapper-bg bg-black opacity-10"></div>
+                <i nz-icon type="menu-fold" class="amountIcon"></i>
+                <!--<i nz-icon type="fund" nzTheme="outline" class="amountIcon bg-success"></i>            -->
+                <span class="titles">Lapsed Details</span><br>
+                <div class="Amount">&#8377;{{premium.NetPremium|nrFormat}}</div>
+                <br><br>
+                <div nz-row>
+                  <div nz-col nzMd="12">Last Month : 1.23 Lacs</div>
+                  <div nz-col nzMd="12">Last Year : 3.78 Lacs</div>
+                </div>
+              </nz-card>
+            </div>
+            <div nz-col nzMd="24">
+              <nz-card class="bg-warm-flame">
+                <!--<div class="rounded-circle">-->
+                  <div class="icon-wrapper-bg bg-black opacity-10"></div>
+                  <i nz-icon type="radius-setting" class="amountIcon"></i>
+                <!--</div>-->
+                <!--<i nz-icon type="fund" nzTheme="outline" class="amountIcon bg-success"></i>            -->
+                <span class="titles">Net Permium</span><br>
+                <div class="Amount">&#8377;{{premium.NetPremium|nrFormat}}</div>
+                <br><br>
+                <div nz-row>
+                  <div nz-col nzMd="12">Last Month : 1.23 Lacs</div>
+                  <div nz-col nzMd="12">Last Year : 3.78 Lacs</div>
+                </div>
+              </nz-card>
+            </div>
+            <div nz-col nzMd="24">
+              <nz-card class="bg-warm-flame">
+                <!--<div class="rounded-circle">-->
+                <div class="icon-wrapper-bg bg-black opacity-10"></div>
+                <i nz-icon type="fork" class="amountIcon"></i>
+                <!--</div>-->
+                <!--<i nz-icon type="fund" nzTheme="outline" class="amountIcon bg-success"></i>            -->
+                <span class="titles">Net Permium</span><br>
+                <div class="Amount">&#8377;{{premium.NetPremium|nrFormat}}</div>
+                <br><br>
+                <div nz-row>
+                  <div nz-col nzMd="12">Last Month : 1.23 Lacs</div>
+                  <div nz-col nzMd="12">Last Year : 3.78 Lacs</div>
+                </div>
+              </nz-card>
+            </div>
+          <!--</nz-card>-->
+        </div>
+      
+    </div>
+  </div><br><br>
+  <div nz-row nzGutter="15">
+    <div nz-col nzMd="12">
+      <nz-card >
+        <div style="display: block;">
+          <canvas baseChart [data]="CommissionChartData" [labels]="CommissionChartLabels" [chartType]="CommissionChartType">
+          </canvas>
+        </div>
+      </nz-card>
+    </div>
+    <div nz-col nzMd="12">
+      <nz-card >
+        <div style="display: block;">
+          <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType">
+          </canvas>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+  <!--<script src="node_modules/chart.js/src/chart.js"></script>-->
+
+
+
+
+
+  <!--<section class="portfolioSummarySection">-->
+  <!--
+    <nz-card class="summaryCard">
+
+      <div nz-row class="align-items-center ">
+        <div nz-col nzMd="12">
+          <div class="mb-4 mt-3 kpiBlock">
+            <div class="d-flex align-items-center primaryFont h2"><i class="iconRupee"></i>
+              {{premium.NetPremium|nrFormat}}
+
+            </div>
+            <div class="fontSize12 subFont">Net Permium</div>
+          </div>
+          <div nz-row nzGutter="10">
+
+            <div nz-col nzMd="8">
+              <div class="mb-4 kpiBlock mb-lg-0">
+                <div class="d-flex align-items-center primaryFont h5">
+
+                  <i class="iconRupee"></i>
+                  {{premium.ThisMonthPremium|nrFormat}}
+                </div>
+                <div class="fontSize12 subFont">This Month</div>
+              </div>
+            </div>
+            <div nz-col nzMd="8">
+              <div class="mb-4 kpiBlock mb-lg-0">
+                <div class="d-flex align-items-center  primaryFont h5">
+
+
+                  <i class="iconRupee"></i>
+                  {{premium.LastMonthPremium|nrFormat}}
+
+
+                </div>
+                <div class="fontSize12 subFont">Last Month</div>
+              </div>
+            </div>
+            <div nz-col nzMd="8">
+              <div class="mb-4 kpiBlock mb-lg-0">
+                <div class="d-flex align-items-center primaryFont h5">
+
+                  <i class="iconRupee"></i>
+                  {{premium.ThisYearPremium|nrFormat}}
+                </div>
+                <div class="fontSize12 subFont">This Year</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div nz-col nzMd="12">
+          <div class="portFolioSummaryBlock mt-2">
+            <a href="javascript:void(0)" class="expandGraphicalView" data-toggle="modal"
+              data-target="#expandPortfolioSummary"><i class="icon icon18 iconExpand"></i></a>-->
+
+  <!-- <nz-card style="background:#e0f1ee"> -->
+
+
+  <!-- <canvas baseChart width="50" height="12" [datasets]="lineChartData" [labels]="lineChartLabels"
+                [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+                [chartType]="lineChartType" [plugins]="lineChartPlugins">
+              </canvas> -->
+
+
+  <!-- </nz-card> -->
+
+  <!-- <div class="canvasChart" id="portfolioSummary"></div> -->
+  <!--</div>
+        </div>
+      </div>
+
+    </nz-card>
+  </section>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--<br><br>
+
+
+  <nz-card>
+    <div nz-row>
+       <div class="cardHeader"> 
+      <i nz-icon type="rise" nzTheme="outline"></i>
+  </div> 
+      <nz-table [nzFrontPagination]="false" [nzShowPagination]="false" #rowSelectionTable [nzSize]="'medium'"
+        [nzData]="companyDetails">
+
+        <thead>
+          <tr>
+            <th></th>
+            <th>Company Name</th>
+            <th>Category Name</th>
+            <th class="text-right">Premium</th>
+            <th class="text-right">Claims</th>
+            <th class="text-right">Last Month Premium</th>
+            <th class="text-right">This Month Premium</th>
+            <th class="text-right">This Year Premium</th>
+            <th class="text-right">Yearly Growth</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let data of rowSelectionTable.data">
+            <td><img src="assets/img/icici.png" style="height: 20px;width: 20px;"></td>
+            <td>{{ data.CompanyName }}</td>
+            <td>{{ data.CategoryName }}</td>
+            <td class="text-right">{{ data.Premium|number }}</td>
+            <td class="text-right">{{ data.Claims|number }}</td>
+            <td class="text-right">{{ data.LastMonthPremium|number }}</td>
+            <td class="text-right">{{ data.ThisMonthPremium|number }}</td>
+            <td class="text-right">{{ data.ThisYearPremium|number }}</td>
+            <td class="text-right">{{ data.YearlyGrowth }}</td>
+          </tr>
+
+        </tbody>
+      </nz-table>
+    </div>
+  </nz-card>
+  <br><br><br><br>-->
+  <!-- <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Schemes</h4>
+          </div>
+          <div class="card-body table-responsive">
+          <table>
+
+    <thead>
+      <tr>
+        <th></th>
+        <th>Company Name</th>
+        <th>Category Name</th>
+        <th class="text-right">Premium</th>
+        <th class="text-right">Claims</th>
+        <th class="text-right">Last Month Premium</th>
+        <th class="text-right">This Month Premium</th>
+        <th class="text-right">This Year Premium</th>
+        <th class="text-right">Yearly Growth</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let data of companyDetails">
+        <td><img src="assets/img/icici.png" style="height: 20px;width: 20px;"></td>
+        <td>{{ data.CompanyName }}</td>
+        <td>{{ data.CategoryName }}</td>
+        <td class="text-right">{{ data.Premium|number }}</td>
+        <td class="text-right">{{ data.Claims|number }}</td>
+        <td class="text-right">{{ data.LastMonthPremium|number }}</td>
+        <td class="text-right">{{ data.ThisMonthPremium|number }}</td>
+        <td class="text-right">{{ data.ThisYearPremium|number }}</td>
+        <td class="text-right">{{ data.YearlyGrowth }}</td>
+      </tr>
+
+    </tbody>
+  </table>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div nz-row nzGutter="15">
+
+    <!-- <div nz-col nzMd="6">
+      <nz-card nzTitle="Paid">
+        <i nz-icon type="fund" nzTheme="outline" class="capIcon bg-success"></i>
+
+
+        <div class="card-counter">
+          <span class="count-numbers">{{paid.ThisMonth}}</span>
+          <span class="count-name">This Month</span>
+        </div>
+
+        <div class="card-counter">
+          <span class="count-numbers">{{paid.LastOneMonth}}</span>
+          <span class="count-name">Last 1 Month</span>
+        </div>
+        <div class="card-counter">
+          <span class="count-numbers">{{paid.LastSixMonths}}</span>
+          <span class="count-name">Last 6 Months</span>
+        </div>
+
+        <div class="card-counter">
+          <span class="count-numbers">{{paid.LastYear}}</span>
+          <span class="count-name">Last Year</span>
+        </div>
+
+      </nz-card>
+    </div> -->
+    <!--<div nz-col nzMd="8">
+      <nz-card nzTitle="Lapse">
+        <i nz-icon type="fork" nzTheme="outline" class="capIcon bg-warning"></i>
+
+                <div class="card-counter" style="margin-top: -20px">
+          <span class="count-numbers">{{laps.ThisMonth}}</span>
+          <span class="count-name">This Month</span>
+        </div>
+
+        <div class="card-counter">
+          <span class="count-numbers">{{laps.LastOneMonth}}</span>
+          <span class="count-name">Last 1 Month</span>
+        </div>
+        <div class="card-counter">
+          <span class="count-numbers">{{laps.LastSixMonths}}</span>
+          <span class="count-name">Last 6 Months</span>
+        </div>
+
+        <div class="card-counter">
+          <span class="count-numbers">{{laps.LastYear}}</span>
+          <span class="count-name">Last Year</span>
+        </div>
+
+      </nz-card>
+    </div>
+    <div nz-col nzMd="8">
+      <nz-card nzTitle="Dues">
+        <i nz-icon type="fork" nzTheme="outline" class="capIcon bg-danger"></i>
+
+        
+
+        <div class="card-counter" style="margin-top: -20px">
+          <span class="count-numbers">{{dues.Next10Days}}</span>
+          <span class="count-name">Next 10 Days</span>
+        </div>
+
+        <div class="card-counter">
+          <span class="count-numbers">{{dues.Next20Days}}</span>
+          <span class="count-name">Next 20 Days</span>
+        </div>
+        <div class="card-counter">
+          <span class="count-numbers">{{dues.Next30Days}}</span>
+          <span class="count-name">Next 30 Days</span>
+        </div>
+
+        <div class="card-counter">
+          <span class="count-numbers">{{dues.Next50Days}}</span>
+          <span class="count-name">Next 50 Days</span>
+        </div>
+
+
+      </nz-card>
+    </div>
+
+    <div nz-col nzMd="8">
+      <nz-card nzTitle="Reconciliation">
+        <i nz-icon type="stock" nzTheme="outline" class="capIcon bg-primary"></i>
+        
+
+        <div class="card-counter" style="margin-top: -20px">
+          <span class="count-numbers">{{rico.InwardAvailableLoginPending}}</span>
+          <span class="count-name">Inward Available Login Pending</span>
+        </div>
+
+
+        <div class="card-counter">
+          <span class="count-numbers">{{rico.InwardPendingLoginAvailable}}</span>
+          <span class="count-name">Inward Pending Login Available</span>
+        </div>
+
+
+        <div class="card-counter">
+          <span class="count-numbers">{{rico.LoginAvailableIssuancePending}}</span>
+          <span class="count-name">Login Available Issuance Pending</span>
+        </div>
+        <div class="card-counter" style="border-bottom: none;">
+           <span class="count-numbers">{{rico.LoginAvailableIssuancePending}}</span>-->
+    <!--<span class="count-name">Login Available Issuance Pending</span> -->
+    <!--</div>
+      </nz-card>
+    </div>-->
+    <!-- </div>
+<div nz-row >
+  <div nz-col nzMd="6">
+  <input type="text" nz-input placeholder="Search Symbol" [(ngModel)]="searchTerm" (keyup)="getData()"
+    [nzAutocomplete]="auto" nz-popover nzTitle="Title" [nzContent]="contentTemplate" nzTrigger="hover">
+  <nz-autocomplete #auto>
+
+    <nz-auto-option *ngFor="let option of resultArray" [nzValue]="option" class="paragraph">
+      <span [innerHTML]="option"></span>
+    </nz-auto-option>
+    <nz-auto-option *ngFor="let option of menuArray" [nzValue]="option.name" class="paragraph">
+      <span [innerHTML]="option.name+'-'+option.project" (click)=getWorkspace(option)></span>
+    </nz-auto-option>
+    
+          <nz-auto-option  *ngIf="resultArray.length>0">
+      <button (click)="prev()" nz-button nzType="primary" *ngIf="from>0"><i nz-icon type="left" class="float-left"></i>Prev</button>
+      <button (click)="next()" nz-button nzType="primary" class="float-right">Next <i nz-icon type="right"></i></button>
+    </nz-auto-option>
+ 
+    </nz-autocomplete>
+
+
+
+  <ng-template #contentTemplate>
+      <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="log(checkOptionsOne)"></nz-checkbox-group>
+  </ng-template> -->
+    <!-- <div *ngIf="resultArray.length>0">
+      <button nz-button nzType="primary" (click)="prev()"><i nz-icon type="left"></i>Prev</button>
+      <button nz-button nzType="primary" (click)="next()">Next<i nz-icon type="right"></i></button>
+  </div> -->
+    <!-- </div>
+</div> -->
+    <!-- <ng-template #contentTemplate>
+    <div>
+        <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="log(checkOptionsOne)"></nz-checkbox-group>
+    </div>
+  </ng-template> -->
+  </div>
+</div>
+</div>

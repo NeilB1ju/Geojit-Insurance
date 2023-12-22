@@ -1,0 +1,79 @@
+<div class="main-content">
+	<form nz-form nzLayout="vertical" #reconProcForm="ngForm">
+
+		<h3 class="content-title">Policy Mapping Reversal</h3>
+		
+			<div nz-row nzGutter="8">
+				<!-- <div nz-col nzMd="12" nzLg="6">
+					<nz-form-item>
+						<nz-form-label class="boldinglabel"><span>CLIENT</span>&nbsp;<i style="font-size: 16px;" nz-icon nzType="search" nzTheme="outline"></i></nz-form-label> 
+						<nz-form-control>
+							<nz-select nzShowSearch nzAllowClear nzPlaceHolder="Product Code"
+								[(ngModel)]="model.client" name='Client' (ngModelChange)="getpolicylist()">
+								<nz-option *ngFor="let item of Client"  [nzLabel]="item.name"
+									[nzValue]="item.id"></nz-option>
+
+							</nz-select>
+						</nz-form-control>
+					</nz-form-item>
+				</div> -->
+
+				<div nz-col nzMd="14" nzLg="6">
+					<nz-form-item>
+					  <nz-form-label class="boldinglabel">Client</nz-form-label>
+					  <nz-form-control>
+						<master-find-ctrl [options]="clientFindopt" [(ngModel)]="model.Client" name="client"
+						  (ngModelChange)="onSelectClient($event)"></master-find-ctrl>
+					  </nz-form-control>
+					</nz-form-item>
+				  </div>
+			</div>
+	
+	</form>
+	<div *ngIf="tablelist.length">
+		<nz-table *ngIf="tablelist.length" #basicTable [nzData]="tablelist" nzHideOnSinglePage="true"
+			class="tranTbl table-responsive table-themed" [nzPageSize]="10">
+			<thead>
+				<tr>
+					<th>ApplicationNo</th>
+					<th>Policy Status</th>
+					<th>Product Name</th>
+					<th>Product Category</th>
+					<th >Total Sum Assured</th>
+					<th >Total Premium</th>
+					<th >Instalment Premium</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let data of basicTable.data">
+					<td >{{data.ApplicationNo}}</td>
+					<td>{{data.PolicyStatus}}</td>
+					<td>{{data.ProductName}}</td>
+					<td>{{data.ProductCategory}}</td>
+					<td style="text-align: right;">{{data.TotalSumAssured}}</td>
+
+					<td >{{data.TOTAL_PREIMIUM}}</td>
+					<td >{{data.INSTALMENTPREMIUM}}</td>
+					<td><label nz-checkbox [(ngModel)]="data.checkbox" name="checkbox" ></label> </td>
+
+
+
+
+				</tr>
+			</tbody>
+			
+		</nz-table>
+       <div style="padding-top: 10px;">
+		<button  nz-button nzType="primary" style="float: right;" class="mr-2" (click)="reverse()"><i nz-icon nzType="rollback" nzTheme="outline"></i>Reverse</button>
+	</div>
+		
+	</div>
+
+ 
+
+
+</div>	
+
+<app-loader *ngIf="isSpinning"></app-loader>
+

@@ -1,0 +1,262 @@
+<div class="main-content">
+  <form nz-form nzLayout="vertical" [formGroup]="validateForm">
+    <h3 class="content-title">Complaint Entry</h3>
+    <div class="fltrcolor">
+      <div nz-row nzGutter="8">
+        <div nz-col nzMd="1"> </div>
+        <div nz-col nzMd="22">
+          <div nz-row nzGutter="8">
+            <div nz-col nzMd="11">
+              <nz-form-item>
+                <nz-form-label nzRequired nzLg="8" nzMd="8" [nzSm]="10" [nzXs]="24" nzFor="Policy Name"> Name of
+                  Complainant
+                </nz-form-label>
+                <nz-form-control nzLg="16" nzMd="16" [nzSm]="16" [nzXs]="24" nzErrorTip="The input is not valid!">
+                  <input nz-input placeholder="Policy No" [(ngModel)]="model.nameOfComplaint"
+                    formControlName="nameOfComplainant" type="text" name="Policy Name">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzMd="1"></div>
+            <div nz-col nzMd="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzLg="7" nzMd="7" [nzSm]="7" [nzXs]="24" nzFor="Policy Name">Nature of
+                  Complaint
+                </nz-form-label>
+                <nz-form-control nzLg="17" nzMd="17" [nzSm]="16" [nzXs]="24" nzErrorTip="The input is not valid!">
+                  <input nz-input placeholder="Policy No" [(ngModel)]="model.natureOfComplaint"
+                    formControlName="natureOfComplaint" type="text" name="Policy Name">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row nzGutter="8">
+            <div nz-col nzMd="11">
+
+              <nz-form-item>
+                <nz-form-label nzRequired nzLg="8" nzMd="8" [nzSm]="8" [nzXs]="24" nzFor="Policy Name">Date of
+                  Complaint
+                </nz-form-label>
+                <nz-form-control nzLg="16" nzMd="16" [nzSm]="16" [nzXs]="24" nzErrorTip="The input is not valid!">
+                  <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.dateOfComplaint"
+                    [nzDisabledDate]="disableDate" formControlName="dateOfComplaint" name="Date"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+
+            </div>
+            <div nz-col nzMd="1"></div>
+            <!-- <div nz-col nzMd="12">
+
+              <nz-form-item>
+                <nz-form-label nzRequired nzLg="8" nzMd="8" [nzSm]="10" [nzXs]="24" nzFor="Policy Name">Policy Number
+                </nz-form-label>
+                <nz-form-control nzLg="16" nzMd="16" [nzSm]="16" [nzXs]="24" nzErrorTip="The input is not valid!">
+                  <input nz-input placeholder="Policy No" [(ngModel)]="model.PolicyNumber"
+                    formControlName="PolicyNumber" type="text" name="Policy Name">
+                </nz-form-control>
+              </nz-form-item>
+
+            </div> -->
+            <div nz-col nzMd="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzLg="7" nzMd="7" [nzSm]="8" [nzXs]="24" nzFor="Policy Name">SP Name
+                </nz-form-label>
+                <nz-form-control nzLg="17" nzMd="17" [nzSm]="19" [nzXs]="24" nzErrorTip="The input is not valid!">
+                  <input nz-input placeholder="Policy No" [(ngModel)]="model.spName" formControlName="spName"
+                    type="text" name="Policy Name">
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+          </div>
+          <div nz-row nzGutter="8">
+            <div nz-col nzMd="11">
+              <div nz-row nzGutter>
+                <div nz-col nzMd="18">
+                  <nz-form-item>
+                    <nz-form-label nzRequired nzLg="11" nzMd="11" [nzSm]="11" [nzXs]="24" nzFor="Policy Name">SP Code
+                    </nz-form-label>
+                    <nz-form-control style="margin-left:-5px" nzLg="12" nzMd="12" [nzSm]="12" [nzXs]="24"
+                      nzErrorTip="The input is not valid!">
+                      <master-find-ctrl [options]="SpFindopt" [(ngModel)]="model.spCode" formControlName="spCode"
+                        (ngModelChange)="OnChangeSpCode($event)" name="sp">
+                      </master-find-ctrl>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div nz-col nzMd="6">
+                  <nz-form-item>
+                    <nz-form-label nzRequired nzLg="14" nzMd="14" [nzSm]="14" [nzXs]="24" nzFor="Policy Name">SP Status
+                    </nz-form-label>
+                    <nz-form-control nzLg="10" nzMd="10" [nzSm]="8" [nzXs]="20" nzErrorTip="The input is not valid!">
+                      <input style="color: black;text-align: center" nz-input disabled="true"
+                        [(ngModel)]="model.spStatus" formControlName="spStatus" type="text" name="Policy Name">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+            <div nz-col nzMd="1"></div>
+
+            <div nz-col nzMd="12">
+              <div nz-row nzGutter>
+                <div nz-col nzMd="18">
+                  <nz-form-item>
+                    <nz-form-label nzRequired nzLg="10" nzMd="10" [nzSm]="24" [nzXs]="24" nzFor="Policy Name">Policy
+                      Number
+                    </nz-form-label>
+                    <nz-form-control style="margin-left:-13px" nzLg="14" nzMd="14" [nzSm]="24" [nzXs]="24"
+                      nzErrorTip="The input is not valid!">
+                      <master-find-ctrl [options]="PolicyFindOption" [(ngModel)]="model.PolicyNumber"
+                        formControlName="PolicyNumber" name="PolicyNumber">
+                      </master-find-ctrl>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div nz-col nzMd="6">
+                  <nz-form-item>
+                    <nz-form-label nzRequired nzLg="10" nzMd="10" [nzSm]="24" [nzXs]="24" nzFor="Policy Name">Status
+                    </nz-form-label>
+                    <nz-form-control nzLg="14" nzMd="14" [nzSm]="10" [nzXs]="24" nzErrorTip="The input is not valid!">
+                      <nz-select [(ngModel)]="model.Status" name="Status" formControlName="Status"
+                        (ngModelChange)="onChangeStatus($event)">
+                        <nz-option *ngFor="let item of StatusDropdown" [nzLabel]="item.ComplaintStatus"
+                          [nzValue]="item.ComplaintStatus"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div nz-col nzMd="12">
+              <nz-form-item>
+                <nz-form-label nzRequired nzLg="7" nzMd="7" [nzSm]="7" [nzXs]="24" nzFor="Policy Name">Policy Number
+                </nz-form-label>
+                <nz-form-control nzLg="17" nzMd="17" [nzSm]="17" [nzXs]="24" nzErrorTip="The input is not valid!">
+                  <master-find-ctrl [options]="SpFindopt" [(ngModel)]="model.spCode" formControlName="spCode"
+                    (ngModelChange)="OnChangeSpCode($event)" name="sp">
+                  </master-find-ctrl>
+                </nz-form-control>
+              </nz-form-item>
+            </div> -->
+
+          </div>
+          <div nz-row nzGutter="8">
+            <div nz-col nzMd="11">
+              <nz-form-item>
+                <nz-form-label nzRequired nzLg="8" nzMd="8" [nzSm]="5" [nzXs]="24" nzFor="Policy Name">Action Taken
+                </nz-form-label>
+                <nz-form-control nzLg="16" nzMd="16" [nzSm]="16" [nzXs]="24" nzErrorTip="The input is not valid!">
+                  <textarea style="margin-left:0px" formControlName="actionTaken" nz-input
+                    placeholder="Controlled autosize" [nzAutosize]="{ minRows: 4, maxRows: 6 }"
+                    [(ngModel)]="model.actionTaken" type="text" name="Policy Name"></textarea>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzMd="1"></div>
+            <div nz-col nzMd="12">
+              <div nz-row nzGutter *ngIf="closeDateFlag">
+                <div nz-col nzMd="18">
+                  <nz-form-item>
+                    <nz-form-label nzRequired nzLg="10" nzMd="10" [nzSm]="24" [nzXs]="24" nzFor="Policy Name">Closed
+                      Date
+                    </nz-form-label>
+                    <nz-form-control style="margin-left:-13px" nzLg="14" nzMd="14" [nzSm]="24" [nzXs]="24"
+                      nzErrorTip="The input is not valid!">
+                      <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.closedDate" formControlName="closedDate"
+                        name="Date"></nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div nz-col nzMd="6">
+                </div>
+              </div>
+              <div nz-row nzGutter>
+                <div nz-col nzMd="18">
+                  <nz-form-item>
+                    <nz-form-label nzLg="10" nzMd="10" [nzSm]="24" [nzXs]="24" style="margin-left:12px"
+                      nzFor="Policy Name">Complaint
+                      Document
+                    </nz-form-label>
+                    <div nz-col nzMd="14" style="margin-left:-25px" nzLg="14">
+                      <div nz-row nzGutter>
+                        <div nz-col nzMd="12" *ngIf="img">
+                          <button nz-button nzType="primary" (click)="View()"> <i nz-icon type="eye"
+                              theme="outline"></i>View</button>
+                        </div>
+                        <div nz-col nzMd="12">
+                          <nz-upload [nzFileList]="file" nzLimit="1" [nzBeforeUpload]="beforeUploadComplaint">
+                            <button nz-button>
+
+                              <i nz-icon type="upload"></i><span class="boldinglabel">Select File</span>
+                            </button>
+                          </nz-upload>
+                        </div>
+                      </div>
+                      <div nz-row nzGutter  *ngIf="img">
+                        <p>{{fileNameFromDb}}</p>
+                      </div>
+
+                    </div>
+
+
+                    <!-- <nz-form-label nzRequired nzLg="10" nzMd="10" [nzSm]="24" [nzXs]="24" nzFor="Policy Name">{{}} -->
+                    <!-- </nz-form-label> -->
+                    <!-- <nz-form-control  nzLg="14" nzMd="14" [nzSm]="24" [nzXs]="24"> -->
+
+
+                    <!--                   
+                          <nz-upload [(nzFileList)]="file" [nzBeforeUpload]="fileChangeEvent()" nzLimit="1">
+                            <button nz-button><i nz-icon nzType="file-add"></i><span>Click to Select</span></button>
+                          </nz-upload> -->
+                    <!-- </nz-form-control> -->
+                    <!-- </nz-form-item>
+                      </div> -->
+                    <!-- <nz-form-control style="margin-left:-13px" nzLg="14" nzMd="14" [nzSm]="24" [nzXs]="24"  nzErrorTip="The input is not valid!">
+                      <nz-date-picker nzFormat="dd-MM-yyyy" [(ngModel)]="model.closedDate" formControlName="closedDate" name="Date"></nz-date-picker>
+                      </nz-form-control> -->
+                  </nz-form-item>
+                </div>
+
+                <div nz-col nzMd="6">
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+        <div nz-col nzMd="1"> </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<app-file-preview [(isVisible)]="isVisible" [content]="filePreiewContent" [contentType]="filePreiewContentType"
+  [fileName]="fileNameFromDb"></app-file-preview>
+<div nz-row nzGutter="8" class="mt-2">
+  <div nz-col nzMd="17" nzLg="17"> </div>
+  <div nz-col nzMd="7" nzLg="7">
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary" style="float: right;" *ngIf="saveORUpdateButtonFlag" class="mr-2"
+          (click)="Save('U')"><i nz-icon type="eye" theme="outline"></i>Update</button>
+        <button nz-button nzType="primary" style="float: right;" *ngIf="!saveORUpdateButtonFlag" class="mr-2"
+          (click)="Save('S')"><i nz-icon type="eye" theme="outline"></i>Save</button>
+        <button nz-button nzType="primary" style="float: right;" class="mr-2" (click)="Search()"><i nz-icon
+            type="search" theme="outline"></i>Find</button>
+        <button type="primary" nz-button nzType="primary" (click)="reset()" class="mr-2"
+          style="background-color: #FFA500;float: right;"><i nz-icon type="rollback" theme="outline"></i>
+          Reset</button>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+
+
+<app-loader *ngIf="isSpinning"></app-loader>
+<lookup-dialog (onRecordSelected)="onLookupSelect($event,'F')"></lookup-dialog>

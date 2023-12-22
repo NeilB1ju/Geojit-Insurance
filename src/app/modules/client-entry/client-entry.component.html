@@ -1,0 +1,411 @@
+<!-- <lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog> -->
+<lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog>
+<div class="main-content">
+  <form nz-form #clientmasterForm="ngForm" nzLayout="vertical" >
+      <fieldset [disabled]="!modifyform">
+    <nz-tabset>
+      <nz-tab nzTitle="Profile">
+        <div nz-col [nzSpan]="24">
+          <fieldset class="fieldset-shadow-condensed">
+            <legend class="fieldset-shadow-condensed">
+              <span class="boldinglabel">Profile</span>
+            </legend>
+            <div nz-row nzGutter="4">
+
+              <div nz-col nzMd="14" nzLg="6">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Client</nz-form-label>
+                  <nz-form-control>
+                    <master-find-ctrl [options]="clientFindopt" [(ngModel)]="model.client" name="client"
+                      (ngModelChange)="onSelectClient($event)"></master-find-ctrl>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="4" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">CIN No</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="CINNo" [disabled]="true" [(ngModel)]="model.CINNo" type="text"
+                      name="CINNo">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="14" nzLg="6">
+                <nz-form-item>
+                  <nz-form-label  class="boldinglabel" nzRequired>Introducer</nz-form-label>
+                  <nz-form-control  >
+                    <nz-radio-group  [(ngModel)]="model.type" nzName="typegroup" name="Lead Generator"  [disabled]="franch">
+                      <label class="boldinglabel" nz-radio nzValue="E">Employee</label>
+                      <label class="boldinglabel" nz-radio nzValue="F">Franchisee</label>
+                      <!-- <label class="boldinglabel" nz-radio nzValue="B">BA</label> -->
+                    </nz-radio-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="14" nzLg="8" *ngIf="model.type == 'E'">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Employee</nz-form-label>
+
+                  <nz-form-control>
+                    <master-find-ctrl [options]="EmployeeFindopt" [(ngModel)]="model.Employee"  (ngModelChange)="test(model.Employee)" name="Employee"
+                      required="">
+
+                    </master-find-ctrl>
+
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="14" nzLg="8" *ngIf="model.type == 'F'">
+                <nz-form-item >
+                  <nz-form-label class="boldinglabel" nzRequired>Franchisee</nz-form-label>
+                  <nz-form-control >
+                    <master-find-ctrl  [disabled]="franch" [options]="locationFindopt" [(ngModel)]="model.Location" name="Location"
+                      required="">
+                    </master-find-ctrl>
+
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="14" nzLg="8" *ngIf="model.type == 'B'">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>BA</nz-form-label>
+                  <nz-form-control>
+                    <master-find-ctrl [options]="locationFindopt" [(ngModel)]="model.Location" name="Location">
+                    </master-find-ctrl>
+
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+
+            </div>
+            <div nz-row nzGutter="4">
+             
+              <div nz-col nzMd="8" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>PAN (PROPOSER’S PAN)</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="PAN" (blur)="getdetailswithpan()"   minlength="10" maxlength="10" [(ngModel)]="model.PAN" type="text"
+                     name="PAN" required="">
+                    <!--   <input nz-input placeholder="PAN" minlength="10" maxlength="12"  [(ngModel)]="model.PAN"  type="text" name="PAN" required="" pattern="{{inputPatterns.pan}}"> -->
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+             
+
+
+              <div nz-col nzMd="8" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>First Name</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="First Name" [textMask]="{mask:inputMasks.alphabets}" type="text" [(ngModel)]="model.FirstName" name="FirstName"
+                      required="">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="8" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Middle Name</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="Middle Name" [textMask]="{mask:inputMasks.alphabets}" type="text" [(ngModel)]="model.MiddleName"
+                      name="MiddleName">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="8" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Last Name</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="Last Name" [textMask]="{mask:inputMasks.alphabets}" [(ngModel)]="model.LastName" type="text" name="LastName">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              
+              <div nz-col nzMd="8" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Mobile</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input minlength="10" maxlength="15" [textMask]="{mask:inputMasks.numeric}"
+                      placeholder="Mobile" [(ngModel)]="model.Mobile" type="text" name="Mobile" required="">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="4" nzLg=2>
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Gender</nz-form-label>
+                  <nz-form-control>
+                    <nz-select nzPlaceHolder="Select Gender" [disabled]="!modifyform" [(ngModel)]="model.Gender" name="Gender"
+                      nzDropdownMatchSelectWidth="true">
+                      <nz-option *ngFor="let item of Genderlist" [nzLabel]="item.Description" [nzValue]="item.Code">
+                      </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="4" nzLg="2">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">LG Location</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="Location" [disabled]="true" [(ngModel)]="model.Locationbo" type="text"
+                      name="Locationbo">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+
+            </div>
+         
+            <div nz-row nzGutter="4">
+                <div nz-col nzMd="8" nzLg="4">
+                    <nz-form-item>
+                      <nz-form-label class="boldinglabel" nzRequired>DOB</nz-form-label>
+                      <nz-form-control>
+                        <nz-date-picker [disabled]="!modifyform"  nzFormat="dd-MM-yyyy" required="" [(ngModel)]="model.DOB" name="DOB">
+                        </nz-date-picker>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+         
+
+              <div nz-col nzMd="8" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel" nzRequired>Email</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="Email" [(ngModel)]="model.Email" [textMask]="{mask:inputMasks.email}"
+                      pattern="{{inputPatterns.emailId}}" type="text" name="Email" required="">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="8" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Secondary Email</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="Secondary Email" [textMask]="{mask:inputMasks.email}"
+                      [(ngModel)]="model.SecondaryEmail" pattern="{{inputPatterns.emailId}}" type="text"
+                      name="Secondary Email">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzMd="8" nzLg="4">
+                  <nz-form-item>
+                    <nz-form-label class="boldinglabel">DP CLIENT-ID</nz-form-label>
+                    <nz-form-control>
+                      <input nz-input placeholder="DP CLIENTID" [disabled]="true" maxlength="24" [(ngModel)]="model.dpid" type="text" name="dpid">
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+            
+              <div nz-col nzMd="8" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">MF Account</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input placeholder="MFAccount" [disabled]="true" maxlength="24" [(ngModel)]="model.MFAccount" type="text"
+                      name="MFAccount">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+   
+              <div nz-col nzMd="8" nzLg="4">
+                <nz-form-item>
+                  <nz-form-label class="boldinglabel">Trade Code</nz-form-label>
+                  <nz-form-control>
+                    <input  [disabled]="true" nz-input placeholder="Trade Code" maxlength="24" [(ngModel)]="model.TradeCode" type="text"
+                      name="Trade Code">
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            
+          
+           
+            </div>
+
+
+          </fieldset>
+
+
+          <fieldset class="fieldset-shadow-condensed">
+            <legend class="fieldset-shadow-condensed">
+              <span class="boldinglabel">Address</span>
+            </legend>
+            <div nz-row nzGutter="8">
+              <div nz-col nzMd="12" nzLg="12">
+                <h5 class="text-primary ">Permenant Address</h5>
+                <div nz-row nzGutter="8">
+                  <div nz-col nzMd="8" nzLg="8">
+                    <nz-form-item>
+                      <nz-form-label class="boldinglabel" nzRequired>Address</nz-form-label>
+                      <nz-form-control>
+                        <input nz-input placeholder="Address" [(ngModel)]="model.perAddress1" type="text"
+                          name="Address1" required="">
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div nz-col nzMd="8" nzLg="8">
+                    <nz-form-item>
+                      <nz-form-label >&nbsp;</nz-form-label>
+                      <nz-form-control>
+                        <input nz-input placeholder="Address" [(ngModel)]="model.perAddress2" type="text"
+                          name="Address2" required="">
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div nz-col nzMd="8" nzLg="8">
+                    <nz-form-item>
+                      <nz-form-label class="boldinglabel" nzRequired>PIN</nz-form-label>
+                      <nz-form-control>
+                        <input nz-input placeholder="PIN" required="" minlength="6" maxlength="6"  [textMask]="{mask:inputMasks.numeric}" [(ngModel)]="model.perPIN" type="text" name="PIN">
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+
+                <div nz-row nzGutter="8">
+                  <div nz-col nzMd="8" nzLg="8">
+                    <nz-form-item>
+                      <nz-form-label class="boldinglabel">City</nz-form-label>
+                      <nz-form-control>
+                        <input nz-input placeholder="City" [textMask]="{mask:inputMasks.alphabets}" [(ngModel)]="model.perCity" type="text" name="City">
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div nz-col nzMd="8" nzLg="8">
+                    <nz-form-item>
+                      <nz-form-label class="boldinglabel">State</nz-form-label>
+                      <nz-form-control>
+                        <nz-select nzPlaceHolder="Select State" [disabled]="!modifyform" [(ngModel)]="model.perState" name="State"
+                          nzDropdownMatchSelectWidth="true">
+                          <nz-option *ngFor="let item of statelist" [nzLabel]="item.Description"
+                            [nzValue]="item.Description"></nz-option>
+                        </nz-select>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <!-- <div nz-col nzMd="8" nzLg="8">
+                    <nz-form-item>
+                      <nz-form-label class="boldinglabel">Country</nz-form-label>
+                      <nz-form-control>
+                        <master-find-ctrl [options]="comcountyFindopt" [(ngModel)]="model.perCountry" name="Country">
+                        </master-find-ctrl>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div> -->
+
+                  <div  nz-col nzMd="8" nzLg="8">
+                      <nz-form-item>
+                        <nz-form-label class="boldinglabel">Country</nz-form-label>
+                        <nz-form-control>
+                          <nz-select nzPlaceHolder="Select country" [(ngModel)]="model.perCountry"  [disabled]="!modifyform"  name="country"
+                            nzDropdownMatchSelectWidth="true">
+                            <nz-option *ngFor="let item of country" [nzLabel]="item.Description" [nzValue]="item.Code">
+                            </nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                </div>
+              </div>
+              <div nz-col nzMd="1" nzLg="1" style="text-align: center;">
+                <nz-form-label>&nbsp;</nz-form-label>
+                <nz-form-label>&nbsp;</nz-form-label>
+                <nz-form-label>&nbsp;</nz-form-label>
+                <!-- <button nz-button  (click)="updateaddress()" nzType="primary"> -->
+
+                <i nz-icon (click)="updateaddress()" nzType="forward" nzTheme="outline"
+                  style="font-size: 27px;color: #075fab;"></i>
+
+
+
+                <!-- </button> -->
+                <nz-form-label>&nbsp;</nz-form-label>
+                <nz-form-label>&nbsp;</nz-form-label>
+              </div>
+              <div nz-col nzMd="11" nzLg="11">
+                <h5 class="text-primary" class="boldinglabel">Communication Address</h5>
+                <div nz-row nzGutter="8">
+                  <div nz-col nzMd="8" nzLg="8">
+                    <nz-form-item>
+                      <nz-form-label class="boldinglabel">Address</nz-form-label>
+                      <nz-form-control>
+                        <input nz-input placeholder="Address" [(ngModel)]="model.comAddress1" type="text"
+                          name="comAddress">
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div nz-col nzMd="8" nzLg="8">
+                    <nz-form-item>
+                      <nz-form-label>&nbsp;</nz-form-label>
+                      <nz-form-control>
+                        <input nz-input placeholder="Address" [(ngModel)]="model.comAddress2" type="text"
+                          name="comAddress1">
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div nz-col nzMd="8" nzLg="8">
+                    <nz-form-item>
+                      <nz-form-label class="boldinglabel">PIN</nz-form-label>
+                      <nz-form-control>
+                        <input nz-input placeholder="PIN" minlength="6" maxlength="6"  [textMask]="{mask:inputMasks.numeric}" [(ngModel)]="model.comPIN" type="text" name="comPIN">
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                </div>
+                <div nz-row nzGutter="8">
+                  <div nz-col nzMd="8" nzLg="8">
+                    <nz-form-item>
+                      <nz-form-label class="boldinglabel">City</nz-form-label>
+                      <nz-form-control>
+                        <input nz-input placeholder="City" [textMask]="{mask:inputMasks.alphabets}"  [(ngModel)]="model.comCity" type="text" name="comCity">
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div nz-col nzMd="8" nzLg="8">
+                    <nz-form-item>
+                      <nz-form-label class="boldinglabel">State</nz-form-label>
+                      <nz-form-control>
+                        <nz-select nzPlaceHolder="Select State" [disabled]="!modifyform" [(ngModel)]="model.comState" name="comState"
+                          nzDropdownMatchSelectWidth="true">
+                          <nz-option *ngFor="let item of statelist" [nzLabel]="item.Description"
+                            [nzValue]="item.Description"></nz-option>
+                        </nz-select>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+
+                  <div  nz-col nzMd="8" nzLg="8">
+                      <nz-form-item>
+                        <nz-form-label class="boldinglabel">Country</nz-form-label>
+                        <nz-form-control>
+                          <nz-select nzPlaceHolder="Select country" [(ngModel)]="model.comCountry" [disabled]="!modifyform"  name="country12"
+                            nzDropdownMatchSelectWidth="true">
+                            <nz-option *ngFor="let item of country" [nzLabel]="item.Description" [nzValue]="item.Code">
+                            </nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                  
+                </div>
+              </div>
+
+            </div>
+
+
+          </fieldset>
+
+
+        </div>
+      </nz-tab>
+
+    </nz-tabset>
+  </fieldset>
+  </form>
+  <form-handler (onSave)="Save($event,clientmasterForm)" (onModify)="modify()" (onReset)="resetForm()" (onFind)="Search()" ></form-handler>
+
+
+
+
+
+</div>
+<app-loader *ngIf="isSpinning"></app-loader>

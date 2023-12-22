@@ -1,0 +1,119 @@
+<lookup-dialog (onRecordSelected)="onLookupSelect($event)"></lookup-dialog>
+<div class="main-content">
+  <form nz-form nzLayout="vertical">
+    <div nz-row nzGutter="30">
+
+      <div nz-col nzMd="10" nzLg="10">
+        <h3 class="content-title"> Slab Master</h3>
+        
+        <div nz-row nzGutter="4">
+          <div nz-col nzSm="12" nzMd="12" nzLg="8">
+            <nz-form-item>
+              <nz-form-label nzRequired>Slab Code</nz-form-label>
+              <nz-form-control>
+                <input nz-input placeholder="Slab Code" maxlength="10" type="text" [(ngModel)]="model.SlabCode"
+                  name="SlabCode">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSm="12" nzMd="20" nzLg="16">
+            <nz-form-item>
+              <nz-form-label nzRequired>Slab Name</nz-form-label>
+              <nz-form-control>
+                <input nz-input placeholder="Slab Name" maxlength="20" type="text" [(ngModel)]="model.SlabName"
+                  name="SlabName">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+         
+        </div>
+        
+      </div>
+      <div nz-col nzMd="14" nzLg="14" class="borderColumn">
+        <h4> Slab Details</h4>
+        <div nz-row nzGutter="4">
+          <div nz-col nzSm="5" nzMd="5" nzLg="4">
+            <nz-form-item>
+              <nz-form-label>From Year</nz-form-label>
+              <nz-form-control>
+                <!-- <nz-year-picker [(ngModel)]="model.FromYear" (ngModelChange)="onChange($event)" nzPlaceHolder="Select year" name="FromYear"></nz-year-picker> -->
+                <input nz-input placeholder="From Year" [textMask]="{mask: inputMasks.numeric}" type="text"
+                  maxlength="7" [(ngModel)]="model.FromYear" name="FromYear">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSm="5" nzMd="5" nzLg="4">
+            <nz-form-item>
+              <nz-form-label>To Year</nz-form-label>
+              <nz-form-control>
+                <!-- <nz-year-picker [(ngModel)]="model.ToYear" (ngModelChange)="onChange($event)" nzPlaceHolder="Select year" name="ToYear"></nz-year-picker> -->
+                <input nz-input placeholder="To Year" [textMask]="{mask: inputMasks.numeric}" type="text"
+                  maxlength="7" [(ngModel)]="model.ToYear" name="ToYear">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          
+          <div nz-col nzSm="5" nzMd="5" nzLg="3">
+            <nz-form-item>
+              <nz-form-label>Percentage</nz-form-label>
+              <nz-form-control>
+                <input nz-input placeholder="Percentage" [textMask]="{mask: inputMasks.decimal}" type="text"
+                  maxlength="7" [(ngModel)]="model.Percentage" name="Percentage">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSm="9" nzMd="9" nzLg="7">
+            <nz-form-item>
+              <nz-form-label>&nbsp;</nz-form-label>
+              <nz-form-control>
+                <button nz-button nzType="primary" class="mr-2" *ngIf="!ismodifystate"
+                  (click)="addSlabDetails()">ADD</button>
+                <button nz-button nzType="primary" *ngIf="ismodifystate" class="mr-2"
+                  (click)="Updaterow()">UPDATE</button>
+                <button nz-button nzType="primary" (click)="Clearrow()">CLEAR</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row nzGutter="10">
+          <div nz-col nzMd="23" nzLg="23">
+
+            <nz-table #basicTable nzSize="small" [nzData]="slabDetails" *ngIf="slabDetails" nzShowPagination="false"
+              class="columnWidth table-themed table-responsive" nzBodered="false">
+
+              <thead>
+                <tr>
+                  <th>From Year</th>
+                  <th>To Year</th>
+                  <th>Percentage</th>
+                  <th class="textStyle"></th>
+                  <th class="textStyle"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of basicTable.data; let i = index;">
+                  <td> {{data.FromYear}}</td>
+                  <td> {{data.ToYear}}</td>
+                  <td>{{data.Percentage}}</td>
+
+                  <td class="text-right">
+                    <a (click)="Editrow(data,i)"><i nz-icon type="edit" theme="outline" title="Edit"></i></a>
+                  </td>
+                  <td class="text-right">
+                    <a (click)="Deleterow(i)"><i nz-icon type="delete" theme="outline" title="Delete"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </form>
+  <br>
+  <form-handler (onSave)="Save()" (onFind)="Search()" (onReset)="Reset()"></form-handler>
+</div>
