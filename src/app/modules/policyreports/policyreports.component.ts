@@ -76,7 +76,7 @@ export class TableFilterPipe implements PipeTransform {
 
 export class policyreportsComponent implements OnInit {
 
-  @ViewChild(FormHandlerComponent) formHdlr: FormHandlerComponent;
+  @ViewChild(FormHandlerComponent, { static: true }) formHdlr: FormHandlerComponent;
 
   insCompList: Array<any> = [];
   policyrpt: Array<any> = [];

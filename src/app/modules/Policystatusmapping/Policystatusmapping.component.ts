@@ -24,8 +24,8 @@ import { User } from 'shared/lib/models/user';
   styleUrls: ['./Policystatusmapping.component.less']
 })
 export class PolicystatusmappingComponent implements OnInit {
-  @ViewChild(FormHandlerComponent) formHandler: FormHandlerComponent;
-  @ViewChild(LookUpDialogComponent) lookupsearch: LookUpDialogComponent;
+  @ViewChild(FormHandlerComponent, { static: true }) formHandler: FormHandlerComponent;
+  @ViewChild(LookUpDialogComponent, { static: false }) lookupsearch: LookUpDialogComponent;
   currentUser: User;
   dateFormat = 'dd/MM/yyyy';
   Relationlist: Array<any> = [];

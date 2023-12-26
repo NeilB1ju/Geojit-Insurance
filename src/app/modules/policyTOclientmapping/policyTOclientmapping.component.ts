@@ -62,7 +62,7 @@ export interface policyTOclientmappingForm {
 
 })
 export class policyTOclientmappingComponent implements OnInit {
-  @ViewChild(FormHandlerComponent) formHdlr: FormHandlerComponent;
+  @ViewChild(FormHandlerComponent, { static: false }) formHdlr: FormHandlerComponent;
 
 
   model: policyTOclientmappingForm;

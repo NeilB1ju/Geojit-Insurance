@@ -16,8 +16,8 @@ import { AppConfig } from 'shared';
 })
 
 export class InsCompanySMSMailAlertConfigComponent implements OnInit {
-  @ViewChild(FormHandlerComponent) formHdlr: FormHandlerComponent;
-  @ViewChild(LookUpDialogComponent) lookupsearch: LookUpDialogComponent;
+  @ViewChild(FormHandlerComponent, { static: true }) formHdlr: FormHandlerComponent;
+  @ViewChild(LookUpDialogComponent, { static: false }) lookupsearch: LookUpDialogComponent;
   InsuranceType:any=[]
   currentUser: User
   Frequency:any=[]

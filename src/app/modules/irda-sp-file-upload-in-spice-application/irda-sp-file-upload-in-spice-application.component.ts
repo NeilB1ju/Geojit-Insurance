@@ -39,7 +39,7 @@ export class IrdaSpFileUploadInSpiceApplicationComponent implements OnInit {
   FileExtention: any
   ShowSheet: boolean = false
   // disableButton: boolean = false
-  @ViewChild(FormHandlerComponent) formHdlr: FormHandlerComponent;
+  @ViewChild(FormHandlerComponent, { static: false }) formHdlr: FormHandlerComponent;
   constructor(private authServ: AuthService,
     private dataServ: DataService,
     private utilServ: UtilService,

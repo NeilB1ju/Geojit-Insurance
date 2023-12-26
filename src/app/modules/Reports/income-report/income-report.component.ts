@@ -54,7 +54,7 @@ export interface TreeNodeInterface {
 })
 
 export class IncomeReportComponent implements OnInit {
-  @ViewChild(FormHandlerComponent) formHandler: FormHandlerComponent;
+  @ViewChild(FormHandlerComponent, { static: true }) formHandler: FormHandlerComponent;
   State:any
   stateFindopt: FindOptions;
   locationFindopt: FindOptions;

@@ -38,7 +38,7 @@ export interface policywithlocationComponent {
 
 export class policywithlocationComponent implements OnInit {
 
-  @ViewChild('reportView') reportView: HtmlPreviewComponent;
+  @ViewChild('reportView', { static: false }) reportView: HtmlPreviewComponent;
   @Input() location: string;
   @Input() Euser: string;
   @Input() year: string;

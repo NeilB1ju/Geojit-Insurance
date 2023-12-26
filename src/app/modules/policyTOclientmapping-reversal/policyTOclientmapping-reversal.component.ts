@@ -64,7 +64,7 @@ export interface policyTOclientmappingreversalForm {
 
 })
 export class policyTOclientmappingreversalComponent implements OnInit {
-  @ViewChild(FormHandlerComponent) formHdlr: FormHandlerComponent;
+  @ViewChild(FormHandlerComponent, { static: false }) formHdlr: FormHandlerComponent;
 
 
   model: policyTOclientmappingreversalForm;

@@ -26,7 +26,7 @@ export interface ReconciliationForm {
   styleUrls: ['./reconciliation.component.less']
 })
 export class ReconciliationComponent implements OnInit {
-  @ViewChild(FormHandlerComponent) formHdlr: FormHandlerComponent;
+  @ViewChild(FormHandlerComponent, { static: false }) formHdlr: FormHandlerComponent;
 
 
 	model:ReconciliationForm;

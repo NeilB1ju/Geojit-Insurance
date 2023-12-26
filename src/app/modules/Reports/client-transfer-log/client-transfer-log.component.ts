@@ -24,7 +24,7 @@ export class ClientTransferLogComponent implements OnInit {
   valid: any
   Records: any[];
   Columns: any;
-  @ViewChild(FormHandlerComponent) formHdlr: FormHandlerComponent;
+  @ViewChild(FormHandlerComponent, { static: true }) formHdlr: FormHandlerComponent;
 
   constructor(
     private dataServ: DataService,
