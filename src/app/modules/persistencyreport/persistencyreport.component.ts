@@ -1,36 +1,41 @@
-import { Component, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import * as moment from 'moment';
-import { NzNotificationService, NzModalService } from 'ng-zorro-antd';
-import { LookUpDialogComponent } from 'shared';
-import { AppConfig } from 'shared';
-import { User } from 'shared/lib/models/user';
-import { AuthService } from 'shared';
-import { DataService } from 'shared';
-import { UtilService } from 'shared';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Pipe,
+  PipeTransform,
+} from "@angular/core";
+import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import * as moment from "moment";
+import { NzNotificationService, NzModalService } from "ng-zorro-antd";
+import { LookUpDialogComponent } from "shared";
+import { AppConfig } from "shared";
+import { User } from "shared/lib/models/user";
+import { AuthService } from "shared";
+import { DataService } from "shared";
+import { UtilService } from "shared";
 import { FindType } from "shared";
 import { FindOptions } from "shared";
-import { FormHandlerComponent } from 'shared';
-import { debounce } from 'rxjs/operators';
+import { FormHandlerComponent } from "shared";
+import { debounce } from "rxjs/operators";
 import { PolicyDetailsComponent } from "../../modules/policy-details/policy-details.component";
-import * as FileSaver from 'file-saver';
-import { ReturnStatement } from '@angular/compiler';
+import * as FileSaver from "file-saver";
+import { ReturnStatement } from "@angular/compiler";
 
 export interface TreeNodeInterface {
   key: number;
   Id: number;
   State: string;
-  FromDate: Date
+  FromDate: Date;
   Todate: Date;
-  TotalApplication: number
+  TotalApplication: number;
   expand: boolean;
   children?: TreeNodeInterface[];
 }
 
 export interface persistencyreportForm {
-
   insCompany: any;
-  remarks:any
+  remarks: any;
   state: any;
   region: any;
   location: any;
@@ -42,50 +47,36 @@ export interface persistencyreportForm {
   category: any;
   spCode: any;
   pdtCategory: any;
-  Product:any
+  Product: any;
 }
 @Pipe({
-  name: 'tableFilter',
+  name: "tableFilter",
 })
 export class TableFilterPipe implements PipeTransform {
   transform(items: any[], filter: any): any {
     if (!items || !filter) {
       return items;
     }
-    return items.filter(item => {
+    return items.filter((item) => {
       let flag = false;
 
-      if (item[filter.key] && item[filter.key] == filter.value)
-        flag = true;
+      if (item[filter.key] && item[filter.key] == filter.value) flag = true;
       return flag;
-    })
+    });
   }
 }
 
 @Component({
-  templateUrl: './persistencyreport.component.html',
-  styleUrls: ['./persistencyreport.component.less'],
-
-
-
-
-
+  templateUrl: "./persistencyreport.component.html",
+  styleUrls: ["./persistencyreport.component.less"],
 })
-
 export class persistencyreport implements OnInit {
-
-
-
   stateFindopt: FindOptions;
-  ProductFindopt:FindOptions
+  ProductFindopt: FindOptions;
   regionFindopt: FindOptions;
   locationFindopt: FindOptions;
   productcategoryFindopt: FindOptions;
   SPFindopt: FindOptions;
-
-
-
-
 
   model: persistencyreportForm;
   insCompList: Array<any> = [];
@@ -116,26 +107,23 @@ export class persistencyreport implements OnInit {
   html;
   isSpinning = false;
 
-
-
   // @ViewChild(LookUpDialogComponent) lookupsearch: LookUpDialogComponent;
-  @ViewChild(FormHandlerComponent) formHandler: FormHandlerComponent;
-
+  @ViewChild(FormHandlerComponent, { static: true })
+  formHandler: FormHandlerComponent;
 
   currentUser: User;
   isProcessing: boolean;
   error: string;
   isExpandedPreview: boolean = false;
-  dateFormat = 'dd/MM/yyyy';
+  dateFormat = "dd/MM/yyyy";
   stateCodeValue: string;
   regionvalue: any;
-  addremark: boolean=false;
-  policyno: any='';
+  addremark: boolean = false;
+  policyno: any = "";
   riderdatatype: any;
-  riderdata: any=[];
+  riderdata: any = [];
   riderheader: string[];
   typeid: any;
-
 
   constructor(
     private authServ: AuthService,
@@ -145,109 +133,100 @@ export class persistencyreport implements OnInit {
     private _DomSanitizationService: DomSanitizer,
     private modalService: NzModalService
   ) {
-    this.model = <persistencyreportForm>{
-
-
-    };
-    this.authServ.getUser().subscribe(user => {
+    this.model = <persistencyreportForm>{};
+    this.authServ.getUser().subscribe((user) => {
       this.currentUser = user;
     });
 
-
     this.stateFindopt = {
       findType: FindType.State,
-      codeColumn: 'State',
-      codeLabel: 'State',
-      descColumn: 'State',
-      descLabel: 'State',
-      title: 'State',
+      codeColumn: "State",
+      codeLabel: "State",
+      descColumn: "State",
+      descLabel: "State",
+      title: "State",
       hasDescInput: false,
-      requestId: 2
-
-    }
+      requestId: 2,
+    };
     this.ProductFindopt = {
       findType: FindType.Product,
-      codeColumn: 'ProductCode',
-      codeLabel: 'ProductCode',
-      descColumn: 'ProductName',
-      descLabel: 'Product',
+      codeColumn: "ProductCode",
+      codeLabel: "ProductCode",
+      descColumn: "ProductName",
+      descLabel: "Product",
       hasDescInput: false,
-      requestId: 2
-
-    }
+      requestId: 2,
+    };
     this.regionFindopt = {
       findType: FindType.Region,
-      codeColumn: 'Region',
-      codeLabel: 'RegionCode',
-      descColumn: 'RegionName',
-      descLabel: 'Region',
-      title: 'Region',
+      codeColumn: "Region",
+      codeLabel: "RegionCode",
+      descColumn: "RegionName",
+      descLabel: "Region",
+      title: "Region",
       hasDescInput: false,
-      requestId: 2
-    }
+      requestId: 2,
+    };
     this.locationFindopt = {
       findType: FindType.Location,
-      codeColumn: 'Location',
-      codeLabel: 'LocationCode',
-      descColumn: 'LocationName',
-      descLabel: 'Location',
-      title: 'Branch',
+      codeColumn: "Location",
+      codeLabel: "LocationCode",
+      descColumn: "LocationName",
+      descLabel: "Location",
+      title: "Branch",
       hasDescInput: false,
-      requestId: 2
-    }
+      requestId: 2,
+    };
     this.productcategoryFindopt = {
       findType: FindType.ProductCategory,
-      codeColumn: 'CategoryCode',
-      codeLabel: 'CategoryCode',
-      descColumn: 'CategoryName',
-      descLabel: 'CategoryName',
-      title: 'Product Category',
+      codeColumn: "CategoryCode",
+      codeLabel: "CategoryCode",
+      descColumn: "CategoryName",
+      descLabel: "CategoryName",
+      title: "Product Category",
       hasDescInput: false,
-      requestId: 2
-    }
+      requestId: 2,
+    };
     this.SPFindopt = {
       findType: FindType.SPCODE,
-      codeColumn: 'SpCode',
-      codeLabel: 'SpCode',
-      descColumn: 'SpCode',
-      descLabel: 'SpCode',
-      title: 'SP',
+      codeColumn: "SpCode",
+      codeLabel: "SpCode",
+      descColumn: "SpCode",
+      descLabel: "SpCode",
+      title: "SP",
       hasDescInput: false,
-      requestId: 2
-    }
+      requestId: 2,
+    };
     this.locationFindopt = {
       findType: FindType.Location,
-      codeColumn: 'Location',
-      codeLabel: 'LocationCode',
-      descColumn: 'LocationName',
-      descLabel: 'Location',
-      title: 'Branch',
+      codeColumn: "Location",
+      codeLabel: "LocationCode",
+      descColumn: "LocationName",
+      descLabel: "Location",
+      title: "Branch",
       hasDescInput: false,
-      requestId: 2
-    }
+      requestId: 2,
+    };
   }
 
   ngOnInit() {
-    this.model.ReportType='Comm'
-    this.model.exporttype='TreeView'
+    this.model.ReportType = "Comm";
+    this.model.exporttype = "TreeView";
     this.getInitData();
-    this.formHandler.setFormType('report');
+    this.formHandler.setFormType("report");
     this.formHandler.config.showExportPdfBtn = false;
     this.formHandler.config.showExportBtn = false;
-    this.model.location = '';
-    this.model.region = '';
-    this.model.state = '';
-    this.model.pdtCategory = '';
-    this.model.spCode = '';
-    this.model.category = '';
+    this.model.location = "";
+    this.model.region = "";
+    this.model.state = "";
+    this.model.pdtCategory = "";
+    this.model.spCode = "";
+    this.model.category = "";
     let date = new Date();
     this.model.toDate = new Date();
     this.model.fromDate = new Date(date.getFullYear(), date.getMonth(), 1);
-    this.model.sORd = 'S'
-
-
+    this.model.sORd = "S";
   }
-
 
   Reset() {
     this.ngOnInit();
@@ -256,31 +235,37 @@ export class persistencyreport implements OnInit {
   }
   getInitData() {
     //insurance company list
-    this.dataServ.getResponse({
-      "batchStatus": "false",
-      "detailArray":
-        [{
-          Code: 20
-        }],
-      "requestId": "4"
-    }).then((response) => {
-      let res;
-      if (response && response[0]) {
-        this.insCompList = this.utilService.convertToObject(response[0]);
-        this.model.insCompany = this.insCompList[1].Code;
-        this.getcategory()
-      } else {
-        // this.notif.error = "No Data Found";
-      }
-    });
+    this.dataServ
+      .getResponse({
+        batchStatus: "false",
+        detailArray: [
+          {
+            Code: 20,
+          },
+        ],
+        requestId: "4",
+      })
+      .then((response) => {
+        let res;
+        if (response && response[0]) {
+          this.insCompList = this.utilService.convertToObject(response[0]);
+          this.model.insCompany = this.insCompList[1].Code;
+          this.getcategory();
+        } else {
+          // this.notif.error = "No Data Found";
+        }
+      });
   }
 
-
-  collapse(array: TreeNodeInterface[], data: TreeNodeInterface, $event: boolean): void {
+  collapse(
+    array: TreeNodeInterface[],
+    data: TreeNodeInterface,
+    $event: boolean
+  ): void {
     if ($event === false) {
       if (data.children) {
-        data.children.forEach(d => {
-          const target = array.find(a => a.key === d.key);
+        data.children.forEach((d) => {
+          const target = array.find((a) => a.key === d.key);
           target.expand = false;
           this.collapse(array, target, false);
         });
@@ -301,7 +286,12 @@ export class persistencyreport implements OnInit {
       this.visitNode(node, hashMap, array);
       if (node.children) {
         for (let i = node.children.length - 1; i >= 0; i--) {
-          stack.push({ ...node.children[i], level: node.level + 1, expand: false, parent: node });
+          stack.push({
+            ...node.children[i],
+            level: node.level + 1,
+            expand: false,
+            parent: node,
+          });
         }
       }
     }
@@ -309,173 +299,160 @@ export class persistencyreport implements OnInit {
     return array;
   }
 
-  visitNode(node: TreeNodeInterface, hashMap: object, array: TreeNodeInterface[]): void {
+  visitNode(
+    node: TreeNodeInterface,
+    hashMap: object,
+    array: TreeNodeInterface[]
+  ): void {
     if (!hashMap[node.key]) {
       hashMap[node.key] = true;
       array.push(node);
     }
   }
 
-
-
   preview() {
-    
     let val;
-    
-    this.treeData =[];
+
+    this.treeData = [];
     this.StateData = [];
     this.ZoneData1 = [];
-    this.ZoneDataType =[];
+    this.ZoneDataType = [];
     if (this.model.fromDate > this.model.toDate) {
-      this.notification.error("From date Should be Less than Todate", '');
+      this.notification.error("From date Should be Less than Todate", "");
       return;
-
-
     }
     this.isSpinning = true;
-    this.dataServ.getResponse({
-      "batchStatus": "false",
-      "detailArray":
-        [{
-          InsCompanyId: this.model.insCompany?this.model.insCompany :0,
-          State: this.model.state ? this.model.state.State : '',
-          Region: this.model.region ? this.model.region.RegionName : '',
-          Location: this.model.location ? this.model.location.Location : '',
-          FromDate: this.model.fromDate ? moment(this.model.fromDate).format(AppConfig.dateFormat.apiMoment) : '',
-          ToDate: this.model.toDate ? moment(this.model.toDate).format(AppConfig.dateFormat.apiMoment) : '',
-          Euser: this.currentUser.userCode,
-          ProductCategory: this.model.pdtCategory ? this.model.pdtCategory.CategoryCode : '',
-          Product: this.model.Product ? this.model.Product.ProductCode : '',
-          
-        }],
-      "requestId": "92",
-      "outTblCount": "0"
-    }).then((response) => {
-
-      this.isSpinning = false;
-
-
-      if (response && response[0]) {debugger
+    this.dataServ
+      .getResponse({
+        batchStatus: "false",
+        detailArray: [
+          {
+            InsCompanyId: this.model.insCompany ? this.model.insCompany : 0,
+            State: this.model.state ? this.model.state.State : "",
+            Region: this.model.region ? this.model.region.RegionName : "",
+            Location: this.model.location ? this.model.location.Location : "",
+            FromDate: this.model.fromDate
+              ? moment(this.model.fromDate).format(
+                  AppConfig.dateFormat.apiMoment
+                )
+              : "",
+            ToDate: this.model.toDate
+              ? moment(this.model.toDate).format(AppConfig.dateFormat.apiMoment)
+              : "",
+            Euser: this.currentUser.userCode,
+            ProductCategory: this.model.pdtCategory
+              ? this.model.pdtCategory.CategoryCode
+              : "",
+            Product: this.model.Product ? this.model.Product.ProductCode : "",
+          },
+        ],
+        requestId: "92",
+        outTblCount: "0",
+      })
+      .then((response) => {
         this.isSpinning = false;
-       
 
-          let companydata  = this.utilService.convertToObject(response[0]);
-          let zoneData     = this.utilService.convertToObject(response[1]);
-           let stateData    = this.utilService.convertToObject(response[2]);
-           let regionData   = this.utilService.convertToObject(response[3]);
-           let locationData = this.utilService.convertToObject(response[4]);
-          let policyData   = this.utilService.convertToObject(response[5]);
+        if (response && response[0]) {
+          debugger;
+          this.isSpinning = false;
+
+          let companydata = this.utilService.convertToObject(response[0]);
+          let zoneData = this.utilService.convertToObject(response[1]);
+          let stateData = this.utilService.convertToObject(response[2]);
+          let regionData = this.utilService.convertToObject(response[3]);
+          let locationData = this.utilService.convertToObject(response[4]);
+          let policyData = this.utilService.convertToObject(response[5]);
           // let data   = this.utilService.convertToObject(response[6]);
-        // console.log(companydata)
-        // console.log(zoneData)
-        // console.log(stateData)
-        // console.log(regionData)
-        // console.log(locationData)
-        // console.log(branchData)
-        // console.log(policyData)
-
-          
-        policyData = policyData.map((o) => {
-          o.key = "data_" + o.Id;
-          return o;
-         
-        });
-
-
-        locationData = locationData.map((branch) => {
-          branch.key = "branch_" + branch.Id;
-          branch.children = policyData.filter((policy) => {
-            return policy.ParentId == branch.Id
-          });
-// zzzzzzz
-          //  console.log(region)
-          return branch;
-        });
-
-
-        regionData = regionData.map((locdata) => {
-          locdata.key = "location_" + locdata.Id;
-          locdata.children = locationData.filter((loc) => {
-            return loc.ParentId == locdata.Id
-          });
-// zzzzzzz
-          //  console.log(region)
-          return locdata;
-        });
-
-
-
-
-
-        // locationData = locationData.map((o) => {
-        //   o.key = "location_" + o.Id;
-        //   return o;
-         
-        // });
-
-        // regionData = regionData.map((o) => {
-        //     o.key = "region_" + o.Id;
-        //     return o;
-           
-        //   });
+          // console.log(companydata)
+          // console.log(zoneData)
+          // console.log(stateData)
           // console.log(regionData)
+          // console.log(locationData)
+          // console.log(branchData)
+          // console.log(policyData)
 
+          policyData = policyData.map((o) => {
+            o.key = "data_" + o.Id;
+            return o;
+          });
 
+          locationData = locationData.map((branch) => {
+            branch.key = "branch_" + branch.Id;
+            branch.children = policyData.filter((policy) => {
+              return policy.ParentId == branch.Id;
+            });
+            // zzzzzzz
+            //  console.log(region)
+            return branch;
+          });
+
+          regionData = regionData.map((locdata) => {
+            locdata.key = "location_" + locdata.Id;
+            locdata.children = locationData.filter((loc) => {
+              return loc.ParentId == locdata.Id;
+            });
+            // zzzzzzz
+            //  console.log(region)
+            return locdata;
+          });
+
+          // locationData = locationData.map((o) => {
+          //   o.key = "location_" + o.Id;
+          //   return o;
+
+          // });
+
+          // regionData = regionData.map((o) => {
+          //     o.key = "region_" + o.Id;
+          //     return o;
+
+          //   });
+          // console.log(regionData)
 
           stateData = stateData.map((regdata) => {
             regdata.key = "region_" + regdata.Id;
             regdata.children = regionData.filter((locdata) => {
-              return locdata.ParentId == regdata.Id
+              return locdata.ParentId == regdata.Id;
             });
-// zzzzzzz
+            // zzzzzzz
             //  console.log(region)
             return regdata;
           });
 
-
-
           zoneData = zoneData.map((state) => {
             state.key = "state_" + state.Id;
             state.children = stateData.filter((reg) => {
-              return reg.ParentId == state.Id
+              return reg.ParentId == state.Id;
             });
-// zzzzzzz
+            // zzzzzzz
             //  console.log(region)
             return state;
           });
           companydata = companydata.map((zone) => {
             zone.key = "zone_" + zone.Id;
             zone.children = zoneData.filter((sta) => {
-              return sta.ParentId == zone.Id
+              return sta.ParentId == zone.Id;
             });
             return zone;
           });
-                  
-          companydata.forEach(item => {
+
+          companydata.forEach((item) => {
             this.mapOfExpandedData[item.key] = this.convertTreeToList(item);
           });
-         
-         let a=JSON.stringify(companydata)
-          this.treeData=JSON.parse(a)
-          console.log(  this.treeData)
-  
 
-        
-    }
-      else if (response.errorMsg) {
-        this.notification.error(response.errorMsg, '');
-      }
-      
-      else {
-        this.isSpinning = false;
-        this.notification.error("No Data Found", '');
-        this.StateData = [];
-        this.ZoneData1 = [];
-        return;
-      }
-
-    })
-
+          let a = JSON.stringify(companydata);
+          this.treeData = JSON.parse(a);
+          console.log(this.treeData);
+        } else if (response.errorMsg) {
+          this.notification.error(response.errorMsg, "");
+        } else {
+          this.isSpinning = false;
+          this.notification.error("No Data Found", "");
+          this.StateData = [];
+          this.ZoneData1 = [];
+          return;
+        }
+      });
   }
 
   setClickStyle(data) {
@@ -486,7 +463,6 @@ export class persistencyreport implements OnInit {
     }
   }
 
-
   setClickStyleComm(data) {
     if (data.key.startsWith("data_")) {
       return true;
@@ -495,38 +471,29 @@ export class persistencyreport implements OnInit {
     }
   }
 
- 
   setStyles(head) {
     if (this.numericarray.indexOf(head) >= 0) {
       return true;
-
-    }
-    else {
+    } else {
       return false;
     }
-
   }
 
   setStyle(head) {
     if (this.columnArray.indexOf(head) >= 0) {
       return true;
-
-    }
-    else {
+    } else {
       return false;
     }
-
   }
 
-
-
   resetForm() {
-    this.model.state = '';
-    this.model.region = '';
-    this.model.location = '';
-    this.model.pdtCategory = '';
-    this.model.spCode = '';
-    this.model.category = '';
+    this.model.state = "";
+    this.model.region = "";
+    this.model.location = "";
+    this.model.pdtCategory = "";
+    this.model.spCode = "";
+    this.model.category = "";
     this.ZoneData = [];
     this.ZoneData1 = [];
     this.ZoneDataHeader = [];
@@ -535,30 +502,24 @@ export class persistencyreport implements OnInit {
     let date = new Date();
     this.model.toDate = new Date();
     this.model.fromDate = new Date(date.getFullYear(), date.getMonth(), 1);
-    this.model.sORd = 'S'
+    this.model.sORd = "S";
     this.treeData = [];
     this.stateData1 = [];
     this.regionData1 = [];
     this.branchData1 = [];
     this.employeeData = [];
-    this.riderdata=[];
+    this.riderdata = [];
     this.ngOnInit();
   }
 
-
-
-
   handleOk(): void {
-
     this.isVisible = false;
   }
 
   handleCancel(): void {
-
     this.isVisible = false;
   }
 
- 
   // changeType() {
   //   this.ZoneData1 = [];
   //   this.treeData = [];
@@ -653,13 +614,10 @@ export class persistencyreport implements OnInit {
   //   });
   //   FileSaver.saveAs(blob, "Reconciliation Report.xls");
   //   this.isProcessing = false;
-   
+
   // }
 
-  reset_tabledata()
-  {
-   
-    
+  reset_tabledata() {
     this.treeData = [];
     this.stateData1 = [];
     this.regionData1 = [];
@@ -668,185 +626,164 @@ export class persistencyreport implements OnInit {
     this.ZoneData = [];
     this.ZoneData1 = [];
     this.ZoneDataHeader = [];
-    
   }
-  sortstate(data)
-{
-  debugger
-  if(data == null)
-  {
-    this.stateCodeValue =''
+  sortstate(data) {
+    debugger;
+    if (data == null) {
+      this.stateCodeValue = "";
+    } else {
+      this.stateCodeValue = data.State;
+    }
 
-  }else
-  {
-    this.stateCodeValue =data.State
-  }
-
-  this.locationFindopt = {
-    findType: FindType.Location,
-    codeColumn: 'Location',
-    codeLabel: 'LocationCode',
-    descColumn: 'LocationName',
-    descLabel: 'Location',
-    hasDescInput: false,
-    requestId: 2,
-    whereClause :this.stateCodeValue?"REPORTINGSTATE ='" + this.stateCodeValue  + "'": ''
-  }
+    this.locationFindopt = {
+      findType: FindType.Location,
+      codeColumn: "Location",
+      codeLabel: "LocationCode",
+      descColumn: "LocationName",
+      descLabel: "Location",
+      hasDescInput: false,
+      requestId: 2,
+      whereClause: this.stateCodeValue
+        ? "REPORTINGSTATE ='" + this.stateCodeValue + "'"
+        : "",
+    };
 
     this.regionFindopt = {
       findType: FindType.Region,
-      codeColumn: 'Region',
-      codeLabel: 'RegionCode',
-      descColumn: 'RegionName',
-      descLabel: 'Region',
+      codeColumn: "Region",
+      codeLabel: "RegionCode",
+      descColumn: "RegionName",
+      descLabel: "Region",
       hasDescInput: false,
       requestId: 2,
-      whereClause :this.stateCodeValue?"REPORTINGSTATE ='" + this.stateCodeValue  + "'": ''
-    }
-this.model.location=null;
-this.model.region=null;
-this.reset_tabledata()
-}
-onchange_reg(data)
-{debugger
-  if(data == null)
-  {
-    this.stateCodeValue =''
-
-  }else
-  {
-    this.regionvalue =data.RegionName
+      whereClause: this.stateCodeValue
+        ? "REPORTINGSTATE ='" + this.stateCodeValue + "'"
+        : "",
+    };
+    this.model.location = null;
+    this.model.region = null;
+    this.reset_tabledata();
   }
-
-  this.locationFindopt = {
-    findType: FindType.Location,
-    codeColumn: 'Location',
-    codeLabel: 'LocationCode',
-    descColumn: 'LocationName',
-    descLabel: 'Location',
-    hasDescInput: false,
-    requestId: 2,
-    whereClause :this.regionvalue?"regionname ='" + this.regionvalue  + "'": ''
-  }
-  this.model.location=null;
-  this.reset_tabledata()
-}
-
-
-
-
-getpolicydata(data) {
-  this.dataServ.getResponse({
-    "batchStatus": "false",
-    "detailArray":
-      [{
-        Euser :this.currentUser.userCode,
-        Policy_No :data.NAME,
-      }],
-    "requestId": "93"
-  }).then((response) => {
-
-
-    if (response && response[0] && response[0].rows.length > 0) {
-      this.columnArray=[];
-      this.riderdatatype = response[0].metadata.columnsTypes;
-      this.riderdata = this.utilService.convertToObject(response[0]);
-      this.riderheader = Object.keys(this.riderdata[0]);
-      for (var i = 0; i < this.riderdatatype.length; i++) {
-        if (this.riderdatatype[i] == "numeric") {
-          this.columnArray.push(this.riderheader[i]);
-        }
-      }
-      if(this.riderdata.length)
-      this.isVisible=true
-
+  onchange_reg(data) {
+    debugger;
+    if (data == null) {
+      this.stateCodeValue = "";
     } else {
-      return;
+      this.regionvalue = data.RegionName;
     }
-  });
-}
 
-showmodal(data): void {debugger
-  if (data.key.startsWith("data_")) {
-    this.getpolicydata(data)
-  
+    this.locationFindopt = {
+      findType: FindType.Location,
+      codeColumn: "Location",
+      codeLabel: "LocationCode",
+      descColumn: "LocationName",
+      descLabel: "Location",
+      hasDescInput: false,
+      requestId: 2,
+      whereClause: this.regionvalue
+        ? "regionname ='" + this.regionvalue + "'"
+        : "",
+    };
+    this.model.location = null;
+    this.reset_tabledata();
   }
-}
 
-getcategory()
-{
-  this.model.pdtCategory=null
-  this.typeid=0
-    this.dataServ.getResponse({
-      "batchStatus": "false",
-      "detailArray":
-        [{
-         companyid:this.model.insCompany?this.model.insCompany:0,
-         Euser:this.currentUser.userCode
-        }],
-      "requestId": "94"
-    }).then((response) => {
-      let res;
-      if (response && response[0]) {debugger
-        let data = this.utilService.convertToObject(response[0]);
-        this.typeid = data[0].id;
-
-        console.log(this.typeid)
-
-        this.productcategoryFindopt = {
-          findType: FindType.ProductCategory,
-          codeColumn: 'CategoryCode',
-          codeLabel: 'CategoryCode',
-          descColumn: 'CategoryName',
-          descLabel: 'CategoryName',
-          whereClause: this.typeid?"ProductTypeId = '"+this.typeid +"'":'1=1',
-          hasDescInput: false,
-          requestId: 2
+  getpolicydata(data) {
+    this.dataServ
+      .getResponse({
+        batchStatus: "false",
+        detailArray: [
+          {
+            Euser: this.currentUser.userCode,
+            Policy_No: data.NAME,
+          },
+        ],
+        requestId: "93",
+      })
+      .then((response) => {
+        if (response && response[0] && response[0].rows.length > 0) {
+          this.columnArray = [];
+          this.riderdatatype = response[0].metadata.columnsTypes;
+          this.riderdata = this.utilService.convertToObject(response[0]);
+          this.riderheader = Object.keys(this.riderdata[0]);
+          for (var i = 0; i < this.riderdatatype.length; i++) {
+            if (this.riderdatatype[i] == "numeric") {
+              this.columnArray.push(this.riderheader[i]);
+            }
+          }
+          if (this.riderdata.length) this.isVisible = true;
+        } else {
+          return;
         }
-
-
-      } else {
-        // this.notif.error = "No Data Found";
-      }
-    });
-
-  
-this.reset_tabledata()
-}
-
-getproduct()
-{
-
-  this.model.Product=null
-
-  this.ProductFindopt = {
-    findType: FindType.Product,
-    codeColumn: 'ProductCode',
-    codeLabel: 'ProductCode',
-    descColumn: 'ProductName',
-    descLabel: 'Product',
-    whereClause: this.model.pdtCategory?"CategoryID = '"+this.model.pdtCategory.CategoryID +"'":'1=1',
-    hasDescInput: false,
-    requestId: 2
-
+      });
   }
 
-  this.reset_tabledata()
+  showmodal(data): void {
+    debugger;
+    if (data.key.startsWith("data_")) {
+      this.getpolicydata(data);
+    }
+  }
+
+  getcategory() {
+    this.model.pdtCategory = null;
+    this.typeid = 0;
+    this.dataServ
+      .getResponse({
+        batchStatus: "false",
+        detailArray: [
+          {
+            companyid: this.model.insCompany ? this.model.insCompany : 0,
+            Euser: this.currentUser.userCode,
+          },
+        ],
+        requestId: "94",
+      })
+      .then((response) => {
+        let res;
+        if (response && response[0]) {
+          debugger;
+          let data = this.utilService.convertToObject(response[0]);
+          this.typeid = data[0].id;
+
+          console.log(this.typeid);
+
+          this.productcategoryFindopt = {
+            findType: FindType.ProductCategory,
+            codeColumn: "CategoryCode",
+            codeLabel: "CategoryCode",
+            descColumn: "CategoryName",
+            descLabel: "CategoryName",
+            whereClause: this.typeid
+              ? "ProductTypeId = '" + this.typeid + "'"
+              : "1=1",
+            hasDescInput: false,
+            requestId: 2,
+          };
+        } else {
+          // this.notif.error = "No Data Found";
+        }
+      });
+
+    this.reset_tabledata();
+  }
+
+  getproduct() {
+    this.model.Product = null;
+
+    this.ProductFindopt = {
+      findType: FindType.Product,
+      codeColumn: "ProductCode",
+      codeLabel: "ProductCode",
+      descColumn: "ProductName",
+      descLabel: "Product",
+      whereClause: this.model.pdtCategory
+        ? "CategoryID = '" + this.model.pdtCategory.CategoryID + "'"
+        : "1=1",
+      hasDescInput: false,
+      requestId: 2,
+    };
+
+    this.reset_tabledata();
+  }
 }
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-

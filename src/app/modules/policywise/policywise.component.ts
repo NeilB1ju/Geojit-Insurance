@@ -27,7 +27,7 @@ export interface policywise {
   styleUrls: ['./policywise.component.less']
 })
 export class policywise implements OnInit {
-	@ViewChild(FormHandlerComponent) formHdlr: FormHandlerComponent;
+	@ViewChild(FormHandlerComponent, { static: true }) formHdlr: FormHandlerComponent;
   SpFindopt: FindOptions;
 	model: policywise;
 	gridData:Array<any> = [];

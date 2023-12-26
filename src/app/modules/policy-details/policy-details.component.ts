@@ -38,7 +38,7 @@ export interface PolicyDetailsComponent {
 
 export class PolicyDetailsComponent implements OnInit {
 
-  @ViewChild('reportView') reportView: HtmlPreviewComponent;
+  @ViewChild('reportView', { static: false }) reportView: HtmlPreviewComponent;
   @Input() policyNo: string;
   @Input() Euser: string;
   model: PolicyDetailsComponent;

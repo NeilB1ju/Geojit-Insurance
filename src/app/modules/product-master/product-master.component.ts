@@ -64,8 +64,8 @@ export class ProductMaster implements OnInit {
 
 
   model: ProductMasterForm;
-  @ViewChild(LookUpDialogComponent) lookupsearch: LookUpDialogComponent;
-  @ViewChild(FormHandlerComponent) formHandler: FormHandlerComponent;
+  @ViewChild(LookUpDialogComponent, { static: false }) lookupsearch: LookUpDialogComponent;
+  @ViewChild(FormHandlerComponent, { static: true }) formHandler: FormHandlerComponent;
 
 
   currentUser: User;

@@ -42,8 +42,8 @@ export class SlabMasterComponent implements OnInit {
 
 
   model: SlabMasterForm;
-  @ViewChild(LookUpDialogComponent) lookupsearch: LookUpDialogComponent;
-  @ViewChild(FormHandlerComponent) formHandler: FormHandlerComponent;
+  @ViewChild(LookUpDialogComponent, { static: false }) lookupsearch: LookUpDialogComponent;
+  @ViewChild(FormHandlerComponent, { static: true }) formHandler: FormHandlerComponent;
 
   constructor(
     private authServ: AuthService,

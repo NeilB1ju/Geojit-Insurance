@@ -18,7 +18,7 @@ import * as moment from 'moment';
 })
 export class CommisiondetailsreconcillationComponent implements OnInit {
   
-  @ViewChild(FormHandlerComponent) formHandler: FormHandlerComponent;
+  @ViewChild(FormHandlerComponent, { static: true }) formHandler: FormHandlerComponent;
   insCompList: any[];
   html: string;
   insCompany: any;

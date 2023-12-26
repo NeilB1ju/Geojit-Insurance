@@ -95,8 +95,8 @@ export class SpMaster implements OnInit {
 
 
   model: SpMasterForm;
-  @ViewChild(LookUpDialogComponent) lookupsearch: LookUpDialogComponent;
-  @ViewChild(FormHandlerComponent) formHandler: FormHandlerComponent;
+  @ViewChild(LookUpDialogComponent, { static: false }) lookupsearch: LookUpDialogComponent;
+  @ViewChild(FormHandlerComponent, { static: true }) formHandler: FormHandlerComponent;
 
 
   currentUser: User;

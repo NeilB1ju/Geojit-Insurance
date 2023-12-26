@@ -117,7 +117,7 @@ export class reconcilationreportcommission implements OnInit {
 
 
   // @ViewChild(LookUpDialogComponent) lookupsearch: LookUpDialogComponent;
-  @ViewChild(FormHandlerComponent) formHandler: FormHandlerComponent;
+  @ViewChild(FormHandlerComponent, { static: false }) formHandler: FormHandlerComponent;
 
 
   currentUser: User;

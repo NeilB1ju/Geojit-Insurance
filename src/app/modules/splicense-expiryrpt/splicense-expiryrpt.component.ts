@@ -26,7 +26,7 @@ export interface SPLicenseExpForm {
   styleUrls: ['./splicense-expiryrpt.component.less']
 })
 export class SplicenseExpiryrptComponent implements OnInit {
-	@ViewChild(FormHandlerComponent) formHdlr: FormHandlerComponent;
+	@ViewChild(FormHandlerComponent, { static: true }) formHdlr: FormHandlerComponent;
   SpFindopt: FindOptions;
 	model: SPLicenseExpForm;
 	gridData:Array<any> = [];
