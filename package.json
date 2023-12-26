@@ -38,7 +38,7 @@
     "moment": "^2.29.1",
     "ng-animate": "^0.3.4",
     "ng-click-outside": "^4.0.0",
-    "ng-zorro-antd": "8.5.2",
+    "ng-zorro-antd": "^9.3.0",
     "ng2-charts": "^2.3.2",
     "ng2-pdf-viewer": "^5.3.4",
     "ngx-auto-unsubscribe": "^2.4.1",
