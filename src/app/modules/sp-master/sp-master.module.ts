@@ -12,8 +12,6 @@ import { SpMaster } from "./sp-master.component";
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [SpMaster],
 })
 

@@ -16,8 +16,6 @@
 //   ],
 //   providers: [
 //   ],
-//   entryComponents: [
-//   ],
 //   bootstrap: [inwardreportComponent],
 // })
 

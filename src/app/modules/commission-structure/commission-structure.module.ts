@@ -12,8 +12,6 @@ import { CommissionStructureComponent } from "./commission-structure.component";
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [CommissionStructureComponent],
 })
 

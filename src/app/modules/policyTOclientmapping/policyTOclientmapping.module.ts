@@ -12,8 +12,6 @@ import { policyTOclientmappingComponent } from "./policyTOclientmapping.componen
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [policyTOclientmappingComponent],
 })
 

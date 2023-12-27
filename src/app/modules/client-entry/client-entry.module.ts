@@ -13,9 +13,6 @@ import {ClientEntryComponent } from "./client-entry.component";
   ],
   providers: [
   ],
-  entryComponents: [
-  
-  ],
   bootstrap: [ClientEntryComponent],
 })
 

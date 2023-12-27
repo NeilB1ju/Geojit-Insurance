@@ -13,8 +13,6 @@ import { ProductMaster } from "./product-master.component";
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [ProductMaster],
 })
 

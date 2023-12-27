@@ -12,8 +12,6 @@ import { clientlocationtransferComponent } from "./clientlocationtransfer.compon
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [clientlocationtransferComponent],
 })
 

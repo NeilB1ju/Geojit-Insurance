@@ -19,8 +19,6 @@ import { policywithlocationModule } from '../policywithlocation/policywithlocati
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [policyreportsComponent],
 })
 

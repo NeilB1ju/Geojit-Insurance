@@ -12,8 +12,6 @@ import { ReconciliationComponent } from "./reconciliation.component";
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [ReconciliationComponent],
 })
 

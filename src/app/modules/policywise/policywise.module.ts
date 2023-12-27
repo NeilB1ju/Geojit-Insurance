@@ -12,8 +12,6 @@ import { policywise } from "./policywise.component";
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [policywise],
 })
 

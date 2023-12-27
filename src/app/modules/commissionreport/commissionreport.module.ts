@@ -15,8 +15,6 @@ import { commissionreportComponent,TableFilterPipe } from "./commissionreport.co
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [commissionreportComponent],
 })
 

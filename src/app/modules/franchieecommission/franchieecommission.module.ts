@@ -15,8 +15,6 @@ import { policywithlocationModule } from "../../modules/policywithlocation/polic
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [franchieecommissionComponent],
 })
 

@@ -1,6 +1,5 @@
 <div class="main-content">
-  <form nz-form nzLayout="vertical" #Master="ngForm">
-
+  <form nz-form nzLayout="vertical" #Master="ng-form">
     <div nz-row nzGutter="8">
       <div nz-col nzXs="22" nzSm="11" nzMd="11">
         <h3 class="content-title">Common File Upload</h3>
@@ -10,203 +9,300 @@
         (onModify)="Modify()" (onDelete)="deleteRow()"></form-handler>
       </div> -->
     </div>
-    <nz-card style="border-width: 1px;border-color: black;">
-    <div nz-row nzGutter="8">
-      <div nz-col nzMd="6">
-        <nz-form-item>
-          <nz-form-label>&nbsp;</nz-form-label>
-          <nz-form-control>
-            <nz-form-label></nz-form-label>
-            <label nz-checkbox [(ngModel)]="checked" name="both" (ngModelChange)="bulkornot($event)" nzValue="B"><b>Bulk Upload</b></label>
-          </nz-form-control>
-        </nz-form-item>
+    <nz-card style="border-width: 1px; border-color: black">
+      <div nz-row nzGutter="8">
+        <div nz-col nzMd="6">
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <nz-form-label></nz-form-label>
+              <label
+                nz-checkbox
+                [(ngModel)]="checked"
+                name="both"
+                (ngModelChange)="bulkornot($event)"
+                nzValue="B"
+                ><b>Bulk Upload</b></label
+              >
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="3" *ngIf="this.checked">
+          <nz-form-item>
+            <nz-form-label>&nbsp;</nz-form-label>
+            <nz-form-control>
+              <nz-form-label></nz-form-label>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="bulkfileUpload()"
+                class="mr-1"
+              >
+                <i nz-icon type="upload" theme="outline"></i>Upload
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="5" *ngIf="this.checked">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Policy No</nz-form-label>
+            <nz-form-control>
+              <nz-input-group [nzSuffix]="preIconloc">
+                <input
+                  nz-input
+                  type="text"
+                  list="brow"
+                  placeholder="Search here"
+                  [(ngModel)]="PolicyNo"
+                  name="PolicyNo"
+                  (ngModelChange)="getApp()"
+                />
+              </nz-input-group>
+              <datalist id="brow">
+                <option
+                  *ngFor="let item of policyList"
+                  value="{{ item.PolicyNo }}"
+                ></option>
+              </datalist>
+              <ng-template #preIconloc>
+                <i nz-icon nzType="search"></i>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="5" *ngIf="this.checked">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Application No</nz-form-label>
+            <nz-form-control>
+              <nz-input-group [nzSuffix]="preIconloc">
+                <input
+                  nz-input
+                  type="text"
+                  list="bro"
+                  Placeholder="Search here"
+                  [(ngModel)]="ApplicationNo"
+                  name="ApplicationNo"
+                  (ngModelChange)="getpolicy()"
+                />
+              </nz-input-group>
+              <datalist id="bro">
+                <option
+                  *ngFor="let item of policyList"
+                  value="{{ item.ApplicationNo }}"
+                ></option>
+              </datalist>
+              <ng-template #preIconloc>
+                <i nz-icon nzType="search"></i>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="2" *ngIf="this.checked">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">&nbsp;</nz-form-label>
+            <nz-form-control>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="search()"
+                class="mr-1"
+              >
+                <i nz-icon type="search" theme="outline"></i>
+                <span>Search</span>
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="2" *ngIf="this.checked">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">&nbsp;</nz-form-label>
+            <nz-form-control>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="remove()"
+                class="mr-1"
+              >
+                <i nz-icon type="filter" theme="outline"></i>
+                <span>Remove</span>
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
       </div>
-      <div nz-col nzMd='3' *ngIf="this.checked">
-        <nz-form-item>
-          <nz-form-label>&nbsp;</nz-form-label>
-          <nz-form-control>
-            <nz-form-label></nz-form-label>
-        <button  nz-button nzType="primary" (click)="bulkfileUpload()" class="mr-1"><i nz-icon type="upload" theme="outline"></i>Upload</button>
-      </nz-form-control>
-    </nz-form-item>
-      </div>
-       <div nz-col nzMd="5" *ngIf="this.checked">
-        <nz-form-item>
-        <nz-form-label class="boldinglabel" >Policy No</nz-form-label>
-        <nz-form-control>
-          <nz-input-group [nzSuffix]="preIconloc">
-          <input nz-input type="text" list="brow" placeholder="Search here" [(ngModel)]="PolicyNo" 
-          name="PolicyNo" (ngModelChange)="getApp()"  >
-          </nz-input-group>
-          <datalist id="brow">
-          <option *ngFor="let item of policyList"  value={{item.PolicyNo}}>
-          </option>
-        </datalist>
-        <ng-template #preIconloc>
-          <i nz-icon nzType="search"></i>
-        </ng-template>
-      </nz-form-control>
-    </nz-form-item>
-      </div>
-      <div nz-col nzMd="5" *ngIf="this.checked">
-        <nz-form-item>
-          <nz-form-label class="boldinglabel" >Application No</nz-form-label>
-          <nz-form-control>
-            <nz-input-group [nzSuffix]="preIconloc">
-            <input nz-input type="text" list="bro" Placeholder="Search here" [(ngModel)]="ApplicationNo" 
-            name="ApplicationNo" (ngModelChange)="getpolicy()"  >
-            </nz-input-group>
-            <datalist id="bro">
-            <option *ngFor="let item of policyList"  value={{item.ApplicationNo}}>
-            </option>
-          </datalist>
-          <ng-template #preIconloc>
-            <i nz-icon nzType="search"></i>
-          </ng-template>
-        </nz-form-control>
-      </nz-form-item>
-      </div>
-      <div nz-col nzMd="2" *ngIf="this.checked">
-        <nz-form-item>
-        <nz-form-label class="boldinglabel" >&nbsp;</nz-form-label>
-        <nz-form-control>
-          <button nz-button nzType="primary" (click)="search()" class="mr-1">
-            <i nz-icon type="search" theme="outline"></i>
-    <span>Search</span>
-  </button>
-      </nz-form-control>
-    </nz-form-item>
-      </div>
-      <div nz-col nzMd="2" *ngIf="this.checked">
-        <nz-form-item>
-        <nz-form-label class="boldinglabel" >&nbsp;</nz-form-label>
-        <nz-form-control>
-          <button nz-button nzType="primary" (click)="remove()" class="mr-1">
-            <i nz-icon type="filter" theme="outline"></i>
-    <span>Remove</span>
-  </button>
-      </nz-form-control>
-    </nz-form-item>
-      </div>
+      <div nz-row nzGutter="8" *ngIf="!this.checked">
+        <div nz-col nzMd="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired
+              >Category</nz-form-label
+            >
+            <nz-form-control>
+              <nz-select
+                nzPlaceHolder="LEVELS"
+                name="Category"
+                [(ngModel)]="Category"
+                (ngModelChange)="getList()"
+              >
+                <nz-option
+                  *ngFor="let item of dataDropDown"
+                  [nzLabel]="item.Datas"
+                  [nzValue]="item.Datas"
+                  required=""
+                >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
 
-    </div>
-    <div nz-row nzGutter="8" *ngIf="!this.checked">
-      <div nz-col nzMd="4">
-        <nz-form-item>
-          <nz-form-label class="boldinglabel" nzRequired>Category</nz-form-label>
-          <nz-form-control>
-            <nz-select nzPlaceHolder="LEVELS" name="Category" [(ngModel)]="Category"  (ngModelChange)="getList()">
-              <nz-option *ngFor="let item of dataDropDown" [nzLabel]="item.Datas" [nzValue]="item.Datas" required="">
-
-              </nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
+        <div nz-col nzMd="4">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired
+              >Company</nz-form-label
+            >
+            <nz-form-control>
+              <nz-select
+                nzPlaceHolder="LEVELS"
+                name="insCompList"
+                [(ngModel)]="insCompany"
+                (ngModelChange)="getdata()"
+              >
+                <nz-option
+                  *ngFor="let item of insCompList"
+                  [nzLabel]="item.Description"
+                  [nzValue]="item.Code"
+                  required=""
+                >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="5" *ngIf="this.Category == 'Policy'">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired
+              >Policy No</nz-form-label
+            >
+            <nz-form-control>
+              <nz-input-group [nzSuffix]="preIconloc">
+                <input
+                  nz-input
+                  type="text"
+                  list="brow"
+                  placeholder="Search here"
+                  [(ngModel)]="PolicyNo"
+                  name="PolicyNo"
+                  (ngModelChange)="getApp()"
+                />
+              </nz-input-group>
+              <datalist id="brow">
+                <option
+                  *ngFor="let item of policyList"
+                  value="{{ item.PolicyNo }}"
+                ></option>
+              </datalist>
+              <ng-template #preIconloc>
+                <i nz-icon nzType="search"></i>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="5" *ngIf="this.Category == 'Policy'">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired
+              >Application No</nz-form-label
+            >
+            <nz-form-control>
+              <nz-input-group [nzSuffix]="preIconloc">
+                <input
+                  nz-input
+                  type="text"
+                  list="bro"
+                  Placeholder="Search here"
+                  [(ngModel)]="ApplicationNo"
+                  name="ApplicationNo"
+                  (ngModelChange)="getpolicy()"
+                />
+              </nz-input-group>
+              <datalist id="bro">
+                <option
+                  *ngFor="let item of policyList"
+                  value="{{ item.ApplicationNo }}"
+                ></option>
+              </datalist>
+              <ng-template #preIconloc>
+                <i nz-icon nzType="search"></i>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzMd="2">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">&nbsp;</nz-form-label>
+            <nz-form-control>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="viewList()"
+                class="mr-1"
+              >
+                <i nz-icon type="eye" theme="outline"></i>
+                <span>View</span>
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
       </div>
-      
-
-      <div nz-col nzMd="4">
-        <nz-form-item>
-          <nz-form-label class="boldinglabel" nzRequired>Company</nz-form-label>
-          <nz-form-control>
-            <nz-select nzPlaceHolder="LEVELS" name="insCompList" [(ngModel)]="insCompany" (ngModelChange)="getdata()">
-              <nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description" [nzValue]="item.Code" required="">
-
-              </nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col nzMd="5" *ngIf="this.Category=='Policy'">
-        <nz-form-item>
-        <nz-form-label class="boldinglabel" nzRequired>Policy No</nz-form-label>
-        <nz-form-control>
-          <nz-input-group [nzSuffix]="preIconloc">
-          <input nz-input type="text" list="brow" placeholder="Search here" [(ngModel)]="PolicyNo" 
-          name="PolicyNo" (ngModelChange)="getApp()"  >
-          </nz-input-group>
-          <datalist id="brow">
-          <option *ngFor="let item of policyList"  value={{item.PolicyNo}}>
-          </option>
-        </datalist>
-        <ng-template #preIconloc>
-          <i nz-icon nzType="search"></i>
-        </ng-template>
-      </nz-form-control>
-    </nz-form-item>
-      </div>
-      <div nz-col nzMd="5" *ngIf="this.Category=='Policy'">
-        <nz-form-item>
-          <nz-form-label class="boldinglabel" nzRequired>Application No</nz-form-label>
-          <nz-form-control>
-            <nz-input-group [nzSuffix]="preIconloc">
-            <input nz-input type="text" list="bro" Placeholder="Search here" [(ngModel)]="ApplicationNo" 
-            name="ApplicationNo" (ngModelChange)="getpolicy()"  >
-            </nz-input-group>
-            <datalist id="bro">
-            <option *ngFor="let item of policyList"  value={{item.ApplicationNo}}>
-            </option>
-          </datalist>
-          <ng-template #preIconloc>
-            <i nz-icon nzType="search"></i>
-          </ng-template>
-        </nz-form-control>
-      </nz-form-item>
-      </div>
-      <div nz-col nzMd="2">
-        <nz-form-item>
-        <nz-form-label class="boldinglabel" >&nbsp;</nz-form-label>
-        <nz-form-control>
-          <button nz-button nzType="primary" (click)="viewList()" class="mr-1">
-            <i nz-icon type="eye" theme="outline"></i>
-    <span>View</span>
-  </button>
-      </nz-form-control>
-    </nz-form-item>
-      </div>
-    </div>
-    <div nz-row nzGutter="8" *ngIf="!this.checked">
-      <div [hidden]="!clientList.length">
-        <nz-table #basicTable [nzData]="clientList" [hidden]="!clientList.length" nzHideOnSinglePage="true"
-          class="tranTbl table-responsive">
-          <thead>
-            <tr>
-              <!-- <th nzWidth="3%"></th> -->
-              <!-- <th nzWidth="3%"></th> -->
-              <th nzWidth="15%">Description</th>
-              <th nzWidth="15%">File to upload</th>
-              <!-- <th nzWidth="15%">File Type</th> -->
-              <th nzWidth="15%">Remarks</th>
-              <th nzWidth="10%">Status</th>
-              <th>Upload Status</th>
-              <!-- <th nzWidth="1%" >File Name</th> -->
-              <th nzWidth="15%"></th>
-              <th nzWidth="10%">Last Updated On</th>
-              <th nzWidth="15%"></th>
-              <th nzWidth="15%"></th>
-
-            
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of basicTable.data;let i = index">
-              <!-- <td><label nz-checkbox [(ngModel)]="data.checked"></label></td> -->
-              <!-- <td>
+      <div nz-row nzGutter="8" *ngIf="!this.checked">
+        <div [hidden]="!clientList.length">
+          <nz-table
+            #basicTable
+            [nzData]="clientList"
+            [hidden]="!clientList.length"
+            nzHideOnSinglePage="true"
+            class="tranTbl table-responsive"
+          >
+            <thead>
+              <tr>
+                <!-- <th nzWidth="3%"></th> -->
+                <!-- <th nzWidth="3%"></th> -->
+                <th nzWidth="15%">Description</th>
+                <th nzWidth="15%">File to upload</th>
+                <!-- <th nzWidth="15%">File Type</th> -->
+                <th nzWidth="15%">Remarks</th>
+                <th nzWidth="10%">Status</th>
+                <th>Upload Status</th>
+                <!-- <th nzWidth="1%" >File Name</th> -->
+                <th nzWidth="15%"></th>
+                <th nzWidth="10%">Last Updated On</th>
+                <th nzWidth="15%"></th>
+                <th nzWidth="15%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of basicTable.data; let i = index">
+                <!-- <td><label nz-checkbox [(ngModel)]="data.checked"></label></td> -->
+                <!-- <td>
                 <i nz-icon nzType={{data.Icon}} nzTheme="outline" style="font-size: 15px;" [ngStyle]="{'color':data.IconColor}"></i>&nbsp;&nbsp;{{data.FileDescription}}
               </td> -->
-              <td><label>{{data.Description}}</label></td>
-              <td>
-                <nz-upload [(nzFileList)]="data.file" [nzBeforeUpload]="fileChangeEvent(i)"  [nzLimit]='1'>
-                  <button nz-button>
-                    <i nz-icon type="upload" ></i><span>Select File</span>
-                  </button>
-                </nz-upload>
-                <!-- <input type="file" [(ngModel)]="data.file" (change)="fileChangeEvent(fileInput,i)" name="FILEUPLOAD"
+                <td>
+                  <label>{{ data.Description }}</label>
+                </td>
+                <td>
+                  <nz-upload
+                    [(nzFileList)]="data.file"
+                    [nzBeforeUpload]="fileChangeEvent(i)"
+                    [nzLimit]="1"
+                  >
+                    <button nz-button>
+                      <i nz-icon type="upload"></i><span>Select File</span>
+                    </button>
+                  </nz-upload>
+                  <!-- <input type="file" [(ngModel)]="data.file" (change)="fileChangeEvent(fileInput,i)" name="FILEUPLOAD"
                   id="FILEUPLOAD" #fileInput> -->
-              </td>
-              
-              
-                        <!-- <td>
+                </td>
+
+                <!-- <td>
                   <nz-form-item>
                       <nz-form-control>
                         <nz-select [(ngModel)]="data.fileType" nzPlaceHolder="Select File Type" name="fileType"
@@ -217,139 +313,215 @@
                       </nz-form-control>
                     </nz-form-item>
               </td> -->
-              <td>
+                <td>
                   <nz-form-item>
-                      <nz-form-control>
-                        <input nz-input placeholder="Remarks" type="text" [(ngModel)]="data.remarks" name="remarks">   
-                      </nz-form-control>
+                    <nz-form-control>
+                      <input
+                        nz-input
+                        placeholder="Remarks"
+                        type="text"
+                        [(ngModel)]="data.remarks"
+                        name="remarks"
+                      />
+                    </nz-form-control>
                   </nz-form-item>
-              </td>
-              <td>
-      
-                <div>
-                      <span>
-                        <nz-tag [nzColor]="'#2db7f5'" *ngIf="data.status == 'Processing'">Loading</nz-tag>
-                        <nz-tag [nzColor]="'#87d068'" *ngIf="data.status == 'Success'">Success</nz-tag>
-                         <nz-tag [nzColor]="'#f50'" *ngIf="data.status == 'Failed'">Failed</nz-tag>
-                      </span>
-                  
-                      <span (click)="showError(data)"*ngIf="data.status == 'Failed'">
-                        Show error	
-                      </span>
-                      <span *ngIf="data.showErr" class="errMsg">
-                        {{data.errMsg}}
-                      </span>
-                    </div>
-              </td>
-              <td>
-                  <div>
-                      <span>
-                        <nz-tag [nzColor]="'#2db7f5'" *ngIf="data.filestatus == 'Saved'">Saved</nz-tag>
-                        <nz-tag [nzColor]="'#2db7f5'" *ngIf="data.filestatus == 'pending'">Pending</nz-tag>
-                      
-                      </span>								
-                      <span *ngIf="data.showErr" class="errMsg">
-                        {{data.errMsg}}
-                      </span>
-                    </div>
-              </td>
-              <td>
-                <label *ngIf="data.filestatus == 'Saved'">{{data.DocumentName}}</label>
-              </td>
-              <!-- <td>
-                  <img  *ngIf="data.filestatus == 'Saved'" src="assets/img/download.png" class="img-fluid" style="cursor: pointer;height:20px;" (click)="Download(data.uploadID,data.id)" />
-              </td> -->
-              <td>
-                  <label *ngIf="data.filestatus == 'Saved'">{{data.LastUpdatedOn}}</label>
-              </td>
-              <td>
-              <button *ngIf="data.filestatus != 'Saved'" nz-button nzType="primary" (click)="uploadFiles(data)"  class="mr-1"><i nz-icon type="upload" theme="outline"></i>Upload</button>
-        <button *ngIf="data.filestatus == 'Saved'" nz-button nzType="primary" (click)="uploadFiles(data)" class="mr-1"><i nz-icon type="upload" theme="outline"></i>Reupload</button>
-                
-              </td>
-              <td>
-          <button *ngIf="data.filestatus == 'Saved'&&this.Category=='Policy'" nz-button nzType="dashed" (click)="download(data)" class="mr-1"><i nz-icon type="download" theme="outline"></i>Download</button>
-                  
                 </td>
                 <td>
-                  <button *ngIf="data.filestatus == 'Saved'&&this.Category=='Policy'" nz-button nzType="dashed" (click)="delete(data)" class="mr-1"><i nz-icon type="delete" theme="outline"></i>Delete</button>
-                          
-                        </td>
-             <!-- <td>
+                  <div>
+                    <span>
+                      <nz-tag
+                        [nzColor]="'#2db7f5'"
+                        *ngIf="data.status == 'Processing'"
+                        >Loading</nz-tag
+                      >
+                      <nz-tag
+                        [nzColor]="'#87d068'"
+                        *ngIf="data.status == 'Success'"
+                        >Success</nz-tag
+                      >
+                      <nz-tag [nzColor]="'#f50'" *ngIf="data.status == 'Failed'"
+                        >Failed</nz-tag
+                      >
+                    </span>
+
+                    <span
+                      (click)="showError(data)"
+                      *ngIf="data.status == 'Failed'"
+                    >
+                      Show error
+                    </span>
+                    <span *ngIf="data.showErr" class="errMsg">
+                      {{ data.errMsg }}
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <span>
+                      <nz-tag
+                        [nzColor]="'#2db7f5'"
+                        *ngIf="data.filestatus == 'Saved'"
+                        >Saved</nz-tag
+                      >
+                      <nz-tag
+                        [nzColor]="'#2db7f5'"
+                        *ngIf="data.filestatus == 'pending'"
+                        >Pending</nz-tag
+                      >
+                    </span>
+                    <span *ngIf="data.showErr" class="errMsg">
+                      {{ data.errMsg }}
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <label *ngIf="data.filestatus == 'Saved'">{{
+                    data.DocumentName
+                  }}</label>
+                </td>
+                <!-- <td>
+                  <img  *ngIf="data.filestatus == 'Saved'" src="assets/img/download.png" class="img-fluid" style="cursor: pointer;height:20px;" (click)="Download(data.uploadID,data.id)" />
+              </td> -->
+                <td>
+                  <label *ngIf="data.filestatus == 'Saved'">{{
+                    data.LastUpdatedOn
+                  }}</label>
+                </td>
+                <td>
+                  <button
+                    *ngIf="data.filestatus != 'Saved'"
+                    nz-button
+                    nzType="primary"
+                    (click)="uploadFiles(data)"
+                    class="mr-1"
+                  >
+                    <i nz-icon type="upload" theme="outline"></i>Upload
+                  </button>
+                  <button
+                    *ngIf="data.filestatus == 'Saved'"
+                    nz-button
+                    nzType="primary"
+                    (click)="uploadFiles(data)"
+                    class="mr-1"
+                  >
+                    <i nz-icon type="upload" theme="outline"></i>Reupload
+                  </button>
+                </td>
+                <td>
+                  <button
+                    *ngIf="
+                      data.filestatus == 'Saved' && this.Category == 'Policy'
+                    "
+                    nz-button
+                    nzType="dashed"
+                    (click)="download(data)"
+                    class="mr-1"
+                  >
+                    <i nz-icon type="download" theme="outline"></i>Download
+                  </button>
+                </td>
+                <td>
+                  <button
+                    *ngIf="
+                      data.filestatus == 'Saved' && this.Category == 'Policy'
+                    "
+                    nz-button
+                    nzType="dashed"
+                    (click)="delete(data)"
+                    class="mr-1"
+                  >
+                    <i nz-icon type="delete" theme="outline"></i>Delete
+                  </button>
+                </td>
+                <!-- <td>
                   <button nz-button nzType="primary"  *ngIf="data.filestatus == 'Saved'"  style="cursor: pointer;" (click)="Download(data.uploadID,data.id)" >
                     <i nz-icon type="download" theme="outline"></i>Download</button>
       
                   </td> -->
-            </tr>
-          </tbody>
-        </nz-table>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
       </div>
- 
+
+      <div *ngIf="this.checked">
+        <div nz-col nzMd="8">
+          <nz-upload
+            [(nzFileList)]="bulkfile"
+            nzType="drag"
+            [nzMultiple]="true"
+            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            (nzChange)="handleChange($event)"
+          >
+            <p class="ant-upload-drag-icon">
+              <i nz-icon nzType="inbox"></i>
+            </p>
+            <p
+              class="ant-upload-text"
+              style="color: black; font-weight: bolder; font-size: medium"
+            >
+              Click here to upload Files
+            </p>
+            <p class="ant-upload-hint" style="color: black; font-weight: bold">
+              Support for a single or bulk upload.By select Using Ctrl
+            </p>
+          </nz-upload>
+        </div>
+        <div nz-col nzMd="15" nzOffset="1" [hidden]="!Filelist.length">
+          <nz-table
+            #basicTable1
+            [nzData]="Filelist"
+            [hidden]="!Filelist.length"
+            nzHideOnSinglePage="true"
+            class="tranTbl table-responsive"
+          >
+            <thead>
+              <tr>
+                <th nzWidth="15%">Policy Number</th>
+                <th nzWidth="15%">Application Number</th>
+
+                <th nzWidth="15%">Document Name</th>
+                <th nzWidth="10%">Last Updated On</th>
+                <th nzWidth="15%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of basicTable1.data; let i = index">
+                <td>{{ data.PolicyNo }}</td>
+                <td>{{ data.ApplicationNo }}</td>
+
+                <td>
+                  {{ data.DocumentName }}
+                </td>
+                <td>
+                  {{ data.LastupdatedOn }}
+                </td>
+                <td>
+                  <button
+                    nz-button
+                    nzType="dashed"
+                    (click)="downloadbulk(data)"
+                    class="mr-1"
+                  >
+                    <i nz-icon type="download" theme="outline"></i>Download
+                  </button>
+                </td>
+                <td>
+                  <button
+                    nz-button
+                    nzType="dashed"
+                    (click)="delete(data)"
+                    class="mr-1"
+                  >
+                    <i nz-icon type="delete" theme="outline"></i>Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
       </div>
-      
-<div *ngIf="this.checked" >
-  <div nz-col nzMd='8'>
-  <nz-upload
-  [(nzFileList)]="bulkfile"
-  nzType="drag"
-  [nzMultiple]="true"
-  nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-  (nzChange)="handleChange($event)"
-  
->
-  <p class="ant-upload-drag-icon">
-    <i nz-icon nzType="inbox"></i>
-  </p>
-  <p class="ant-upload-text" style="color: black;font-weight: bolder;font-size: medium;">Click here to upload Files</p>
-  <p class="ant-upload-hint" style="color: black;font-weight: bold;">
-    Support for a single or bulk upload.By select Using Ctrl 
-  </p>
-</nz-upload>
-</div>
-<div nz-col nzMd='15' nzOffset='1' [hidden]="!Filelist.length">
-  <nz-table #basicTable1 [nzData]="Filelist" [hidden]="!Filelist.length" nzHideOnSinglePage="true"
-    class="tranTbl table-responsive">
-    <thead>
-      <tr>
-      
-        <th nzWidth="15%">Policy Number</th>
-        <th nzWidth="15%">Application Number</th>
-
-        <th nzWidth="15%">Document Name</th>
-        <th nzWidth="10%">Last Updated On</th>
-        <th nzWidth="15%"></th>
-      
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of basicTable1.data;let i = index">
-        <td>{{data.PolicyNo}}</td>
-        <td>{{data.ApplicationNo}}</td>
-
-        <td>
-          {{data.DocumentName}}
-        </td>
-        <td>
-          {{data.LastupdatedOn}}
-        </td>
-        <td>
-    <button  nz-button nzType="dashed" (click)="downloadbulk(data)" class="mr-1"><i nz-icon type="download" theme="outline"></i>Download</button>
-            
-          </td>
-          <td>
-            <button  nz-button nzType="dashed" (click)="delete(data)" class="mr-1"><i nz-icon type="delete" theme="outline"></i>Delete</button>
-                    
-                  </td>
-
-      </tr>
-    </tbody>
-  </nz-table>
-</div>
-
-
-</div>
-  </nz-card>
-
-</form>
+    </nz-card>
+  </form>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

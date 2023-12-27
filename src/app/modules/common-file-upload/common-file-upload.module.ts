@@ -1,22 +1,13 @@
-import { NgModule } from '@angular/core';
-
+import { NgModule } from "@angular/core";
 
 import { SharedModule } from "shared";
-import { CommonFileUploadComponent } from './common-file-upload.component';
+import { CommonFileUploadComponent } from "./common-file-upload.component";
 
 @NgModule({
-  imports: [
-    SharedModule,    
+  imports: [SharedModule],
 
-  ],
-  
-  declarations: [
-    CommonFileUploadComponent,
-  ],
-  providers: [
-  ],
-  entryComponents: [
-  ],
+  declarations: [CommonFileUploadComponent],
+  providers: [],
   bootstrap: [CommonFileUploadComponent],
 })
-export class CommonFileUploadModule { }
+export class CommonFileUploadModule {}

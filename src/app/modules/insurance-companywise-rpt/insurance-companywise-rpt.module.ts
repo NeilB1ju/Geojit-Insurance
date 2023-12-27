@@ -14,8 +14,6 @@ import { InsuranceCompanywiseRptComponent,TableFilterPipe } from "./insurance-co
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [InsuranceCompanywiseRptComponent],
 })
 

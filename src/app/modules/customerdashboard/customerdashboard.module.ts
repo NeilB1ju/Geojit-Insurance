@@ -15,9 +15,6 @@ import { PolicyDetailsModule } from "../../modules/policy-details/policy-details
   ],
   providers: [
   ],
-  entryComponents: [
-    
-  ],
   bootstrap: [customerdashboard],
 })
 

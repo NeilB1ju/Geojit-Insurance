@@ -12,8 +12,6 @@ import { clientmergingComponent } from "./clientmerging.component";
   ],
   providers: [
   ],
-  entryComponents: [
-  ],
   bootstrap: [clientmergingComponent],
 })
 

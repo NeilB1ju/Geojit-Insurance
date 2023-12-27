@@ -1,63 +1,92 @@
 <div class="main-content">
-	<form nz-form nzLayout="vertical" #reconProcForm="ngForm">
-  <div nz-row nzGutter="8">
-    <div nz-col nzSm="20" nzMd="20" nzLg="20">
-
-		<h3 class="content-title">Income Reconciliation Process</h3>
-    </div>
-    <div nz-col nzSm="4" nzMd="4" nzLg="4">
-      <nz-form-item>
-        <nz-form-control>
-          <form-handler (onExportExcel)="exportData()"  (onReset)="resetForm()"></form-handler>
-
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-  </div>
-  <div class="borderclass">
-
-		<div nz-row nzGutter="8">
-			<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
-				<nz-form-item>
-					<nz-form-label class="boldinglabel" nzRequired>Insurance Company</nz-form-label>
-					<nz-form-control>
-						<nz-select [(ngModel)]="insCompany" nzPlaceHolder="Select Insurance Company"
-							name="insurance company" nzDropdownMatchSelectWidth="true">
-							<nz-option *ngFor="let item of insCompList" [nzLabel]="item.Description"
-								[nzValue]="item.Code">
-							</nz-option>
-						</nz-select>
-					</nz-form-control>
-				</nz-form-item>
-			</div>
-			<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
-				<nz-form-item>
-					<nz-form-label class="boldinglabel" nzRequired>From Date</nz-form-label>
-					<nz-form-control>
-						<nz-date-picker [(ngModel)]="Fdate" name="fromDate" nzFormat="dd-MM-yyyy" required>
-						</nz-date-picker>
-					</nz-form-control>
-				</nz-form-item>
-			</div>
-			<div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
-				<nz-form-item>
-					<nz-form-label class="boldinglabel" nzRequired>To Date</nz-form-label>
-					<nz-form-control>
-						<nz-date-picker [(ngModel)]="Tdate" name="toDate" nzFormat="dd-MM-yyyy" required>
-						</nz-date-picker>
-					</nz-form-control>
-				</nz-form-item>
-			</div>
-      <div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
-        <nz-form-item>
-          <nz-form-label class="boldinglabel">Policy No</nz-form-label>
-          <nz-form-control>
-            <input nz-input placeholder="Policy No" 
-            [(ngModel)]="Policy" type="text" name="Policy Name" maxlength="30">
-          </nz-form-control>
-          </nz-form-item>
+  <form nz-form nzLayout="vertical" #reconProcForm="ng-form">
+    <div nz-row nzGutter="8">
+      <div nz-col nzSm="20" nzMd="20" nzLg="20">
+        <h3 class="content-title">Income Reconciliation Process</h3>
       </div>
-			<!-- <div nz-col nzSm="2" nzMd="2" nzLg="5">
+      <div nz-col nzSm="4" nzMd="4" nzLg="4">
+        <nz-form-item>
+          <nz-form-control>
+            <form-handler
+              (onExportExcel)="exportData()"
+              (onReset)="resetForm()"
+            ></form-handler>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div class="borderclass">
+      <div nz-row nzGutter="8">
+        <div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired
+              >Insurance Company</nz-form-label
+            >
+            <nz-form-control>
+              <nz-select
+                [(ngModel)]="insCompany"
+                nzPlaceHolder="Select Insurance Company"
+                name="insurance company"
+                nzDropdownMatchSelectWidth="true"
+              >
+                <nz-option
+                  *ngFor="let item of insCompList"
+                  [nzLabel]="item.Description"
+                  [nzValue]="item.Code"
+                >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired
+              >From Date</nz-form-label
+            >
+            <nz-form-control>
+              <nz-date-picker
+                [(ngModel)]="Fdate"
+                name="fromDate"
+                nzFormat="dd-MM-yyyy"
+                required
+              >
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel" nzRequired
+              >To Date</nz-form-label
+            >
+            <nz-form-control>
+              <nz-date-picker
+                [(ngModel)]="Tdate"
+                name="toDate"
+                nzFormat="dd-MM-yyyy"
+                required
+              >
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzXs="24" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+          <nz-form-item>
+            <nz-form-label class="boldinglabel">Policy No</nz-form-label>
+            <nz-form-control>
+              <input
+                nz-input
+                placeholder="Policy No"
+                [(ngModel)]="Policy"
+                type="text"
+                name="Policy Name"
+                maxlength="30"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <!-- <div nz-col nzSm="2" nzMd="2" nzLg="5">
 				<nz-form-item>
 					<nz-form-label></nz-form-label>
 					<nz-form-control>
@@ -66,9 +95,9 @@
 					</nz-form-control>
 				</nz-form-item>
 			</div> -->
-		</div>
+      </div>
     </div>
-		<!-- <div [hidden]="!reconProcessList.length">
+    <!-- <div [hidden]="!reconProcessList.length">
 			<nz-table #basicTable [nzData]="reconProcessList" [hidden]="!reconProcessList.length"
 				nzHideOnSinglePage="true" class="reconTbl table-responsive table-themed" [nzPageSize]="18">
 				<thead>
@@ -98,5 +127,5 @@
 				</tbody>
 			</nz-table>
 		</div> -->
-	</form>
+  </form>
 </div>

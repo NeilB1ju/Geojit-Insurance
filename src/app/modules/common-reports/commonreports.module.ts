@@ -1,31 +1,23 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 
 import { SharedModule } from "shared";
-import { CommonReportsComponent,TableFilterPipe } from "./common-reports.component";
+import {
+  CommonReportsComponent,
+  TableFilterPipe,
+} from "./common-reports.component";
 import { PolicyDetailsModule } from "../../modules/policy-details/policy-details.module";
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { ReactiveFormsModule } from '@angular/forms';
-
-
-
+import { NzFormModule } from "ng-zorro-antd/form";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   imports: [
-    SharedModule,    
+    SharedModule,
     PolicyDetailsModule,
     ReactiveFormsModule,
-    NzFormModule
-   
+    NzFormModule,
   ],
-  declarations: [
-      CommonReportsComponent,
-       TableFilterPipe
-  ],
-  providers: [
-  ],
-  entryComponents: [
-  ],
+  declarations: [CommonReportsComponent, TableFilterPipe],
+  providers: [],
   bootstrap: [CommonReportsComponent],
 })
-
-export class commonreportsModule { }
+export class commonreportsModule {}

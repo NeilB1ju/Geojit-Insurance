@@ -17,9 +17,6 @@ import { PolicyDetailsComponent } from "../../modules/policy-details/policy-deta
   ],
   providers: [
   ],
-  entryComponents: [
-    PolicyDetailsComponent
-  ],
 
 })
 
