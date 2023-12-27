@@ -21,7 +21,6 @@
     "@angular/router": "~9.1.13",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
-    "angular-font-awesome": "^3.1.2",
     "angular2-text-mask": "^9.0.0",
     "bootstrap-less-port": "^0.5.0",
     "chart.js": "^2.9.4",
